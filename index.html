@@ -1,0 +1,3654 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Falcon's Alitas | Menú Digital & Pedidos de Alta Conversión</title>
+  
+  <!-- Vercel & Browser Cache-Control Directives -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="application-version" content="2.4.0">
+  <meta name="build-timestamp" content="2026-08-28T14:16:32Z">
+
+  <!-- Favicon & Touch Icons -->
+  <link rel="icon" type="image/jpeg" href="/logo.jpg">
+  <link rel="shortcut icon" type="image/jpeg" href="/logo.jpg">
+  <link rel="apple-touch-icon" href="/logo.jpg">
+
+  <!-- OpenGraph & Metadata -->
+  <meta name="description" content="🔥 ¡El templo del sabor en San Antonio de Prado! Pide alitas, hamburguesas gourmet, combos familiares y salchipapas con salsas de la casa y despacho inmediato a WhatsApp.">
+  <meta property="og:title" content="Falcon's Alitas | Menú Digital & Tragamonedas NFC">
+  <meta property="og:description" content="Pide en línea en San Antonio de Prado. Gira la tragamonedas de premios y recibe tu pedido express.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/logo.jpg">
+  <meta name="theme-color" content="#0A0A0A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- GOOGLE ANALYTICS 4 (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', {
+      send_page_view: true,
+      debug_mode: false
+    });
+  </script>
+
+  <!-- HOTJAR TRACKING CODE -->
+  <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:'YOUR_HOTJAR_ID',hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#0A0A0A',
+              card: '#141414',
+              cardLight: '#1C1C1C',
+              crimson: '#FF3B00',
+              red: '#FF3B00',
+              redHover: '#E03400',
+              gold: '#D69E2E',
+              goldLight: '#F6E05E',
+              green: '#22C55E',
+              darkBorder: '#262626'
+            }
+          },
+          fontFamily: {
+            display: ['Teko', 'sans-serif'],
+            body: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          animation: {
+            'glow-pulse': 'glowPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'crimson-pulse': 'crimsonPulse 1.8s ease-in-out infinite',
+            'slot-spin': 'slotSpin 0.2s linear infinite',
+            'bounce-gentle': 'bounceGentle 2s infinite'
+          },
+          keyframes: {
+            glowPulse: {
+              '0%, 100%': { opacity: '0.9', transform: 'scale(1)' },
+              '50%': { opacity: '0.4', transform: 'scale(1.03)' }
+            },
+            crimsonPulse: {
+              '0%, 100%': { boxShadow: '0 0 0 0 rgba(255, 59, 0, 0.7)', transform: 'scale(1)' },
+              '50%': { boxShadow: '0 0 25px 6px rgba(255, 59, 0, 0.4)', transform: 'scale(1.015)' }
+            },
+            bounceGentle: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-4px)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Alpine.js CDN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Canvas Confetti for Gamification Wins -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sar: env(safe-area-inset-right, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+      --sal: env(safe-area-inset-left, 0px);
+    }
+    html {
+      min-height: 100dvh;
+      width: 100%;
+      overflow-x: clip;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    body {
+      min-height: 100dvh;
+      width: 100%;
+      overflow-x: clip;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0A0A0A;
+      color: #FFFFFF;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .font-display {
+      font-family: 'Teko', sans-serif;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    /* Universal iOS Smooth Momentum Scrolling */
+    .overflow-y-auto,
+    .overflow-x-auto,
+    .overflow-auto,
+    [class*="overflow-y-auto"],
+    [class*="overflow-x-auto"] {
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+    }
+    /* Fixed Positioning Stability on WebKit */
+    .fixed,
+    [class*="fixed"] {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+    .neon-gold-border {
+      box-shadow: 0 0 15px rgba(214, 158, 46, 0.25);
+    }
+    .neon-red-border {
+      box-shadow: 0 0 20px rgba(229, 62, 62, 0.35);
+    }
+    /* iOS input font size safety to prevent automatic zooming */
+    @media screen and (max-width: 640px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
+    /* Safe Area insets for modern mobile devices */
+    .pb-safe {
+      padding-bottom: env(safe-area-inset-bottom, 16px);
+    }
+    .pt-safe {
+      padding-top: env(safe-area-inset-top, 0px);
+    }
+    .pb-safe-bottom-bar {
+      padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
+    }
+    [x-cloak] { display: none !important; }
+  </style>
+</head>
+
+<body x-data="appData()" class="min-h-[100dvh] w-full pb-[calc(env(safe-area-inset-bottom,0px)+8rem)] sm:pb-32 antialiased selection:bg-brand-red selection:text-white">
+
+  <!-- ========================================================================= -->
+  <!-- 1. TOP ANNOUNCEMENT & NFC GAMIFICATION BANNER (CRO HOOK) -->
+  <!-- ========================================================================= -->
+  <div class="bg-gradient-to-r from-red-950 via-neutral-900 to-amber-950 border-b border-amber-500/30 px-3 sm:px-4 py-2 text-xs relative overflow-hidden">
+    <div class="max-w-4xl mx-auto flex flex-row items-center justify-between gap-2 sm:gap-3">
+      <div class="flex items-center gap-1.5 min-w-0 flex-1">
+        <span class="animate-ping inline-flex h-2 w-2 rounded-full bg-amber-400 shrink-0"></span>
+        <p class="font-extrabold text-amber-300 uppercase tracking-wider text-[10px] sm:text-[11px] leading-snug whitespace-normal break-words">
+          ⭐ ¡Pide fácil y califica tu experiencia! <span class="text-neutral-200 font-medium whitespace-normal">• San Antonio de Prado</span>
+        </p>
+      </div>
+
+      <!-- BOTÓN TRIGGER TRAGAMONEDAS / PREMIOS -->
+      <button 
+        @click="openSlotModal()"
+        class="bg-gradient-to-r from-brand-gold to-yellow-400 hover:from-yellow-400 hover:to-brand-gold text-black text-[10px] sm:text-[11px] font-extrabold px-2.5 sm:px-3 py-1 rounded-full shadow-lg shadow-amber-500/30 flex items-center gap-1 sm:gap-1.5 animate-bounce-gentle shrink-0 border border-yellow-200 active:scale-95 transition-transform whitespace-nowrap">
+        <span>🎰</span>
+        <span>RULETA DE PREMIOS</span>
+        <span class="bg-black/20 text-black px-1.5 py-0.2 rounded text-[9px] sm:text-[10px] hidden xs:inline">¡GANA HOY!</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. HEADER Y NAVEGADOR DE CATEGORÍAS INTEGRADOS (STICKY TOP ZERO-OVERLAP) -->
+  <!-- ========================================================================= -->
+  <div class="sticky top-0 z-30 bg-[#0A0A0A]/95 backdrop-blur-xl border-b border-neutral-800/80 shadow-2xl relative">
+    <!-- Fondo Transparente con Logo Watermark Artístico -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">
+      <div class="absolute -right-6 sm:right-16 -top-10 sm:-top-8 w-44 h-44 sm:w-56 sm:h-56 opacity-10 sm:opacity-15 blur-[0.5px] transform rotate-12 transition-all">
+        <img 
+          src="/logo.png" 
+          alt="Falcon's Background Watermark" 
+          class="w-full h-full object-contain filter drop-shadow-2xl"
+          referrerpolicy="no-referrer"
+          onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=200&auto=format&fit=crop&q=80'">
+      </div>
+      <!-- Glow sutil cálido -->
+      <div class="absolute right-0 top-0 w-48 h-full bg-gradient-to-l from-amber-500/5 via-red-600/5 to-transparent"></div>
+    </div>
+
+    <!-- Header Principal Compacto y Comercial -->
+    <header class="px-3 sm:px-4 py-2.5 sm:py-3 max-w-4xl mx-auto flex items-center justify-between gap-2.5 sm:gap-4 relative z-10">
+      
+      <!-- Brand & Location (Clickable -> Opens Business Info Modal) -->
+      <div class="flex items-center gap-2.5 sm:gap-3.5 cursor-pointer group min-w-0 flex-1" @click="openStoreInfoModal()" title="Ver información y horarios del local">
+        <div class="relative shrink-0">
+          <div class="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-neutral-900/80 backdrop-blur-md border border-amber-500/40 p-1 flex items-center justify-center shadow-lg shadow-red-950/40 transform group-hover:scale-105 transition-all">
+            <img 
+              src="/logo.png" 
+              alt="Falcon's Alitas Logo" 
+              class="w-full h-full object-cover rounded-xl opacity-90 group-hover:opacity-100 transition-opacity"
+              referrerpolicy="no-referrer"
+              onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=200&auto=format&fit=crop&q=80'">
+          </div>
+          <span class="absolute -bottom-1 -right-1 flex h-3.5 w-3.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-black"></span>
+          </span>
+        </div>
+
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+            <h1 class="font-display text-xl sm:text-2xl font-black tracking-wider leading-none text-white uppercase group-hover:text-amber-400 transition-colors whitespace-nowrap">
+              Falcon's Alitas
+            </h1>
+            <span class="bg-gradient-to-r from-red-600/30 to-amber-600/30 text-amber-300 text-[9.5px] sm:text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-amber-500/30 uppercase tracking-wide shrink-0">
+              Prado
+            </span>
+          </div>
+
+          <p class="text-[10.5px] sm:text-[11px] text-neutral-300 group-hover:text-amber-400 flex items-center gap-1.5 mt-0.5 transition-colors truncate font-medium">
+            <svg class="w-3 h-3 text-amber-400 fill-amber-400 shrink-0" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span class="truncate">¡Pide fácil en 1 minuto y califica tu experiencia 5★!</span>
+          </p>
+
+          <div class="flex items-center gap-1.5 sm:gap-2 mt-1 text-[9.5px] sm:text-[10.5px] flex-wrap">
+            <span class="inline-flex items-center gap-1 bg-emerald-950/40 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.5 rounded-md font-semibold">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
+              <span>Local 3PM - 11PM</span>
+            </span>
+            <span class="inline-flex items-center gap-1 bg-amber-950/40 text-amber-300 border border-amber-500/30 px-1.5 py-0.5 rounded-md font-semibold">
+              <span>🛵 Domicilios 5PM - 10:30PM</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions Header -->
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <!-- Info Local Trigger -->
+        <button 
+          @click="openStoreInfoModal()"
+          title="Información del local y horarios"
+          class="bg-neutral-900/80 hover:bg-neutral-800 text-neutral-200 hover:text-white p-2 sm:p-2.5 rounded-xl border border-neutral-800 hover:border-neutral-700 backdrop-blur-md transition-all flex items-center justify-center shadow-md active:scale-95 cursor-pointer">
+          <span class="text-sm sm:text-base leading-none">ℹ️</span>
+        </button>
+
+        <!-- Google Reviews / Ruleta Quick Icon -->
+        <button 
+          @click="openSlotModal()"
+          title="Gana premios dejando tu reseña"
+          class="bg-neutral-900/80 hover:bg-neutral-800 text-amber-400 p-2 sm:p-2.5 rounded-xl border border-amber-500/30 backdrop-blur-md transition-all flex items-center justify-center shadow-md active:scale-95 cursor-pointer">
+          <span class="text-base sm:text-lg leading-none">🎰</span>
+        </button>
+
+        <!-- WhatsApp Quick Chat -->
+        <a 
+          href="https://wa.me/573193574825?text=Hola%20Falcon's%20Alitas!%20Quiero%20hacer%20un%20pedido%20o%20tengo%20una%20consulta" 
+          target="_blank"
+          class="bg-neutral-900/80 hover:bg-neutral-800 text-emerald-400 p-2 sm:p-2.5 rounded-xl border border-neutral-800 hover:border-emerald-500/40 backdrop-blur-md transition-colors flex items-center justify-center active:scale-95">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5 fill-current text-emerald-500" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+        </a>
+
+        <!-- Cart Trigger Button -->
+        <button 
+          @click="isCartOpen = true"
+          class="relative bg-gradient-to-r from-red-600 via-brand-red to-amber-600 hover:from-red-500 hover:to-amber-500 text-white p-2 sm:px-3.5 sm:py-2.5 rounded-xl font-bold flex items-center gap-1.5 sm:gap-2 shadow-lg shadow-red-950/50 border border-amber-500/30 transition-all active:scale-95 cursor-pointer">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span class="hidden sm:inline text-xs tracking-wide uppercase font-extrabold">Carrito</span>
+          <template x-if="cartCount() > 0">
+            <span class="absolute -top-1.5 -right-1.5 bg-amber-400 text-black text-[10px] sm:text-[11px] font-black w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full flex items-center justify-center border-2 border-black shadow-md" x-text="cartCount()"></span>
+          </template>
+        </button>
+      </div>
+
+    </header>
+
+    <!-- Navegador de Categorías y Búsqueda -->
+    <nav class="border-t border-neutral-800/70 py-2 sm:py-2.5 px-3 sm:px-4 max-w-4xl mx-auto space-y-2">
+      <!-- Search Input -->
+      <div class="relative">
+        <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input 
+          type="text" 
+          x-model="searchQuery"
+          placeholder="Buscar por producto o ingrediente (hamburguesas, alitas, combos...)"
+          class="w-full bg-neutral-900/90 text-xs sm:text-sm text-white placeholder-neutral-500 rounded-xl pl-10 pr-8 py-2 border border-neutral-800/90 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition-all shadow-inner">
+        <button 
+          x-show="searchQuery.length > 0" 
+          @click="searchQuery = ''"
+          class="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white p-1 text-xs font-bold cursor-pointer">
+          ✕
+        </button>
+      </div>
+
+      <!-- Categories Pills Scroll Strip -->
+      <div class="relative">
+        <div 
+          id="category-scroll-strip"
+          class="flex items-center gap-2 sm:gap-2.5 overflow-x-auto hide-scrollbar py-1 scroll-smooth">
+          <template x-for="cat in categories" :key="cat.id">
+            <button 
+              :id="'cat-btn-' + cat.id"
+              @click="activeCategory = cat.id; searchQuery = ''; scrollToCategory(cat.id)"
+              :class="activeCategory === cat.id && !searchQuery 
+                ? 'bg-gradient-to-r from-brand-red via-red-600 to-brand-crimson text-white font-black border-red-500 shadow-lg shadow-brand-red/35 ring-2 ring-red-500/40 scale-[1.03]' 
+                : 'bg-neutral-900/95 text-neutral-200 border-neutral-800 hover:bg-neutral-800 hover:text-white hover:border-neutral-700 font-bold'"
+              class="px-3.5 py-2.5 sm:px-4.5 sm:py-2.5 rounded-2xl text-xs sm:text-[13px] whitespace-nowrap border transition-all flex items-center gap-2 shrink-0 active:scale-95 cursor-pointer min-h-[42px] sm:min-h-[44px] shadow-sm select-none">
+              <span class="text-base sm:text-lg shrink-0 leading-none" x-text="cat.icon"></span>
+              <span class="tracking-wide" x-text="cat.name"></span>
+              <template x-if="activeCategory === cat.id && !searchQuery">
+                <span class="w-2 h-2 rounded-full bg-amber-300 shadow-sm animate-pulse ml-0.5"></span>
+              </template>
+            </button>
+          </template>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 4. CONTENIDO PRINCIPAL: CATÁLOGO DE PRODUCTOS & CRO BADGES -->
+  <!-- ========================================================================= -->
+  <main id="menu" class="max-w-4xl mx-auto px-4 pt-5 space-y-10">
+
+    <!-- HERO PROMO BANNER: EXPERIENCIA INTUITIVA FALCON'S -->
+    <div class="bg-gradient-to-r from-neutral-900 via-neutral-950 to-neutral-900 rounded-3xl p-4 sm:p-5 border border-neutral-800 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
+      <div class="space-y-2 text-center md:text-left flex-1 min-w-0">
+        <div class="inline-flex items-center gap-1.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider whitespace-normal">
+          <span>⭐ CALIFICA TU EXPERIENCIA Y GANA PREMIOS</span>
+          <span>•</span>
+          <span>PEDIDOS RÁPIDOS POR WHATSAPP</span>
+        </div>
+        <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white uppercase tracking-wide leading-tight whitespace-normal break-words">
+          ¡Califica con 5 Estrellas y Pide Fácil en Minutos!
+        </h2>
+        <p class="text-xs sm:text-sm text-neutral-300 max-w-xl leading-relaxed whitespace-normal break-words">
+          Disfruta tus alitas, hamburguesas y combos preparados al instante con tus salsas gratis incluidas. Haz tu pedido express en 3 simples pasos y déjanos tu reseña.
+        </p>
+
+        <!-- 3 PASOS FÁCILES PARA PEDIR -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-left">
+          <div class="bg-neutral-900/90 border border-neutral-800/80 rounded-xl p-2.5 flex items-center gap-2">
+            <span class="text-base shrink-0 p-1 bg-red-950/60 text-brand-red rounded-lg font-black text-xs">1</span>
+            <div class="min-w-0">
+              <p class="text-[11px] font-bold text-white leading-tight">Elige tu plato</p>
+              <p class="text-[10px] text-neutral-300 leading-tight whitespace-normal break-words">Alitas, burgers y combos</p>
+            </div>
+          </div>
+          <div class="bg-neutral-900/90 border border-neutral-800/80 rounded-xl p-2.5 flex items-center gap-2">
+            <span class="text-base shrink-0 p-1 bg-amber-950/60 text-brand-gold rounded-lg font-black text-xs">2</span>
+            <div class="min-w-0">
+              <p class="text-[11px] font-bold text-white leading-tight">Baña tus salsas</p>
+              <p class="text-[10px] text-neutral-300 leading-tight whitespace-normal break-words">Hasta 3 gratis incluidas</p>
+            </div>
+          </div>
+          <div class="bg-neutral-900/90 border border-neutral-800/80 rounded-xl p-2.5 flex items-center gap-2">
+            <span class="text-base shrink-0 p-1 bg-green-950/60 text-green-400 rounded-lg font-black text-xs">3</span>
+            <div class="min-w-0">
+              <p class="text-[11px] font-bold text-white leading-tight">Recibe al instante</p>
+              <p class="text-[10px] text-neutral-300 leading-tight whitespace-normal break-words">Domicilio o en tu mesa</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row md:flex-col items-center gap-2.5 shrink-0 w-full sm:w-auto">
+        <button 
+          @click="openSlotModal()" 
+          class="w-full sm:w-auto bg-gradient-to-r from-brand-gold via-yellow-400 to-amber-500 hover:from-yellow-400 hover:to-brand-gold text-black text-xs font-black px-4 py-3 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 active:scale-95 whitespace-nowrap border border-yellow-200">
+          <span>🎰</span>
+          <span>¡GIRA Y GANA TU PREMIO AL INSTANTE!</span>
+        </button>
+        <button 
+          @click="openStoreInfoModal()" 
+          class="w-full sm:w-auto bg-neutral-900 border border-neutral-700 hover:border-neutral-500 text-neutral-200 hover:text-white text-xs font-bold px-4 py-2.5 rounded-2xl transition-all flex items-center justify-center gap-1.5 active:scale-95 whitespace-nowrap">
+          <span>📍</span>
+          <span>Calle 48D Sur N. 55C - 04</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- MODO BÚSQUEDA -->
+    <template x-if="searchQuery.trim().length > 0">
+      <section class="space-y-4">
+        <div class="flex items-center justify-between border-b border-neutral-800 pb-2">
+          <h2 class="font-display text-2xl font-bold tracking-wide text-brand-gold uppercase whitespace-normal break-words">
+            Resultados para "<span x-text="searchQuery"></span>"
+          </h2>
+          <span class="text-xs text-neutral-400 font-semibold shrink-0" x-text="filteredProducts().length + ' productos'"></span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+          <template x-for="product in filteredProducts()" :key="product.id">
+            <div 
+              @click="openProductModal(product)"
+              class="bg-brand-card rounded-3xl border border-neutral-800/90 hover:border-neutral-700 transition-all flex flex-col overflow-hidden group cursor-pointer hover:shadow-2xl hover:shadow-brand-crimson/15">
+              
+              <!-- Food Photography (45%-50% Dominance) -->
+              <div class="relative w-full h-44 sm:h-48 md:h-52 bg-neutral-900 overflow-hidden shrink-0">
+                <template x-if="product.image">
+                  <img 
+                    :src="product.image" 
+                    :alt="product.name" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    referrerpolicy="no-referrer"
+                    loading="lazy"
+                    onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600&auto=format&fit=crop&q=80'"
+                  />
+                </template>
+                <div 
+                  class="w-full h-full flex items-center justify-center text-5xl" 
+                  :style="product.image ? 'display: none;' : 'display: flex;'" 
+                  x-text="product.emoji"></div>
+                
+                <!-- Gradient Scrim for contrast -->
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-black/40 pointer-events-none"></div>
+
+                <!-- Floating Badges & Prep Time -->
+                <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
+                  <template x-if="product.badge">
+                    <span class="bg-brand-crimson text-white font-extrabold text-[10px] sm:text-[11px] px-2.5 py-1 rounded-xl shadow-lg uppercase tracking-wider backdrop-blur-sm" x-text="product.badge"></span>
+                  </template>
+                  <span class="ml-auto bg-black/75 backdrop-blur-md text-neutral-200 text-[10px] font-semibold px-2 py-0.5 rounded-lg border border-white/10 flex items-center gap-1 shadow-sm">
+                    ⏱️ <span x-text="product.prepTime || '12-15 min'"></span>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Content Section -->
+              <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
+                <div>
+                  <h3 class="font-bold text-white text-[16px] sm:text-[18px] leading-snug group-hover:text-amber-400 transition-colors whitespace-normal break-words" x-text="product.name"></h3>
+                  <p class="text-[14px] text-neutral-300 mt-1.5 font-normal leading-relaxed whitespace-normal break-words" x-text="product.description"></p>
+                </div>
+
+                <div class="pt-3 border-t border-neutral-800/80 flex items-center justify-between gap-2">
+                  <div>
+                    <span class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block leading-none">Precio</span>
+                    <span class="font-display text-2xl sm:text-3xl font-extrabold text-brand-crimson tracking-wide" x-text="formatMoney(product.price)"></span>
+                  </div>
+                  <button 
+                    type="button"
+                    @click.stop="openProductModal(product)"
+                    class="bg-brand-crimson hover:bg-red-600 active:scale-95 text-white text-xs sm:text-sm font-extrabold px-4 py-2.5 rounded-xl transition-all shadow-lg shadow-brand-crimson/30 flex items-center gap-1.5 whitespace-nowrap">
+                    <span>PEDIR</span>
+                    <span class="text-base font-black leading-none">+</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </section>
+    </template>
+
+    <!-- CATÁLOGO POR CATEGORÍAS -->
+    <template x-if="!searchQuery.trim().length">
+      <div class="space-y-10">
+        <template x-for="cat in categories" :key="cat.id">
+          <section :id="'cat-' + cat.id" class="scroll-mt-44 space-y-3.5">
+            <div class="flex items-center justify-between border-b border-neutral-800/80 pb-2">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span class="text-2xl shrink-0" x-text="cat.icon"></span>
+                <div class="min-w-0">
+                  <h2 class="font-display text-2xl sm:text-3xl font-bold tracking-wide text-brand-gold uppercase leading-tight whitespace-normal break-words" x-text="cat.name"></h2>
+                  <p class="text-[11px] text-neutral-300 hidden sm:block mt-0.5 whitespace-normal" x-text="cat.desc"></p>
+                </div>
+              </div>
+              <span class="text-xs text-neutral-400 font-semibold shrink-0" x-text="getProductsByCategory(cat.id).length + ' opciones'"></span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+              <template x-for="product in getProductsByCategory(cat.id)" :key="product.id">
+                <div 
+                  @click="openProductModal(product)"
+                  class="bg-brand-card rounded-3xl border border-neutral-800/90 hover:border-neutral-700 transition-all flex flex-col overflow-hidden group cursor-pointer hover:shadow-2xl hover:shadow-brand-crimson/15">
+                  
+                  <!-- Food Photography (45%-50% Dominance) -->
+                  <div class="relative w-full h-44 sm:h-48 md:h-52 bg-neutral-900 overflow-hidden shrink-0">
+                    <template x-if="product.image">
+                      <img 
+                        :src="product.image" 
+                        :alt="product.name" 
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        referrerpolicy="no-referrer"
+                        loading="lazy"
+                        onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600&auto=format&fit=crop&q=80'"
+                      />
+                    </template>
+                    <div 
+                      class="w-full h-full flex items-center justify-center text-5xl" 
+                      :style="product.image ? 'display: none;' : 'display: flex;'" 
+                      x-text="product.emoji"></div>
+                    
+                    <!-- Gradient Scrim for contrast -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-black/40 pointer-events-none"></div>
+
+                    <!-- Floating Badges & Prep Time -->
+                    <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
+                      <template x-if="product.badge">
+                        <span class="bg-brand-crimson text-white font-extrabold text-[10px] sm:text-[11px] px-2.5 py-1 rounded-xl shadow-lg uppercase tracking-wider backdrop-blur-sm" x-text="product.badge"></span>
+                      </template>
+                      <span class="ml-auto bg-black/75 backdrop-blur-md text-neutral-200 text-[10px] font-semibold px-2 py-0.5 rounded-lg border border-white/10 flex items-center gap-1 shadow-sm">
+                        ⏱️ <span x-text="product.prepTime || '12-15 min'"></span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Content Section -->
+                  <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
+                    <div>
+                      <h3 class="font-bold text-white text-[16px] sm:text-[18px] leading-snug group-hover:text-amber-400 transition-colors whitespace-normal break-words" x-text="product.name"></h3>
+                      <p class="text-[14px] text-neutral-300 mt-1.5 font-normal leading-relaxed whitespace-normal break-words" x-text="product.description"></p>
+                    </div>
+
+                    <div class="pt-3 border-t border-neutral-800/80 flex items-center justify-between gap-2">
+                      <div>
+                        <span class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block leading-none">Precio</span>
+                        <span class="font-display text-2xl sm:text-3xl font-extrabold text-brand-crimson tracking-wide" x-text="formatMoney(product.price)"></span>
+                      </div>
+                      <button 
+                        type="button"
+                        @click.stop="openProductModal(product)"
+                        class="bg-brand-crimson hover:bg-red-600 active:scale-95 text-white text-xs sm:text-sm font-extrabold px-4 py-2.5 rounded-xl transition-all shadow-lg shadow-brand-crimson/30 flex items-center gap-1.5 whitespace-nowrap">
+                        <span>PEDIR</span>
+                        <span class="text-base font-black leading-none">+</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </section>
+        </template>
+      </div>
+    </template>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- 4.5. FOOTER OFICIAL CON ENLACES, SOCIAL PROOF Y ACCESO CMS ADMIN -->
+  <!-- ========================================================================= -->
+  <footer class="bg-neutral-950 border-t border-neutral-800/80 py-10 px-4 text-neutral-400 text-xs mt-12 mb-20 sm:mb-8">
+    <div class="max-w-4xl mx-auto space-y-6">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left border-b border-neutral-900 pb-6">
+        <div class="space-y-1">
+          <div class="flex items-center justify-center sm:justify-start gap-2">
+            <img 
+              src="/logo.png" 
+              alt="Falcon's Alitas Logo" 
+              class="w-8 h-8 rounded-xl object-cover border border-amber-500/40 bg-neutral-900" 
+              referrerpolicy="no-referrer"
+              onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=200&auto=format&fit=crop&q=80'"
+            />
+            <span class="font-display text-2xl font-bold text-white uppercase tracking-wider">Falcon's Alitas</span>
+            <span class="text-[10px] bg-brand-red/20 text-red-400 px-2 py-0.5 rounded-full border border-brand-red/30 font-bold">OFICIAL</span>
+          </div>
+          <p class="text-[12px] text-neutral-300">Calle 48D Sur N. 55C - 04, San Antonio de Prado, Medellín.</p>
+          <p class="text-[11px] text-neutral-500">Envíos express en San Antonio de Prado, Prado Centro, Barichara, El Limonar e Itagüí.</p>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 text-xs">
+          <button @click="openStoreInfoModal()" class="bg-neutral-900 hover:bg-neutral-800 text-neutral-200 px-3 py-2 rounded-xl border border-neutral-800 transition-colors flex items-center gap-1.5 active:scale-95">
+            <span>🕒</span>
+            <span>Horarios & Pagos</span>
+          </button>
+          <button @click="openSlotModal()" class="bg-neutral-900 hover:bg-neutral-800 text-amber-300 px-3 py-2 rounded-xl border border-amber-500/30 transition-colors flex items-center gap-1.5 active:scale-95">
+            <span>⭐</span>
+            <span>Gana Premios</span>
+          </button>
+          <a href="https://wa.me/573193574825" target="_blank" class="bg-emerald-950/80 hover:bg-emerald-900 text-emerald-400 font-bold px-3 py-2 rounded-xl border border-emerald-500/40 transition-colors flex items-center gap-1.5 active:scale-95">
+            <span>💬</span>
+            <span>319 357 4825</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-neutral-500">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-green-500 inline-block animate-pulse"></span>
+          <span>Plataforma Activa • Vercel Edge Fast Engine v2.4.0 (Zero-Cache)</span>
+        </div>
+
+        <!-- Botón Acceso Panel Administrativo Protegido -->
+        <div>
+          <button 
+            @click="openAdminAuth()" 
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900/90 hover:bg-neutral-800 text-neutral-400 hover:text-amber-400 border border-neutral-800 hover:border-amber-500/40 transition-all text-xs font-semibold shadow-sm group">
+            <span class="group-hover:rotate-12 transition-transform">🔐</span>
+            <span>Panel Admin / CMS</span>
+            <template x-if="isAdminAuthenticated">
+              <span class="w-2 h-2 rounded-full bg-amber-400 ml-1"></span>
+            </template>
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- 5. STICKY CTA CARRITO INFERIOR (HIGH-CONVERSION MOBILE & DESKTOP) -->
+  <!-- ========================================================================= -->
+  <div 
+    x-show="cartCount() > 0 && !isCartOpen" 
+    x-cloak 
+    x-transition:enter="transition ease-out duration-300 transform translate-y-full" 
+    x-transition:enter-end="translate-y-0" 
+    x-transition:leave="transition ease-in duration-200 transform translate-y-full" 
+    class="fixed bottom-0 left-0 right-0 z-40 p-3 sm:p-4 bg-gradient-to-t from-black via-black/95 to-transparent pointer-events-none">
+    
+    <div class="max-w-4xl mx-auto pointer-events-auto">
+      <button 
+        @click="isCartOpen = true"
+        class="w-full bg-brand-crimson hover:bg-red-600 active:scale-[0.99] text-white p-3.5 sm:p-4 rounded-2xl font-bold flex items-center justify-between shadow-2xl shadow-brand-crimson/50 border border-red-500/40 transition-all group gap-2 animate-crimson-pulse">
+        <div class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+          <span class="bg-black/50 text-amber-300 text-[11px] sm:text-xs font-extrabold px-2.5 py-1 rounded-xl border border-white/20 flex items-center gap-1 shrink-0">
+            <span>🛒</span>
+            <span x-text="cartCount()"></span>
+          </span>
+          <span class="text-xs sm:text-sm font-extrabold tracking-wider uppercase text-white whitespace-normal text-left leading-tight break-words">
+            🔥 COMPLETAR PEDIDO EXPRESS <span class="hidden sm:inline text-amber-200 text-xs font-normal">(Salsas gratis listas)</span>
+          </span>
+        </div>
+        <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <span class="font-display text-xl sm:text-2xl md:text-3xl font-extrabold tracking-wider text-white" x-text="formatMoney(grandTotal())"></span>
+          <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white/80 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 6. MODAL INTERACTIVO DE PERSONALIZACIÓN Y UPSELLING (PASO 2 FUNNEL) -->
+  <!-- ========================================================================= -->
+  <div 
+    x-show="isProductModalOpen" 
+    x-cloak 
+    class="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4" 
+    x-transition>
+    
+    <div 
+      @click.outside="isProductModalOpen = false" 
+      class="bg-brand-card w-full max-w-lg rounded-t-3xl sm:rounded-3xl border border-neutral-800 max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
+      
+      <!-- Large Hero Image Showcase Banner -->
+      <div class="relative w-full h-52 sm:h-64 bg-neutral-950 overflow-hidden shrink-0 border-b border-neutral-800/80 group">
+        <template x-if="selectedProduct?.image">
+          <img 
+            :src="selectedProduct?.image" 
+            :alt="selectedProduct?.name" 
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+            referrerpolicy="no-referrer"
+            onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600&auto=format&fit=crop&q=80'"
+          />
+        </template>
+        <div 
+          class="w-full h-full flex items-center justify-center text-7xl bg-neutral-900" 
+          :style="selectedProduct?.image ? 'display: none;' : 'display: flex;'" 
+          x-text="selectedProduct?.emoji || '🍗'"></div>
+
+        <!-- Gradient Scrim for crisp text readability -->
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-brand-card/50 to-black/60 pointer-events-none"></div>
+
+        <!-- Top Control Bar: Badges on left, Close button on right (cleanly separated) -->
+        <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-3 pointer-events-none z-10">
+          <div class="flex flex-wrap items-center gap-1.5 max-w-[calc(100%-48px)]">
+            <span class="text-[10px] sm:text-[11px] bg-brand-crimson text-white font-extrabold px-2.5 py-1 rounded-xl shadow-lg uppercase tracking-wider backdrop-blur-md">
+              Paso 2: Personalizar
+            </span>
+            <template x-if="selectedProduct?.badge">
+              <span class="text-[10px] sm:text-[11px] bg-amber-400 text-black font-extrabold px-2.5 py-1 rounded-xl shadow-lg uppercase tracking-wide" x-text="selectedProduct?.badge"></span>
+            </template>
+          </div>
+
+          <button 
+            @click="isProductModalOpen = false" 
+            aria-label="Cerrar modal"
+            class="pointer-events-auto text-white p-2 sm:p-2.5 rounded-xl bg-black/80 hover:bg-neutral-800 backdrop-blur-md border border-white/20 transition-all active:scale-95 shadow-xl cursor-pointer shrink-0">
+            ✕
+          </button>
+        </div>
+
+        <!-- Bottom Info Bar: Product Title, Base Price & Independent Prep Time Notice -->
+        <div class="absolute bottom-3 left-4 right-4 z-10 pointer-events-none">
+          <h3 class="font-display text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-wide leading-tight drop-shadow-md whitespace-normal break-words" x-text="selectedProduct?.name"></h3>
+          <div class="flex flex-wrap items-center justify-between gap-2 mt-1.5">
+            <div class="flex items-center gap-1.5 bg-black/70 backdrop-blur-md px-3 py-1 rounded-xl border border-white/10 shadow-md">
+              <span class="text-xs text-neutral-300 font-medium">Precio base:</span>
+              <span class="font-display text-lg sm:text-xl text-amber-400 font-extrabold tracking-wide drop-shadow" x-text="formatMoney(selectedProduct?.price || 0)"></span>
+            </div>
+
+            <template x-if="selectedProduct?.prepTime">
+              <div class="flex items-center gap-1.5 bg-black/75 backdrop-blur-md text-amber-300 text-xs font-bold px-3 py-1 rounded-xl border border-amber-400/30 shadow-md">
+                <span>⏱️ Prep:</span>
+                <span x-text="selectedProduct?.prepTime"></span>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Body Scroll -->
+      <div class="p-4 sm:p-5 overflow-y-auto space-y-5 hide-scrollbar">
+        <p class="text-xs sm:text-sm text-neutral-300 leading-relaxed whitespace-normal break-words" x-text="selectedProduct?.description"></p>
+
+        <!-- SELECTOR EXCLUSIVO DE REFERENCIA / SABOR (BEBIDAS Y PRODUCTOS CON VARIANTES) -->
+        <div 
+          x-show="selectedProduct?.variants && selectedProduct?.variants.length > 0" 
+          class="space-y-3 bg-neutral-900/90 p-4 rounded-2xl border border-amber-500/40 shadow-inner">
+          <div class="flex justify-between items-center">
+            <label class="text-xs font-extrabold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
+              <span>🥤 Elige tu Referencia / Sabor</span>
+            </label>
+            <span class="text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 font-extrabold px-2 py-0.5 rounded-full uppercase">
+              Obligatorio
+            </span>
+          </div>
+          <p class="text-[11px] text-neutral-300">Toca el botón con la opción exacta que deseas para tu pedido:</p>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+            <template x-for="v in (selectedProduct?.variants || [])" :key="v">
+              <button 
+                type="button"
+                @click="modalVariant = v"
+                :class="modalVariant === v ? 'bg-amber-400 text-black font-black border-amber-300 shadow-lg shadow-amber-500/25 scale-[1.01]' : 'bg-neutral-950 border-neutral-800 text-neutral-200 hover:border-neutral-700 hover:bg-neutral-900'"
+                class="px-3.5 py-3 rounded-xl text-xs border text-left transition-all flex items-center justify-between gap-2 min-h-[44px] cursor-pointer">
+                <span class="leading-snug" :class="modalVariant === v ? 'font-black' : 'font-medium'" x-text="v"></span>
+                <span class="shrink-0 text-base" x-text="modalVariant === v ? '✅' : '⚪'"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+
+        <!-- SALSAS GRATIS (HASTA 3) - OCULTO EN BEBIDAS Y ADICIONES -->
+        <div 
+          x-show="selectedProduct?.category !== 'bebidas' && selectedProduct?.category !== 'adiciones'" 
+          class="space-y-2.5 bg-neutral-900/60 p-3.5 rounded-2xl border border-neutral-800/80">
+          <div class="flex justify-between items-center">
+            <label class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+              <span>✨ BAÑA TU COMBO: Salsas artesanales (INCLUIDAS)</span>
+            </label>
+            <span 
+              :class="modalSauces.length === 3 ? 'bg-brand-crimson/20 text-brand-crimson border-brand-crimson/40' : 'text-neutral-400 bg-neutral-800'"
+              class="text-xs font-extrabold px-2.5 py-0.5 rounded-full border text-[11px]" 
+              x-text="modalSauces.length + '/3'"></span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <template x-for="sauce in availableSauces" :key="sauce">
+              <button 
+                type="button"
+                @click="toggleSauce(sauce)"
+                :class="modalSauces.includes(sauce) ? 'bg-brand-crimson/20 border-brand-crimson text-white font-bold shadow-sm shadow-red-950' : 'bg-neutral-900 border-neutral-800 text-neutral-300 hover:border-neutral-700'"
+                class="px-2.5 py-2 rounded-xl text-xs border text-center transition-all whitespace-normal break-words leading-tight flex items-center justify-center min-h-[38px] cursor-pointer">
+                <span x-text="sauce"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+
+        <!-- CEBOLLA (Hamburguesas / Perros) - OCULTO EN BEBIDAS -->
+        <div 
+          x-show="selectedProduct?.category === 'hamburguesas' || selectedProduct?.category === 'perros'" 
+          class="space-y-2.5 bg-neutral-900/60 p-3.5 rounded-2xl border border-neutral-800/80">
+          <label class="text-xs font-bold text-white uppercase tracking-wider block">Preparación de Cebolla</label>
+          <div class="grid grid-cols-3 gap-2">
+            <template x-for="onion in ['Sofrita', 'Cruda', 'Sin cebolla']" :key="onion">
+              <button 
+                type="button"
+                @click="modalOnion = onion"
+                :class="modalOnion === onion ? 'bg-brand-crimson/20 border-brand-crimson text-white font-bold' : 'bg-neutral-900 border-neutral-800 text-neutral-300'"
+                class="px-3 py-2 rounded-xl text-xs border text-center transition-all font-semibold whitespace-normal break-words leading-tight">
+                <span x-text="onion"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+
+        <!-- ADICIONES Y EXTRAS CON CONTADORES DINÁMICOS (+ / -) Y CÁLCULO REACTIVO -->
+        <div 
+          x-show="selectedProduct?.category !== 'bebidas'" 
+          class="bg-neutral-900/60 p-3.5 rounded-2xl border border-neutral-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold text-amber-300 tracking-wider uppercase flex items-center gap-1.5 whitespace-normal break-words">
+              <span>🔥 EL COMPLEMENTO PERFECTO: ¿Añadimos adicionales?</span>
+            </span>
+          </div>
+          
+          <div class="space-y-3">
+            <template x-for="upsell in upsellOptions" :key="upsell.id">
+              <div>
+                <!-- Caso 1: Adición simple sin variantes -->
+                <template x-if="!upsell.variants || upsell.variants.length === 0">
+                  <div 
+                    :class="getUpsellQty(upsell.id) > 0 ? 'bg-neutral-900/90 border-amber-400/60 shadow-md ring-1 ring-amber-400/20' : 'bg-neutral-950 border-neutral-800/90 hover:border-neutral-700'"
+                    class="rounded-xl border transition-all overflow-hidden">
+                    <div class="flex items-center justify-between p-3 gap-3">
+                      <div class="flex-1 min-w-0">
+                        <span 
+                          class="text-xs font-bold leading-tight block whitespace-normal break-words" 
+                          :class="getUpsellQty(upsell.id) > 0 ? 'text-amber-300 font-extrabold' : 'text-neutral-200'" 
+                          x-text="upsell.name"></span>
+                        <div class="flex items-center gap-2 mt-0.5">
+                          <span class="text-[11px] font-bold text-amber-400" x-text="'+' + formatMoney(upsell.price) + ' c/u'"></span>
+                          <template x-if="getUpsellQty(upsell.id) > 1">
+                            <span class="text-[10.5px] font-extrabold text-white bg-amber-500/20 px-1.5 py-0.2 rounded border border-amber-500/30" x-text="'Subtotal: +' + formatMoney(upsell.price * getUpsellQty(upsell.id))"></span>
+                          </template>
+                        </div>
+                      </div>
+
+                      <!-- Selector de Cantidad Numérica (+ / -) -->
+                      <div class="flex items-center gap-1.5 bg-neutral-900 border border-neutral-700 rounded-xl p-1 shrink-0">
+                        <button 
+                          type="button"
+                          @click="updateUpsellQty(upsell.id, -1)"
+                          :disabled="getUpsellQty(upsell.id) === 0"
+                          :class="getUpsellQty(upsell.id) > 0 ? 'bg-neutral-800 text-white hover:bg-neutral-700 active:scale-95 cursor-pointer' : 'text-neutral-600 cursor-not-allowed'"
+                          class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs transition-all">-</button>
+                        <span 
+                          class="w-5 text-center text-sm font-black" 
+                          :class="getUpsellQty(upsell.id) > 0 ? 'text-amber-400' : 'text-neutral-500'" 
+                          x-text="getUpsellQty(upsell.id)"></span>
+                        <button 
+                          type="button"
+                          @click="updateUpsellQty(upsell.id, 1)"
+                          class="w-7 h-7 rounded-lg bg-amber-400 text-black hover:bg-amber-300 active:scale-95 flex items-center justify-center font-black text-xs transition-all cursor-pointer shadow-sm">+</button>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+
+                <!-- Caso 2: Adición con múltiples sabores/referencias (Salsas extra, gaseosas, etc.) -->
+                <template x-if="upsell.variants && upsell.variants.length > 0">
+                  <div 
+                    :class="getUpsellTotalQty(upsell.id, true) > 0 ? 'bg-neutral-900/90 border-amber-400/60 shadow-md ring-1 ring-amber-400/20' : 'bg-neutral-950 border-neutral-800/90 hover:border-neutral-700'"
+                    class="rounded-xl border transition-all overflow-hidden">
+                    <!-- Cabecera del grupo -->
+                    <div class="p-3 bg-neutral-900/50 border-b border-neutral-800/80 flex items-center justify-between gap-2">
+                      <div class="flex-1 min-w-0">
+                        <span 
+                          class="text-xs font-bold leading-tight block whitespace-normal break-words"
+                          :class="getUpsellTotalQty(upsell.id, true) > 0 ? 'text-amber-300 font-extrabold' : 'text-neutral-200'"
+                          x-text="upsell.name"></span>
+                        <div class="flex items-center gap-2 mt-0.5">
+                          <span class="text-[11px] font-bold text-amber-400" x-text="'+' + formatMoney(upsell.price) + ' c/u'"></span>
+                          <span class="text-[10px] text-neutral-400">(Elige los sabores que desees)</span>
+                        </div>
+                      </div>
+
+                      <span 
+                        :class="getUpsellTotalQty(upsell.id, true) > 0 ? 'bg-amber-400/20 text-amber-300 border-amber-400/40' : 'bg-neutral-900 text-neutral-400 border-neutral-800'"
+                        class="text-xs font-black px-2.5 py-1 rounded-xl border shrink-0"
+                        x-text="getUpsellTotalQty(upsell.id, true) + ' un. (+' + formatMoney(upsell.price * getUpsellTotalQty(upsell.id, true)) + ')'"></span>
+                    </div>
+
+                    <!-- Lista de variantes con sus propios selectores (+ / -) -->
+                    <div class="p-2.5 bg-neutral-950/60">
+                      <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                        <template x-for="v in (upsell.variants || [])" :key="v">
+                          <div 
+                            :class="getUpsellVariantQty(upsell.id, v) > 0 ? 'bg-neutral-900 border-amber-400/60 shadow-sm' : 'bg-neutral-900/40 border-neutral-800/70 hover:border-neutral-700'"
+                            class="p-2 rounded-xl border flex items-center justify-between gap-2 transition-all">
+                            <div class="flex-1 min-w-0">
+                              <span 
+                                class="text-xs block truncate leading-tight"
+                                :class="getUpsellVariantQty(upsell.id, v) > 0 ? 'text-amber-300 font-bold' : 'text-neutral-300'"
+                                x-text="v"></span>
+                              <template x-if="getUpsellVariantQty(upsell.id, v) > 0">
+                                <span class="text-[10px] font-bold text-neutral-400" x-text="'+' + formatMoney(upsell.price * getUpsellVariantQty(upsell.id, v))"></span>
+                              </template>
+                            </div>
+
+                            <!-- Contador individual (+ / -) -->
+                            <div class="flex items-center gap-1 bg-neutral-950 border border-neutral-700/80 rounded-lg p-0.5 shrink-0">
+                              <button 
+                                type="button"
+                                @click="updateUpsellVariantQty(upsell.id, v, -1)"
+                                :disabled="getUpsellVariantQty(upsell.id, v) === 0"
+                                :class="getUpsellVariantQty(upsell.id, v) > 0 ? 'bg-neutral-800 text-white hover:bg-neutral-700 active:scale-95 cursor-pointer' : 'text-neutral-600 cursor-not-allowed'"
+                                class="w-6 h-6 rounded flex items-center justify-center font-bold text-xs transition-all">-</button>
+                              <span 
+                                class="w-4 text-center text-xs font-black"
+                                :class="getUpsellVariantQty(upsell.id, v) > 0 ? 'text-amber-400' : 'text-neutral-500'"
+                                x-text="getUpsellVariantQty(upsell.id, v)"></span>
+                              <button 
+                                type="button"
+                                @click="updateUpsellVariantQty(upsell.id, v, 1)"
+                                class="w-6 h-6 rounded bg-amber-400 text-black hover:bg-amber-300 active:scale-95 flex items-center justify-center font-black text-xs transition-all cursor-pointer shadow-sm">+</button>
+                            </div>
+                          </div>
+                        </template>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <!-- NOTAS ESPECIALES -->
+        <div>
+          <label class="text-xs font-bold text-neutral-300 uppercase tracking-wider block mb-1">Instrucciones Especiales (Opcional)</label>
+          <input 
+            type="text" 
+            x-model="modalNotes" 
+            :placeholder="selectedProduct?.category === 'bebidas' ? 'Ejemplo: Bien helada, con pitillo, vaso con hielo' : 'Ejemplo: Bien tostada la tocineta, salsa aparte, sin picante'"
+            class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-brand-crimson">
+        </div>
+
+        <!-- CANTIDAD -->
+        <div class="flex items-center justify-between pt-2 border-t border-neutral-800">
+          <span class="text-xs font-bold text-white uppercase">Cantidad</span>
+          <div class="flex items-center gap-3 bg-neutral-900 border border-neutral-800 rounded-xl p-1">
+            <button 
+              type="button"
+              @click="modalQty = Math.max(1, modalQty - 1)" 
+              class="w-8 h-8 rounded-lg bg-neutral-800 text-white font-bold flex items-center justify-center hover:bg-neutral-700 active:scale-95 transition-all">-</button>
+            <span class="text-sm font-extrabold text-white w-6 text-center" x-text="modalQty"></span>
+            <button 
+              type="button"
+              @click="modalQty++" 
+              class="w-8 h-8 rounded-lg bg-neutral-800 text-white font-bold flex items-center justify-center hover:bg-neutral-700 active:scale-95 transition-all">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Modal CTA -->
+      <div class="p-4 sm:p-5 border-t border-neutral-800 bg-neutral-900/80">
+        <button 
+          type="button"
+          @click="confirmAddToCart()"
+          class="w-full bg-brand-crimson hover:bg-red-600 active:scale-95 text-white py-3.5 rounded-2xl font-extrabold text-sm tracking-wider uppercase shadow-xl shadow-brand-crimson/30 transition-all flex items-center justify-center gap-2">
+          <span>CONFIRMAR & AGREGAR</span>
+          <span>•</span>
+          <span x-text="formatMoney(calculateModalSubtotal())"></span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 7. CARRITO LATERAL (DRAWER) Y FUNNEL DE CHECKOUT BLINDADO CON PASO 3 & 4 -->
+  <!-- ========================================================================= -->
+  <div 
+    x-show="isCartOpen" 
+    x-cloak 
+    class="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex justify-end" 
+    x-transition>
+    
+    <div 
+      @click.outside="isCartOpen = false" 
+      class="bg-[#0A0A0A] w-full max-w-lg h-full flex flex-col justify-between border-l border-neutral-800 shadow-2xl">
+      
+      <!-- Top Cart Header -->
+      <div class="p-4 sm:p-5 border-b border-neutral-800 flex justify-between items-center bg-neutral-900/80">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-brand-crimson/20 border border-brand-crimson/40 flex items-center justify-center text-brand-crimson">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          </div>
+          <div>
+            <h2 class="font-display text-2xl sm:text-3xl font-bold text-white uppercase tracking-wider leading-none">
+              Tu Pedido
+            </h2>
+            <p class="text-[10px] text-neutral-400">Embudo de Despacho Seguro • Falcon's</p>
+          </div>
+          <span class="bg-brand-crimson text-white text-xs font-extrabold px-2.5 py-0.5 rounded-full" x-text="cartCount() + ' items'"></span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <template x-if="cart.length > 0">
+            <button 
+              @click="clearCart()" 
+              title="Vaciar carrito" 
+              class="text-neutral-500 hover:text-red-400 p-2 text-xs font-semibold flex items-center gap-1 transition-colors">
+              🗑️
+            </button>
+          </template>
+          <button 
+            @click="isCartOpen = false" 
+            class="text-neutral-400 hover:text-white p-2 rounded-xl bg-neutral-800 transition-colors">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Cart Content Body -->
+      <div class="p-4 sm:p-5 overflow-y-auto space-y-6 flex-1 hide-scrollbar">
+        
+        <template x-if="cart.length === 0">
+          <div class="text-center py-16 space-y-4">
+            <div class="w-20 h-20 mx-auto rounded-3xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-4xl">
+              🍗
+            </div>
+            <h3 class="font-display text-2xl text-white font-bold uppercase tracking-wide">
+              Tu canasta está vacía
+            </h3>
+            <p class="text-xs text-neutral-400 max-w-xs mx-auto">
+              Agrega alitas, hamburguesas gourmet o combos para armar tu pedido express.
+            </p>
+            <button 
+              @click="isCartOpen = false" 
+              class="bg-brand-crimson hover:bg-red-600 text-white text-xs font-extrabold px-5 py-2.5 rounded-xl uppercase tracking-wider transition-all">
+              Explorar Menú
+            </button>
+          </div>
+        </template>
+
+        <template x-if="cart.length > 0">
+          <div class="space-y-5">
+            <!-- Lista de Productos -->
+            <div class="space-y-3">
+              <div class="flex items-center justify-between pb-1">
+                <span class="text-xs font-bold text-neutral-300 uppercase tracking-wider">Productos Seleccionados</span>
+                <span class="text-[11px] text-neutral-400" x-text="cart.length + ' tipos de plato'"></span>
+              </div>
+              <template x-for="(item, index) in cart" :key="item.cartItemId">
+                <div class="bg-[#141414] p-3.5 rounded-2xl border border-neutral-800 flex justify-between gap-3 relative">
+                  <!-- Thumbnail Image -->
+                  <div class="w-12 h-12 rounded-xl bg-neutral-900 border border-neutral-800 shrink-0 overflow-hidden relative self-start flex items-center justify-center">
+                    <template x-if="item.product.image">
+                      <img 
+                        :src="item.product.image" 
+                        :alt="item.product.name" 
+                        class="w-full h-full object-cover"
+                        referrerpolicy="no-referrer"
+                        onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600&auto=format&fit=crop&q=80'"
+                      />
+                    </template>
+                    <div 
+                      class="w-full h-full flex items-center justify-center text-xl" 
+                      :style="item.product.image ? 'display: none;' : 'display: flex;'" 
+                      x-text="item.product.emoji || '🍗'"></div>
+                  </div>
+
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between gap-2">
+                      <h4 class="text-xs sm:text-sm font-bold text-white leading-snug whitespace-normal break-words" x-text="item.product.name"></h4>
+                      <span class="font-display text-base font-extrabold text-brand-crimson ml-2 shrink-0" x-text="formatMoney(item.unitPrice * item.qty)"></span>
+                    </div>
+
+                    <!-- Selected Flavor / Variant Badge -->
+                    <template x-if="item.variant">
+                      <div class="flex items-center gap-1.5 mt-1 text-[11px] font-bold text-amber-300 bg-amber-950/80 border border-amber-500/40 px-2 py-0.5 rounded-lg w-fit">
+                        <span>🥤</span>
+                        <span x-text="'Ref: ' + item.variant"></span>
+                      </div>
+                    </template>
+
+                    <!-- Sauces -->
+                    <template x-if="item.sauces && item.sauces.length > 0">
+                      <div class="flex flex-wrap gap-1 mt-1.5 items-center">
+                        <span class="text-[10px] text-neutral-400">Salsas:</span>
+                        <template x-for="(s, sIdx) in item.sauces" :key="sIdx">
+                          <span 
+                            class="text-[10px] bg-neutral-800 text-neutral-200 px-1.5 py-0.5 rounded font-medium border border-neutral-700/60" 
+                            x-text="typeof s === 'string' ? s : (s.qty + 'x ' + s.name)"></span>
+                        </template>
+                      </div>
+                    </template>
+
+                    <!-- Onion -->
+                    <template x-if="item.onion">
+                      <p class="text-[10px] text-neutral-400 mt-1">Cebolla: <span class="text-amber-300 font-semibold" x-text="item.onion"></span></p>
+                    </template>
+
+                    <!-- Upsells -->
+                    <template x-if="item.upsells && item.upsells.length > 0">
+                      <div class="mt-1 space-y-0.5">
+                        <template x-for="(u, uIdx) in item.upsells" :key="uIdx">
+                          <div class="text-[11px] text-amber-300 font-semibold flex items-center gap-1">
+                            <span>➕</span>
+                            <span x-text="(u.qty || 1) + 'x ' + (u.displayName || u.name) + ' (+' + formatMoney(u.price * (u.qty || 1)) + ')'"></span>
+                          </div>
+                        </template>
+                      </div>
+                    </template>
+
+                    <!-- Notes -->
+                    <template x-if="item.notes">
+                      <p class="text-[10px] text-neutral-400 italic mt-1 whitespace-normal break-words" x-text="'Nota: ' + item.notes"></p>
+                    </template>
+                  </div>
+
+                  <!-- Qty Controls -->
+                  <div class="flex flex-col items-end justify-between shrink-0 pl-1">
+                    <button 
+                      @click="removeFromCart(item.cartItemId)" 
+                      class="text-neutral-500 hover:text-red-400 p-1 text-xs">
+                      🗑️
+                    </button>
+                    <div class="flex items-center gap-1.5 bg-neutral-900 border border-neutral-800 rounded-xl p-1">
+                      <button 
+                        @click="updateCartQty(item.cartItemId, -1)" 
+                        class="w-6 h-6 rounded-lg bg-neutral-800 text-white font-bold text-xs flex items-center justify-center hover:bg-neutral-700 active:scale-95">-</button>
+                      <span class="text-xs font-bold text-white w-4 text-center" x-text="item.qty"></span>
+                      <button 
+                        @click="updateCartQty(item.cartItemId, 1)" 
+                        class="w-6 h-6 rounded-lg bg-neutral-800 text-white font-bold text-xs flex items-center justify-center hover:bg-neutral-700 active:scale-95">+</button>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </div>
+
+            <!-- Modalidad del Pedido -->
+            <div class="bg-neutral-900/60 p-3.5 rounded-2xl border border-neutral-800 space-y-2">
+              <label class="text-xs font-bold text-white uppercase tracking-wider block">Modalidad del Pedido</label>
+              <div class="grid grid-cols-3 gap-2">
+                <button 
+                  type="button"
+                  @click="customer.orderType = 'delivery'"
+                  :class="customer.orderType === 'delivery' ? 'bg-brand-crimson text-white border-brand-crimson shadow-md shadow-red-600/30' : 'bg-neutral-950 text-neutral-400 border-neutral-800'"
+                  class="py-2 px-2 rounded-xl text-xs font-bold border transition-all text-center">
+                  🛵 Domicilio
+                </button>
+                <button 
+                  type="button"
+                  @click="customer.orderType = 'pickup'"
+                  :class="customer.orderType === 'pickup' ? 'bg-brand-crimson text-white border-brand-crimson shadow-md shadow-red-600/30' : 'bg-neutral-950 text-neutral-400 border-neutral-800'"
+                  class="py-2 px-2 rounded-xl text-xs font-bold border transition-all text-center">
+                  🛍️ Recoger
+                </button>
+                <button 
+                  type="button"
+                  @click="customer.orderType = 'table'"
+                  :class="customer.orderType === 'table' ? 'bg-brand-crimson text-white border-brand-crimson shadow-md shadow-red-600/30' : 'bg-neutral-950 text-neutral-400 border-neutral-800'"
+                  class="py-2 px-2 rounded-xl text-xs font-bold border transition-all text-center">
+                  🍽️ En Mesa
+                </button>
+              </div>
+            </div>
+
+            <!-- PASO 3: DATOS SANITIZADOS Y PRIVACIDAD HABEAS DATA -->
+            <div class="bg-neutral-900/60 p-4 rounded-2xl border border-neutral-800 space-y-3.5">
+              <div class="border-b border-neutral-800 pb-1.5 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-[10px] bg-brand-crimson text-white font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider">Paso 3</span>
+                  <h3 class="font-bold text-white text-sm uppercase tracking-wide">Datos del Cliente & Despacho</h3>
+                </div>
+                <span class="text-[10px] text-neutral-400 font-normal">San Antonio de Prado</span>
+              </div>
+
+              <div>
+                <label class="text-[11px] font-bold text-neutral-300 uppercase block mb-1">
+                  Nombre Completo <span class="text-brand-crimson">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  x-model="customer.name" 
+                  maxlength="100"
+                  placeholder="Ej: Camilo Marín" 
+                  class="w-full bg-neutral-950 border border-neutral-800 focus:border-brand-crimson rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none">
+                <p x-show="customer.name.length > 0 && customer.name.trim().length < 2" class="text-[10px] text-red-400 mt-1">Por favor ingresa al menos 2 caracteres.</p>
+              </div>
+
+              <!-- En mesa -->
+              <div x-show="customer.orderType === 'table'">
+                <label class="text-[11px] font-bold text-amber-300 uppercase block mb-1">
+                  Número de Mesa <span class="text-brand-crimson">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  x-model="customer.tableNumber" 
+                  maxlength="20"
+                  placeholder="Ej: Mesa 4" 
+                  class="w-full bg-neutral-950 border border-neutral-800 focus:border-brand-crimson rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none">
+              </div>
+
+              <!-- Domicilio con Dirección Precisa, Punto de Referencia y GPS Google Maps -->
+              <template x-if="customer.orderType === 'delivery'">
+                <div class="space-y-3.5 bg-black/40 p-3.5 rounded-2xl border border-neutral-800">
+                  <div class="flex items-center justify-between pb-1 border-b border-neutral-800/80">
+                    <div class="flex items-center gap-1.5 text-xs font-bold text-amber-300">
+                      <span>📍</span>
+                      <span>Logística y Destino de Entrega</span>
+                    </div>
+                    <span class="text-[10px] text-neutral-400 font-medium">San Antonio de Prado</span>
+                  </div>
+
+                  <!-- Dirección Exacta -->
+                  <div>
+                    <label class="text-[11px] font-bold text-neutral-200 uppercase block mb-1">
+                      Dirección Exacta (Calle/Cra, #, Casa o Apto) <span class="text-brand-crimson">*</span>
+                    </label>
+                    <input 
+                      type="text" 
+                      x-model="customer.address" 
+                      maxlength="150"
+                      placeholder="Ej: Calle 48D Sur # 55C - 04 (Torre 2 Apto 402)" 
+                      class="w-full bg-neutral-950 border border-neutral-800 focus:border-brand-crimson rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none transition-all">
+                    <p x-show="customer.address.length > 0 && customer.address.trim().length < 4" class="text-[10px] text-red-400 mt-1 font-medium">Ingresa una dirección precisa (Calle/Cra, número, casa/apto).</p>
+                    <p x-show="!customer.address || customer.address.trim().length >= 4" class="text-[10px] text-neutral-400 mt-0.5">Incluye número de casa, piso, interior o bloque para agilizar la entrega.</p>
+                  </div>
+
+                  <!-- Punto de Referencia / Indicaciones de llegada -->
+                  <div>
+                    <label class="text-[11px] font-bold text-neutral-300 uppercase block mb-1">
+                      Punto de Referencia / Indicación para el Domiciliario
+                    </label>
+                    <input 
+                      type="text" 
+                      x-model="customer.referencePoint" 
+                      maxlength="150"
+                      placeholder="Ej: Frente al parque, casa blanca de reja negra, portón verde" 
+                      class="w-full bg-neutral-950 border border-neutral-800 focus:border-amber-400 rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none">
+                    <p class="text-[10px] text-neutral-400 mt-0.5">Ayuda al domiciliario a ubicar tu puerta sin demoras ni llamadas.</p>
+                  </div>
+
+                  <!-- Sector / Barrio en San Antonio -->
+                  <div>
+                    <label class="text-[11px] font-bold text-neutral-300 uppercase block mb-1">
+                      Sector / Barrio en San Antonio <span class="text-brand-crimson">*</span>
+                    </label>
+                    <select 
+                      x-model="customer.neighborhood" 
+                      class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-crimson font-medium">
+                      <template x-for="n in neighborhoods" :key="n.name">
+                        <option :value="n.name" x-text="n.name + (n.fee > 0 ? ' (+$' + n.fee.toLocaleString('es-CO') + ')' : ' (Gratis)') + ' • ' + n.time"></option>
+                      </template>
+                    </select>
+                  </div>
+
+                  <!-- GPS Geolocation & Google Maps Link Module -->
+                  <div class="bg-gradient-to-br from-neutral-950 via-neutral-900 to-amber-950/20 p-3.5 rounded-xl border border-amber-500/30 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center gap-1.5 text-[11px] font-bold text-amber-300">
+                        <span>🧭</span>
+                        <span>Ubicación GPS en Google Maps (Opcional)</span>
+                      </div>
+                      <template x-if="customer.googleMapsUrl && !gpsWarning">
+                        <span class="text-[9px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-1.5 py-0.5 rounded uppercase flex items-center gap-1">
+                          <span>🛡️</span>
+                          <span>GPS Válido</span>
+                        </span>
+                      </template>
+                      <template x-if="!customer.googleMapsUrl || gpsWarning">
+                        <span class="text-[9px] font-medium text-neutral-400 bg-neutral-900 border border-neutral-800 px-1.5 py-0.5 rounded">
+                          Zona San Antonio de Prado
+                        </span>
+                      </template>
+                    </div>
+
+                    <p class="text-[10.5px] text-neutral-300 leading-relaxed">
+                      Comparte tu ubicación satelital en tiempo real para que el repartidor abra la ruta exacta en su GPS. Si no deseas compartir GPS, no te preocupes: tu dirección manual escrita arriba es suficiente.
+                    </p>
+
+                    <div class="pt-0.5">
+                      <button 
+                        type="button" 
+                        @click="getGpsLocation()" 
+                        :disabled="gpsLoading"
+                        class="w-full bg-neutral-900 hover:bg-neutral-800 active:scale-95 disabled:opacity-50 border border-amber-400/50 hover:border-amber-400 text-amber-300 hover:text-white py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer">
+                        <template x-if="gpsLoading">
+                          <span class="flex items-center gap-1.5">
+                            <span class="animate-spin text-amber-400">⏳</span>
+                            <span>Detectando señal satelital segura...</span>
+                          </span>
+                        </template>
+                        <template x-if="!gpsLoading">
+                          <span class="flex items-center gap-1.5">
+                            <span>📍</span>
+                            <span x-text="customer.googleMapsUrl ? 'Actualizar mi Ubicación GPS' : 'Obtener mi Ubicación GPS Actual'"></span>
+                          </span>
+                        </template>
+                      </button>
+                    </div>
+
+                    <!-- GPS Error message (Permission denied / Unavailable) -->
+                    <template x-if="gpsError">
+                      <div class="p-2.5 rounded-lg bg-neutral-900/90 border border-amber-500/30 text-[10.5px] text-neutral-200 flex items-start gap-2">
+                        <span class="text-amber-400 shrink-0 mt-0.5">ℹ️</span>
+                        <div class="space-y-1">
+                          <p class="text-amber-200 font-medium" x-text="gpsError"></p>
+                          <p class="text-neutral-400 text-[10px]">
+                            El pedido continuará sin problemas con los datos que escribiste en <strong>Dirección Exacta</strong> y <strong>Punto de Referencia</strong>.
+                          </p>
+                        </div>
+                      </div>
+                    </template>
+
+                    <!-- GPS Out of Range Warning -->
+                    <template x-if="gpsWarning">
+                      <div class="p-2.5 rounded-lg bg-red-950/70 border border-red-500/40 text-[10.5px] text-red-200 flex items-start gap-2">
+                        <span class="text-red-400 shrink-0 mt-0.5">⚠️</span>
+                        <div class="space-y-1">
+                          <p class="font-semibold text-red-300" x-text="gpsWarning"></p>
+                          <p class="text-neutral-300 text-[10px]">
+                            Falcon's Alitas opera en San Antonio de Prado, Itagüí y zona sur de Medellín. Por favor valida tu dirección manual.
+                          </p>
+                        </div>
+                      </div>
+                    </template>
+
+                    <!-- GPS Success or Manual Link Field -->
+                    <template x-if="customer.googleMapsUrl">
+                      <div class="p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-500/40 space-y-1.5 text-left">
+                        <div class="flex items-center justify-between">
+                          <span class="text-[10px] text-emerald-300 font-bold flex items-center gap-1">
+                            <span>✅</span>
+                            <span>Enlace de Google Maps verificado:</span>
+                          </span>
+                          <a 
+                            :href="customer.googleMapsUrl" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            class="text-[10px] text-amber-300 hover:text-white underline flex items-center gap-0.5 font-bold">
+                            <span>Ver en Mapa</span>
+                            <span>↗</span>
+                          </a>
+                        </div>
+                        <input 
+                          type="text" 
+                          :value="customer.googleMapsUrl"
+                          @input="handleManualMapsUrlInput($event.target.value)" 
+                          placeholder="https://www.google.com/maps?q=..." 
+                          class="w-full bg-neutral-950 border border-emerald-500/30 rounded-lg px-2 py-1 text-[10px] text-emerald-200 focus:outline-none focus:border-emerald-400 font-mono">
+                        <div class="flex items-center justify-between text-[9px] text-neutral-400 pt-0.5">
+                          <template x-if="gpsAccuracy !== null">
+                            <span x-text="'Precisión satelital aproximada: ±' + gpsAccuracy + 'm'"></span>
+                          </template>
+                          <button
+                            type="button"
+                            @click="customer.googleMapsUrl = ''; gpsWarning = null; gpsError = null;"
+                            class="text-neutral-400 hover:text-red-400 underline cursor-pointer ml-auto">
+                            Quitar enlace
+                          </button>
+                        </div>
+                      </div>
+                    </template>
+
+                    <template x-if="!customer.googleMapsUrl">
+                      <div>
+                        <label class="text-[10px] text-neutral-400 block mb-0.5">
+                          O pega un enlace directo de Google Maps si ya lo tienes:
+                        </label>
+                        <input 
+                          type="text" 
+                          :value="customer.googleMapsUrl || ''"
+                          @input="handleManualMapsUrlInput($event.target.value)" 
+                          placeholder="https://maps.app.goo.gl/... o https://google.com/maps?q=..." 
+                          class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-2 py-1 text-[11px] text-neutral-300 placeholder-neutral-600 focus:outline-none focus:border-amber-400">
+                      </div>
+                    </template>
+                  </div>
+                </div>
+              </template>
+
+              <!-- Método de Pago -->
+              <div>
+                <label class="text-[11px] font-bold text-neutral-300 uppercase block mb-1">Método de Pago *</label>
+                <select 
+                  x-model="customer.paymentMethod" 
+                  class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-crimson">
+                  <option value="Nequi">Nequi (A la cuenta 609 4453 0676)</option>
+                  <option value="Bancolombia">Bancolombia (A la cuenta 609 4453 0676)</option>
+                  <option value="Efectivo">Efectivo contra entrega</option>
+                </select>
+              </div>
+
+              <!-- PANEL INFORMATIVO DE PANTALLAZO OBLIGATORIO PARA TRANSFERENCIAS (NEQUI / BANCOLOMBIA) -->
+              <div 
+                x-show="customer.paymentMethod === 'Nequi' || customer.paymentMethod === 'Bancolombia'" 
+                class="bg-gradient-to-r from-amber-950/80 via-neutral-900 to-amber-950/70 border-2 border-amber-500/60 rounded-2xl p-3.5 shadow-lg shadow-amber-950/30 space-y-2">
+                <div class="flex items-center gap-2">
+                  <div class="w-7 h-7 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 shrink-0 text-sm">
+                    💳
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-black text-amber-300 uppercase tracking-wide flex items-center gap-1.5">
+                      <span>📸 Anexar Comprobante de Transferencia</span>
+                    </h4>
+                    <p class="text-[10px] text-amber-200/80 font-medium">
+                      Cuenta <span x-text="customer.paymentMethod"></span>: <strong class="text-white">609 4453 0676</strong> (Ahorros)
+                    </p>
+                  </div>
+                </div>
+
+                <div class="bg-black/60 rounded-xl p-2.5 border border-amber-500/30 text-[11px] text-neutral-200 leading-relaxed">
+                  <p class="text-amber-100 font-semibold flex items-start gap-1.5">
+                    <span class="text-amber-400 text-sm leading-none shrink-0 mt-0.5">⚠️</span>
+                    <span>
+                      Para que tu pedido sea despachado y confirmado en cocina, <strong>debes adjuntar el pantallazo de la transferencia</strong> en el chat de WhatsApp al enviar este pedido.
+                    </span>
+                  </p>
+                </div>
+
+                <div class="flex items-center justify-between text-[10px] text-neutral-400 pt-0.5 px-1">
+                  <span class="flex items-center gap-1 text-emerald-400 font-bold">
+                    ✓ Verificación rápida en WhatsApp
+                  </span>
+                  <span class="text-neutral-500">Paso obligatorio</span>
+                </div>
+              </div>
+
+              <!-- Efectivo cambio -->
+              <div x-show="customer.paymentMethod === 'Efectivo'">
+                <label class="text-[11px] font-bold text-amber-300 uppercase block mb-1">¿Con cuánto billete pagas? (Para cambio)</label>
+                <input 
+                  type="text" 
+                  x-model="customer.cashChange" 
+                  maxlength="50"
+                  placeholder="Ej: Pago con $50.000" 
+                  class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-brand-crimson">
+              </div>
+
+              <!-- Notas -->
+              <div>
+                <label class="text-[11px] font-bold text-neutral-300 uppercase block mb-1">Instrucciones de Entrega o Notas Especiales</label>
+                <textarea 
+                  x-model="customer.notes" 
+                  maxlength="250"
+                  placeholder="Ejemplo: Timbre dañado, llamar al llegar, apartamento interior" 
+                  rows="2" 
+                  class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-brand-crimson resize-none"></textarea>
+              </div>
+
+              <!-- MICRO-CONSENTIMIENTO HABEAS DATA / LEY 1581 -->
+              <div class="bg-black/60 p-3 rounded-xl border border-neutral-800 space-y-2">
+                <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                  <input 
+                    type="checkbox" 
+                    x-model="habeasDataConsent"
+                    class="mt-0.5 w-4 h-4 rounded border-neutral-700 text-brand-crimson focus:ring-0 focus:ring-offset-0 bg-neutral-900 shrink-0 cursor-pointer">
+                  <span class="text-[11px] text-neutral-300 leading-snug">
+                    Acepto el tratamiento de mis datos personales para la gestión y despacho del pedido (<strong class="text-neutral-200">Ley 1581 Habeas Data</strong>). Tratamiento 100% efímero y seguro.
+                  </span>
+                </label>
+              </div>
+
+              <!-- GATILLO DE ALTA CONVERSIÓN NFC / RESEÑA GOOGLE EN EL CHECKOUT -->
+              <div class="bg-gradient-to-br from-amber-950/40 via-neutral-900 to-red-950/30 border border-amber-500/40 p-3 sm:p-3.5 rounded-2xl space-y-2.5 relative overflow-hidden shadow-lg mt-2">
+                <div class="flex items-start gap-2.5">
+                  <div class="text-xl shrink-0 p-1.5 rounded-xl bg-amber-500/20 border border-amber-500/30">
+                    🎁
+                  </div>
+                  <div class="space-y-0.5 min-w-0 flex-1">
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                      <span class="text-[9px] font-black bg-amber-400 text-black px-1.5 py-0.5 rounded uppercase tracking-wider">Premio Exclusivo</span>
+                      <span class="text-[10px] text-amber-300 font-bold">¡Antes de pagar!</span>
+                    </div>
+                    <h4 class="text-xs font-bold text-white leading-snug whitespace-normal break-words">
+                      ¿Quieres un descuento o sorpresa gratis en este pedido?
+                    </h4>
+                    <p class="text-[11px] text-neutral-300 leading-relaxed whitespace-normal break-words">
+                      Deja tu calificación 5★ en Google Maps, gira la ruleta y aplica tu cupón de inmediato.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- AVISO OBLIGATORIO DE RESEÑA CON PANTALLAZO -->
+                <div class="bg-amber-950/70 border border-amber-500/50 p-2.5 rounded-xl text-[11px] text-amber-200 space-y-1">
+                  <p class="font-bold flex items-center gap-1 text-amber-300">
+                    <span>⚠️</span>
+                    <span>CONDICIÓN OBLIGATORIA DE RESEÑA:</span>
+                  </p>
+                  <p class="text-[10.5px] leading-relaxed text-amber-100 font-medium">
+                    ⚠️ Para que el cupón o descuento se haga válido, debe ser acompañado obligatoriamente del <strong>PANTALLAZO</strong> de su reseña publicada en Google Maps al enviarlo al chat de WhatsApp.
+                  </p>
+                </div>
+                
+                <template x-if="!isRouletteUsed && !appliedPromo">
+                  <button 
+                    type="button"
+                    @click="openSlotModal()"
+                    class="w-full bg-gradient-to-r from-yellow-400 via-amber-400 to-yellow-500 hover:from-yellow-300 hover:to-amber-400 text-black font-black py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/30 active:scale-95 transition-all border border-yellow-200 whitespace-normal text-center leading-tight">
+                    <span>🎰</span>
+                    <span>¡GIRAR Y ACTIVAR PREMIO O DESCUENTO!</span>
+                    <span>✨</span>
+                  </button>
+                </template>
+
+                <template x-if="isRouletteUsed && !appliedPromo">
+                  <div class="bg-neutral-900/90 border border-amber-500/30 rounded-xl p-2.5 text-center text-xs text-amber-300 font-semibold">
+                    ⚠️ Ya has utilizado tu oportunidad de premio/descuento en este pedido
+                  </div>
+                </template>
+                
+                <template x-if="appliedPromo">
+                  <div class="bg-green-950/80 border border-green-500/40 rounded-xl p-2.5 flex items-center justify-between text-xs gap-2">
+                    <div class="flex items-center gap-1.5 text-green-300 font-bold min-w-0 flex-1">
+                      <span class="text-base shrink-0">🎉</span>
+                      <span class="whitespace-normal break-words text-[11px]" x-text="'¡Premio activado: ' + appliedPromo.code + ' (' + appliedPromo.desc + ')!'"></span>
+                    </div>
+                    <span class="text-[10px] text-green-400 font-semibold shrink-0 bg-green-900/50 px-2 py-0.5 rounded-md border border-green-700/50">Incluido</span>
+                  </div>
+                </template>
+              </div>
+
+              <!-- Cupón Promo Ganado en Slot -->
+              <div class="pt-1">
+                <label class="text-[11px] font-bold text-neutral-300 uppercase block mb-1">¿Tienes un código de cupón?</label>
+                <div class="flex gap-2">
+                  <input 
+                    type="text" 
+                    x-model="promoInput" 
+                    :disabled="isRouletteUsed && appliedPromo"
+                    placeholder="Código Cupón (Ej: FALCON-10)" 
+                    class="flex-1 bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white uppercase placeholder-neutral-500 focus:outline-none focus:border-brand-crimson disabled:opacity-50">
+                  <button 
+                    type="button" 
+                    :disabled="isRouletteUsed && appliedPromo"
+                    @click="applyPromo()" 
+                    class="bg-neutral-800 hover:bg-neutral-700 disabled:opacity-50 text-amber-300 text-xs font-bold px-3.5 py-2 rounded-xl border border-neutral-700 transition-all shrink-0 active:scale-95 whitespace-nowrap">
+                    Aplicar
+                  </button>
+                </div>
+                <template x-if="appliedPromo">
+                  <p class="text-[11px] text-green-400 mt-1 flex items-center gap-1 font-semibold whitespace-normal">
+                    <span>✓</span>
+                    <span x-text="'Cupón activado: ' + appliedPromo.desc"></span>
+                  </p>
+                </template>
+                <template x-if="promoError">
+                  <p class="text-[11px] text-red-400 mt-1 whitespace-normal font-semibold" x-text="promoError"></p>
+                </template>
+              </div>
+            </div>
+          </div>
+        </template>
+
+      </div>
+
+      <!-- Bottom Checkout Summary & WhatsApp Send (PASO 4: CHECKOUT GATE BLOQUEADO HASTA VALIDACIÓN) -->
+      <template x-if="cart.length > 0">
+        <div class="p-4 sm:p-5 border-t border-neutral-800 bg-neutral-900/95 space-y-3 shadow-2xl">
+          <div class="space-y-1.5 text-xs text-neutral-300">
+            <div class="flex justify-between">
+              <span>Subtotal Productos:</span>
+              <span class="font-semibold text-white" x-text="formatMoney(cartSubtotal())"></span>
+            </div>
+            <template x-if="discountAmount() > 0">
+              <div class="flex justify-between text-green-400 font-semibold">
+                <span x-text="'Descuento (' + appliedPromo?.code + '):'"></span>
+                <span x-text="'-' + formatMoney(discountAmount())"></span>
+              </div>
+            </template>
+            <template x-if="customer.orderType === 'delivery'">
+              <div class="flex justify-between">
+                <span>Costo Domicilio (<span x-text="customer.neighborhood"></span>):</span>
+                <span class="font-semibold text-white" x-text="formatMoney(deliveryFee())"></span>
+              </div>
+            </template>
+            <div class="flex justify-between items-center pt-2 border-t border-neutral-800 text-sm font-bold text-white">
+              <span class="text-neutral-200">Total a Pagar:</span>
+              <span class="font-display text-2xl sm:text-3xl text-brand-crimson tracking-wide font-extrabold" x-text="formatMoney(grandTotal())"></span>
+            </div>
+          </div>
+
+          <!-- Checkout Gate Info / Warnings -->
+          <div x-show="!isCheckoutValid()" class="bg-neutral-950 p-2.5 rounded-xl border border-neutral-800 text-[11px] text-neutral-400 space-y-1">
+            <p class="font-bold text-amber-300">🔒 Para habilitar el despacho express:</p>
+            <ul class="list-disc list-inside space-y-0.5 text-[10px] text-neutral-300">
+              <li x-show="!customer.name || customer.name.trim().length < 2">Ingresa tu Nombre Completo.</li>
+              <li x-show="customer.orderType === 'delivery' && (!customer.address || customer.address.trim().length < 4)">Ingresa la Dirección de Entrega.</li>
+              <li x-show="customer.orderType === 'table' && (!customer.tableNumber || customer.tableNumber.trim().length < 1)">Ingresa el Número de Mesa.</li>
+              <li x-show="!habeasDataConsent">Acepta la casilla de Habeas Data (Ley 1581).</li>
+            </ul>
+          </div>
+
+          <!-- CTA BLOQUEADO HASTA VALIDACIÓN ESTRICTA -->
+          <button 
+            type="button"
+            :disabled="!isCheckoutValid()"
+            @click="sendOrderWhatsApp()"
+            :class="isCheckoutValid() 
+              ? 'bg-brand-crimson hover:bg-red-600 active:scale-95 text-white shadow-2xl shadow-brand-crimson/50 border border-red-500/40 animate-crimson-pulse cursor-pointer' 
+              : 'opacity-30 cursor-not-allowed bg-neutral-800 text-neutral-400 border border-neutral-700/50 shadow-none'"
+            class="w-full py-4 rounded-2xl font-black text-sm sm:text-base tracking-wider uppercase transition-all flex items-center justify-center gap-2.5">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+            <span>¡MANDAR MI PEDIDO AHORA! 🚀</span>
+          </button>
+        </div>
+      </template>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 8. MÓDULO NFC: TRAGAMONEDAS DE RESEÑAS DE GOOGLE (GAMIFICACIÓN CRO) -->
+  <!-- ========================================================================= -->
+  <div 
+    x-show="isSlotModalOpen" 
+    x-cloak 
+    class="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-4" 
+    x-transition>
+    
+    <div 
+      @click.outside="isSlotModalOpen = false"
+      class="bg-brand-card w-full max-w-md rounded-3xl border border-amber-500/40 p-5 sm:p-6 shadow-2xl space-y-5 neon-gold-border relative overflow-hidden">
+      
+      <!-- Accent Top Glow -->
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
+
+      <!-- Modal Header -->
+      <div class="flex justify-between items-start">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-amber-400/20 border border-amber-400/30 flex items-center justify-center text-xl">
+            🎰
+          </div>
+          <div>
+            <h3 class="font-display text-2xl font-bold text-white uppercase tracking-wider leading-none">
+              Ruleta de Premios Falcon's
+            </h3>
+            <p class="text-xs text-amber-400 mt-0.5">
+              ¡Gana premios y descuentos al instante para tu pedido!
+            </p>
+          </div>
+        </div>
+        <button 
+          @click="isSlotModalOpen = false" 
+          class="text-neutral-400 hover:text-white p-1.5 rounded-lg bg-neutral-800">
+          ✕
+        </button>
+      </div>
+
+      <!-- VISTA BLOQUEADA: SESSION LOCK DE 1 INTENTO -->
+      <div x-show="slotStep === 'locked'" class="text-center py-6 space-y-4">
+        <div class="w-16 h-16 rounded-full bg-amber-500/20 border-2 border-amber-500/50 flex items-center justify-center mx-auto text-3xl">
+          ⚠️
+        </div>
+        <div class="space-y-1.5">
+          <h4 class="font-display text-2xl font-bold text-white uppercase">Oportunidad Utilizada</h4>
+          <p class="text-xs text-amber-300 font-bold max-w-xs mx-auto leading-relaxed">
+            ⚠️ Ya has utilizado tu oportunidad de premio/descuento en este pedido
+          </p>
+          <p class="text-[11px] text-neutral-400 max-w-xs mx-auto pt-1">
+            Al completar y enviar tu pedido actual a WhatsApp, podrás desbloquear una nueva oportunidad en tu próxima compra.
+          </p>
+        </div>
+        <div class="pt-2">
+          <button 
+            @click="isSlotModalOpen = false; isCartOpen = true;"
+            class="w-full bg-neutral-800 hover:bg-neutral-700 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all">
+            Ir al Carrito & Completar Pedido
+          </button>
+        </div>
+      </div>
+
+      <!-- PASO 1: RESEÑA EN GOOGLE MAPS -->
+      <div x-show="slotStep === 1" class="space-y-4">
+        <div class="bg-neutral-900/80 p-4 rounded-2xl border border-neutral-800 text-center space-y-2">
+          <div class="text-3xl">⭐ ⭐ ⭐ ⭐ ⭐</div>
+          <h4 class="font-bold text-white text-sm">Paso 1: Ayúdanos con tu Reseña 5 Estrellas</h4>
+          <p class="text-xs text-neutral-300 leading-relaxed">
+            Haz clic abajo para calificar tu experiencia en Falcon's Alitas San Antonio de Prado y desbloquear la ruleta de premios.
+          </p>
+        </div>
+
+        <!-- AVISO OBLIGATORIO DE RESEÑA CON PANTALLAZO -->
+        <div class="bg-amber-950/70 border border-amber-500/50 p-3 rounded-2xl text-[11px] text-amber-200 text-left space-y-1">
+          <div class="flex items-center gap-1.5 font-bold text-amber-300">
+            <span>⚠️</span>
+            <span>REQUISITO OBLIGATORIO:</span>
+          </div>
+          <p class="text-[10.5px] leading-relaxed text-amber-100 font-medium">
+            ⚠️ Para que el cupón o descuento se haga válido, debe ser acompañado obligatoriamente del <strong>PANTALLAZO</strong> de su reseña publicada en Google Maps al enviarlo al chat de WhatsApp.
+          </p>
+        </div>
+
+        <button 
+          @click="triggerGoogleReview()"
+          class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white py-3.5 rounded-2xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-900/30">
+          <span>1. Calificar 5★ en Google Maps</span>
+          <span>↗</span>
+        </button>
+      </div>
+
+      <!-- PASO 2: DESBLOQUEO AUTOMÁTICO (4s Countdown) -->
+      <div x-show="slotStep === 2" class="text-center py-6 space-y-4">
+        <div class="w-16 h-16 rounded-full bg-amber-400/20 border-2 border-amber-400 flex items-center justify-center mx-auto animate-spin">
+          <span class="text-2xl">⏳</span>
+        </div>
+        <div>
+          <h4 class="font-display text-2xl text-white font-bold uppercase">Verificando y Desbloqueando</h4>
+          <p class="text-xs text-amber-300 font-bold mt-1" x-text="'Tu ruleta se activa en ' + unlockCountdown + ' segundos'"></p>
+        </div>
+      </div>
+
+      <!-- PASO 3: TRAGAMONEDAS EN ACCIÓN (SLOT MACHINE VIEW) -->
+      <div x-show="slotStep === 3" class="space-y-5">
+        
+        <!-- Slot Reels Presentation -->
+        <div class="bg-black/90 p-4 rounded-2xl border-2 border-amber-500/50 shadow-inner flex items-center justify-center gap-3">
+          
+          <!-- Reel 1 -->
+          <div class="w-20 h-24 bg-neutral-900 rounded-xl border border-neutral-700 flex items-center justify-center text-4xl select-none shadow-md overflow-hidden">
+            <span :class="isSpinning ? 'animate-bounce' : ''" x-text="reel1"></span>
+          </div>
+
+          <!-- Reel 2 -->
+          <div class="w-20 h-24 bg-neutral-900 rounded-xl border border-neutral-700 flex items-center justify-center text-4xl select-none shadow-md overflow-hidden">
+            <span :class="isSpinning ? 'animate-bounce' : ''" x-text="reel2"></span>
+          </div>
+
+          <!-- Reel 3 -->
+          <div class="w-20 h-24 bg-neutral-900 rounded-xl border border-neutral-700 flex items-center justify-center text-4xl select-none shadow-md overflow-hidden">
+            <span :class="isSpinning ? 'animate-bounce' : ''" x-text="reel3"></span>
+          </div>
+        </div>
+
+        <button 
+          :disabled="isSpinning || isRouletteUsed"
+          @click="spinSlotMachine()"
+          class="w-full bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 disabled:opacity-50 text-black py-4 rounded-2xl font-extrabold text-sm uppercase tracking-wider shadow-xl shadow-amber-500/40 transition-all flex items-center justify-center gap-2 active:scale-95 border border-yellow-200">
+          <span x-text="isSpinning ? '¡GIRANDO TRAGAMONEDAS!' : '🎰 ¡TIRAR DE LA PALANCA Y GIRAR!'"></span>
+        </button>
+      </div>
+
+      <!-- PASO 4: PREMIO GANADO Y CÓDIGO ÚNICO (RTP ENGINE) -->
+      <div x-show="slotStep === 4" class="text-center space-y-4">
+        <div class="w-14 h-14 rounded-full bg-green-500/20 border border-green-500 text-green-400 flex items-center justify-center mx-auto text-2xl">
+          🎉
+        </div>
+
+        <div>
+          <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-widest block">¡FELICITACIONES!</span>
+          <h4 class="font-display text-3xl font-bold text-white uppercase mt-0.5" x-text="wonPrize?.title"></h4>
+          <p class="text-xs text-neutral-300 mt-1" x-text="wonPrize?.desc"></p>
+        </div>
+
+        <!-- AVISO OBLIGATORIO DE RESEÑA CON PANTALLAZO -->
+        <div class="bg-amber-950/80 border border-amber-500/50 p-2.5 rounded-2xl text-[11px] text-amber-200 text-left space-y-1">
+          <div class="flex items-center gap-1 font-bold text-amber-300">
+            <span>⚠️</span>
+            <span>RECORDATORIO OBLIGATORIO:</span>
+          </div>
+          <p class="text-[10.5px] leading-relaxed text-amber-100 font-medium">
+            ⚠️ Para que el cupón o descuento se haga válido, debe ser acompañado obligatoriamente del <strong>PANTALLAZO</strong> de su reseña publicada en Google Maps al enviarlo al chat de WhatsApp.
+          </p>
+        </div>
+
+        <!-- Redemption Code Box -->
+        <div class="bg-neutral-950 p-3.5 rounded-2xl border border-amber-500/50 space-y-1">
+          <span class="text-[10px] text-neutral-400 uppercase font-bold">Código Único de Redención:</span>
+          <div class="flex items-center justify-center gap-2">
+            <span class="font-mono text-xl font-extrabold text-amber-400 tracking-wider" x-text="wonPrize?.code"></span>
+          </div>
+          <span class="text-[10px] text-neutral-500 block">Válido para tu pedido actual</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button 
+            @click="applyWonPrizeToCart()"
+            class="bg-brand-red hover:bg-brand-redHover text-white py-3 rounded-xl text-xs font-bold uppercase transition-all shadow-md">
+            Aplicar al Carrito
+          </button>
+          <button 
+            @click="isSlotModalOpen = false"
+            class="bg-neutral-800 hover:bg-neutral-700 text-neutral-200 py-3 rounded-xl text-xs font-bold uppercase transition-all">
+            Cerrar & Seguir
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 10. MODAL DE INFORMACIÓN GENERAL DEL LOCAL (CRO SOCIAL PROOF & CONTACTO) -->
+  <!-- ========================================================================= -->
+  <div 
+    x-show="isInfoModalOpen" 
+    x-cloak 
+    class="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-4" 
+    x-transition>
+    
+    <div 
+      @click.outside="isInfoModalOpen = false"
+      class="bg-brand-card w-full max-w-md rounded-3xl border border-neutral-800 p-5 sm:p-6 shadow-2xl space-y-5 relative overflow-hidden">
+      
+      <!-- Top Accent Bar -->
+      <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-red via-brand-gold to-yellow-400"></div>
+
+      <!-- Header Modal -->
+      <div class="flex justify-between items-start">
+        <div class="flex items-center gap-3">
+          <img 
+            src="/logo.png" 
+            alt="Falcon's Alitas Logo" 
+            class="w-12 h-12 rounded-2xl object-cover border border-amber-500/40 shadow-lg shadow-brand-red/30 bg-neutral-900 shrink-0"
+            referrerpolicy="no-referrer"
+            onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=200&auto=format&fit=crop&q=80'">
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="font-display text-2xl sm:text-3xl font-bold text-white uppercase tracking-wider leading-none">
+                Falcon's Alitas
+              </h3>
+              <span class="bg-green-500/20 text-green-400 text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-green-500/30 uppercase">
+                Verificado
+              </span>
+            </div>
+            <p class="text-xs text-brand-gold font-semibold mt-0.5">El templo del sabor en San Antonio de Prado</p>
+          </div>
+        </div>
+        <button 
+          @click="isInfoModalOpen = false" 
+          class="text-neutral-400 hover:text-white p-1.5 rounded-lg bg-neutral-800 transition-colors">
+          ✕
+        </button>
+      </div>
+
+      <!-- Business Details List -->
+      <div class="space-y-3.5 text-xs text-neutral-300 bg-neutral-950/70 p-4 rounded-2xl border border-neutral-800/80">
+        
+        <!-- Dirección -->
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-brand-red shrink-0 text-base">
+            📍
+          </div>
+          <div>
+            <span class="text-[10px] text-neutral-400 uppercase font-bold tracking-wider block">Ubicación Exacta:</span>
+            <p class="text-white font-bold text-xs sm:text-sm mt-0.5">Calle 48D Sur N. 55C - 04, San Antonio de Prado, Medellín</p>
+            <span class="text-[11px] text-neutral-400">Sector céntrico y de fácil acceso</span>
+          </div>
+        </div>
+
+        <!-- Horarios de Atención Actualizados -->
+        <div class="flex items-start gap-3 pt-2 border-t border-neutral-900">
+          <div class="w-8 h-8 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-400 shrink-0 text-base">
+            🕒
+          </div>
+          <div class="space-y-2 w-full">
+            <span class="text-[10px] text-neutral-400 uppercase font-bold tracking-wider block">Horarios de Atención al Público:</span>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
+              <!-- Punto Físico -->
+              <div class="bg-neutral-950 p-2.5 rounded-xl border border-neutral-800">
+                <div class="flex items-center gap-1.5 text-xs font-bold text-white">
+                  <span>🏪</span>
+                  <span>Punto Físico / Local</span>
+                </div>
+                <p class="text-emerald-400 font-extrabold text-xs sm:text-sm mt-0.5">3:00 PM – 11:00 PM</p>
+                <span class="text-[10px] text-neutral-400">Atención presencial, en mesa o para recoger</span>
+              </div>
+
+              <!-- Domicilios -->
+              <div class="bg-neutral-950 p-2.5 rounded-xl border border-neutral-800">
+                <div class="flex items-center gap-1.5 text-xs font-bold text-white">
+                  <span>🛵</span>
+                  <span>Despachos a Domicilio</span>
+                </div>
+                <p class="text-amber-300 font-extrabold text-xs sm:text-sm mt-0.5">5:00 PM – 10:30 PM</p>
+                <span class="text-[10px] text-neutral-400">Envíos directos en San Antonio de Prado</span>
+              </div>
+            </div>
+            <p class="text-[11px] text-neutral-400">Servicio activo todos los días.</p>
+          </div>
+        </div>
+
+        <!-- Calificación -->
+        <div class="flex items-start gap-3 pt-2 border-t border-neutral-900">
+          <div class="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0 text-base">
+            ⭐
+          </div>
+          <div>
+            <span class="text-[10px] text-neutral-400 uppercase font-bold tracking-wider block">Calificación de Clientes:</span>
+            <div class="flex items-center gap-1.5 mt-0.5">
+              <span class="text-amber-400 font-extrabold text-sm">★ 4.6</span>
+              <span class="text-white font-semibold text-xs">(30+ opiniones en Google Maps)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Métodos de Pago -->
+        <div class="flex items-start gap-3 pt-2 border-t border-neutral-900">
+          <div class="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shrink-0 text-base">
+            💳
+          </div>
+          <div>
+            <span class="text-[10px] text-neutral-400 uppercase font-bold tracking-wider block">Medios de Pago Aceptados:</span>
+            <p class="text-white font-medium text-xs mt-0.5">Nequi, Bancolombia Transferencia, Daviplata y Efectivo contraentrega</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="space-y-2.5 pt-1">
+        
+        <!-- Botón Directo WhatsApp / Llamada -->
+        <a 
+          href="https://wa.me/573193574825?text=Hola%20Falcon's%20Alitas!%20Deseo%20hacer%20un%20pedido%20o%20consultar%20informaci%C3%B3n" 
+          target="_blank"
+          class="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white py-3.5 px-4 rounded-2xl font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-900/30">
+          <svg class="w-5 h-5 fill-current text-white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+          <span>WhatsApp / Teléfono: 319 357 4825</span>
+        </a>
+
+        <!-- Botón Ubicación Google Maps -->
+        <a 
+          href="https://maps.google.com/?q=Calle+48D+Sur+55C+04+San+Antonio+de+Prado+Medellin" 
+          target="_blank"
+          class="w-full bg-neutral-900 hover:bg-neutral-800 text-white border border-neutral-700 hover:border-neutral-600 py-3.5 px-4 rounded-2xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md">
+          <span>🗺️ Ver Ubicación en Google Maps</span>
+          <span>↗</span>
+        </a>
+
+        <button 
+          @click="isInfoModalOpen = false" 
+          class="w-full text-neutral-400 hover:text-white py-2 text-xs font-semibold uppercase tracking-wider">
+          Volver al Menú
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 9. MODAL DE LOGIN ADMIN (CMS INTERNO PROTEGIDO) -->
+  <!-- ========================================================================= -->
+  <div 
+    x-show="isAdminLoginOpen" 
+    x-cloak 
+    class="fixed inset-0 z-50 overflow-y-auto bg-black/90 backdrop-blur-md flex items-center justify-center p-4" 
+    x-transition>
+    
+    <div 
+      @click.outside="isAdminLoginOpen = false" 
+      class="bg-[#121212] w-full max-w-md rounded-3xl border border-neutral-800 p-6 sm:p-7 shadow-2xl space-y-5 relative overflow-hidden">
+      
+      <!-- Accent line -->
+      <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 via-brand-crimson to-red-500"></div>
+
+      <div class="flex justify-between items-start">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-2xl text-amber-400 shrink-0">
+            🔐
+          </div>
+          <div>
+            <h3 class="font-display text-2xl font-bold text-white uppercase tracking-wide leading-none">
+              Acceso Administrador
+            </h3>
+            <p class="text-xs text-neutral-400 mt-1">Panel de control de precios y catálogo en vivo</p>
+          </div>
+        </div>
+        <button 
+          @click="isAdminLoginOpen = false" 
+          class="text-neutral-400 hover:text-white p-1 rounded-lg bg-neutral-800/80 transition-colors">
+          ✕
+        </button>
+      </div>
+
+      <!-- Formulario de Login -->
+      <form @submit.prevent="loginAdmin()" class="space-y-4">
+        <template x-if="adminError">
+          <div class="p-3 bg-red-950/60 border border-red-500/40 rounded-xl text-xs text-red-300 flex items-center gap-2">
+            <span>⚠️</span>
+            <span x-text="adminError"></span>
+          </div>
+        </template>
+
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-neutral-300 uppercase tracking-wider block">Usuario</label>
+          <input 
+            type="text" 
+            x-model="adminUsername" 
+            placeholder="Usuario administrador (ej: admin)" 
+            required
+            autocomplete="username"
+            class="w-full bg-neutral-900 border border-neutral-800 focus:border-amber-500 rounded-xl p-3 text-sm text-white placeholder-neutral-500 outline-none transition-colors"
+          />
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-neutral-300 uppercase tracking-wider block">Contraseña</label>
+          <input 
+            type="password" 
+            x-model="adminPassword" 
+            placeholder="••••••••••••" 
+            required
+            autocomplete="current-password"
+            class="w-full bg-neutral-900 border border-neutral-800 focus:border-amber-500 rounded-xl p-3 text-sm text-white placeholder-neutral-500 outline-none transition-colors"
+          />
+          <span class="text-[10px] text-neutral-500 block">Acceso exclusivo para el personal autorizado del restaurante.</span>
+        </div>
+
+        <button 
+          type="submit" 
+          class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold py-3.5 px-4 rounded-xl text-sm uppercase tracking-wider transition-all shadow-lg shadow-amber-500/20 active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer">
+          <span>⚡ Iniciar Sesión en CMS</span>
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 10. MODAL PANEL DE ADMINISTRACIÓN / CMS OPERATIVO EN VIVO -->
+  <!-- ========================================================================= -->
+  <div 
+    x-show="isAdminCMSOpen" 
+    x-cloak 
+    class="fixed inset-0 z-50 overflow-y-auto bg-black/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-4" 
+    x-transition>
+    
+    <div 
+      class="bg-[#101010] w-full max-w-4xl rounded-3xl border border-neutral-800 max-h-[94vh] flex flex-col shadow-2xl relative overflow-hidden">
+      
+      <!-- CMS Top Header -->
+      <div class="p-4 sm:p-5 border-b border-neutral-800 bg-neutral-900/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-xl text-amber-400 shrink-0">
+            ⚡
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="font-display text-xl sm:text-2xl font-bold text-white uppercase tracking-wide leading-none">
+                Panel de Administración & CMS
+              </h3>
+              <span class="bg-amber-500/20 text-amber-400 text-[10px] font-extrabold px-2 py-0.5 rounded-md border border-amber-500/30 uppercase">
+                EN VIVO
+              </span>
+            </div>
+            <p class="text-xs text-neutral-400 mt-0.5">Edita precios, fotos y estado del catálogo en tiempo real con persistencia</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 self-end sm:self-auto">
+          <button 
+            @click="saveCMSChanges()" 
+            class="bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-extrabold text-xs px-3.5 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5">
+            <span>💾</span>
+            <span>Guardar Cambios</span>
+          </button>
+          <button 
+            @click="logoutAdmin()" 
+            title="Cerrar sesión de administrador"
+            class="bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs font-semibold px-3 py-2 rounded-xl border border-neutral-700 transition-colors">
+            Cerrar Sesión
+          </button>
+          <button 
+            @click="isAdminCMSOpen = false" 
+            class="text-neutral-400 hover:text-white p-2 rounded-xl bg-neutral-800/80 transition-colors">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Success Toast Bar -->
+      <template x-if="adminSaveNotification">
+        <div class="bg-emerald-900/90 border-b border-emerald-500/40 text-emerald-200 px-4 py-2.5 text-xs font-bold flex items-center justify-between">
+          <span class="flex items-center gap-2">
+            <span>✅</span>
+            <span>¡Cambios guardados con éxito! El menú y los precios se han actualizado en tiempo real.</span>
+          </span>
+          <span class="text-[10px] text-emerald-300 bg-emerald-950 px-2 py-0.5 rounded">Persistido</span>
+        </div>
+      </template>
+
+      <!-- Controls & Filters Bar -->
+      <div class="p-3 sm:p-4 bg-neutral-950/80 border-b border-neutral-800 flex flex-col sm:flex-row gap-2.5 sm:items-center justify-between">
+        <div class="flex items-center gap-2 flex-1 min-w-0">
+          <!-- Search -->
+          <div class="relative flex-1">
+            <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-neutral-500 text-xs">🔍</span>
+            <input 
+              type="text" 
+              x-model="adminSearch" 
+              placeholder="Buscar plato en CMS..." 
+              class="w-full bg-neutral-900 border border-neutral-800 focus:border-amber-500 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder-neutral-500 outline-none"
+            />
+          </div>
+
+          <!-- Category Filter -->
+          <select 
+            x-model="adminCategoryFilter" 
+            class="bg-neutral-900 border border-neutral-800 text-neutral-300 text-xs rounded-xl px-2.5 py-2 outline-none focus:border-amber-500">
+            <option value="all">Todas las categorías</option>
+            <option value="papas">Papas & Salchipapas</option>
+            <option value="combos">Combos & Alitas</option>
+            <option value="hamburguesas">Hamburguesas</option>
+            <option value="chuzos">Chuzos & Carnes</option>
+            <option value="arepas">Arepas & Patacón</option>
+            <option value="perros">Perros & Perras</option>
+            <option value="adiciones">Adiciones</option>
+            <option value="bebidas">Bebidas</option>
+          </select>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <button 
+            @click="resetDefaultProducts()" 
+            class="text-[11px] bg-red-950/60 hover:bg-red-900 text-red-300 font-semibold px-3 py-2 rounded-xl border border-red-500/30 transition-colors flex items-center gap-1">
+            <span>🔄</span>
+            <span>Restablecer Fábrica</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Product List Body -->
+      <div class="p-3 sm:p-5 overflow-y-auto space-y-3.5 flex-1 max-h-[60vh] hide-scrollbar">
+        <template x-for="prod in adminFilteredProducts()" :key="prod.id">
+          <div class="bg-neutral-900/90 rounded-2xl border border-neutral-800/90 p-3 sm:p-4 flex flex-col md:flex-row md:items-center justify-between gap-3.5 hover:border-neutral-700 transition-colors">
+            
+            <!-- Left: Image & Info -->
+            <div class="flex items-center gap-3 min-w-0 flex-1">
+              <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-neutral-950 border border-neutral-800 shrink-0 overflow-hidden relative flex items-center justify-center">
+                <template x-if="prod.image">
+                  <img 
+                    :src="prod.image" 
+                    :alt="prod.name" 
+                    class="w-full h-full object-cover"
+                    referrerpolicy="no-referrer"
+                    onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600&auto=format&fit=crop&q=80'"
+                  />
+                </template>
+                <div 
+                  class="w-full h-full flex items-center justify-center text-2xl" 
+                  :style="prod.image ? 'display: none;' : 'display: flex;'" 
+                  x-text="prod.emoji || '🍗'"></div>
+              </div>
+
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-[10px] text-neutral-500 font-bold uppercase" x-text="'#' + prod.id + ' • ' + prod.category"></span>
+                  <template x-if="prod.badge">
+                    <span class="text-[9px] bg-brand-crimson/30 text-red-300 font-bold px-1.5 py-0.2 rounded border border-brand-crimson/40" x-text="prod.badge"></span>
+                  </template>
+                </div>
+                <h4 class="font-bold text-white text-sm sm:text-base leading-snug whitespace-normal break-words" x-text="prod.name"></h4>
+                <p class="text-[11px] text-neutral-400 line-clamp-1 mt-0.5" x-text="prod.description"></p>
+              </div>
+            </div>
+
+            <!-- Right: Editable Inputs -->
+            <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-neutral-800">
+              
+              <!-- Price Input -->
+              <div class="w-28 sm:w-32">
+                <label class="text-[9px] text-neutral-400 uppercase font-bold tracking-wider block mb-0.5">Precio (COP)</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-2.5 flex items-center text-xs font-bold text-neutral-400">$</span>
+                  <input 
+                    type="number" 
+                    x-model.number="prod.price" 
+                    step="500"
+                    min="0"
+                    class="w-full bg-neutral-950 border border-neutral-800 focus:border-amber-500 text-amber-300 font-extrabold text-xs sm:text-sm rounded-xl pl-6 pr-2 py-1.5 outline-none"
+                  />
+                </div>
+              </div>
+
+              <!-- Multimedia Image File Selector (Cloud & Direct Upload) -->
+              <div class="w-44 sm:w-52">
+                <label class="text-[9px] text-neutral-400 uppercase font-bold tracking-wider block mb-0.5">Foto / Nube</label>
+                
+                <!-- Native Hidden File Input -->
+                <input 
+                  type="file" 
+                  accept="image/png, image/jpeg, image/webp, image/jpg" 
+                  :id="'cms-file-prod-' + prod.id" 
+                  class="hidden" 
+                  @change="handleCMSFileUpload(prod.id, $event)"
+                />
+
+                <!-- Styled Action Trigger -->
+                <button 
+                  type="button" 
+                  @click="document.getElementById('cms-file-prod-' + prod.id).click()" 
+                  :disabled="uploadingId === prod.id"
+                  class="w-full bg-neutral-950 hover:bg-neutral-800 active:scale-95 border border-neutral-700 hover:border-amber-500 text-neutral-200 text-xs font-semibold rounded-xl px-3 py-1.5 transition-all flex items-center justify-between gap-1.5 shadow-sm">
+                  <div class="flex items-center gap-1.5 min-w-0 truncate">
+                    <span x-text="uploadingId === prod.id ? '⏳' : '📸'"></span>
+                    <span class="truncate text-[11px]" x-text="uploadingId === prod.id ? 'Subiendo...' : 'Subir Archivo'"></span>
+                  </div>
+                  <span class="text-[9px] bg-neutral-800 text-neutral-400 px-1.5 py-0.5 rounded font-mono">PNG/JPG</span>
+                </button>
+              </div>
+
+              <!-- Badge Input -->
+              <div class="w-32 sm:w-36">
+                <label class="text-[9px] text-neutral-400 uppercase font-bold tracking-wider block mb-0.5">Badge / Etiqueta</label>
+                <input 
+                  type="text" 
+                  x-model="prod.badge" 
+                  placeholder="Ej: MÁS VENDIDO 🔥" 
+                  class="w-full bg-neutral-950 border border-neutral-800 focus:border-amber-500 text-neutral-200 text-xs rounded-xl px-2 py-1.5 outline-none"
+                />
+              </div>
+
+            </div>
+
+          </div>
+        </template>
+      </div>
+
+      <!-- CMS Footer Action -->
+      <div class="p-3 sm:p-4 bg-neutral-900 border-t border-neutral-800 flex items-center justify-between">
+        <span class="text-xs text-neutral-400 font-medium">
+          Total de <span class="text-white font-bold" x-text="products.length"></span> platos configurados
+        </span>
+        <button 
+          @click="saveCMSChanges()" 
+          class="bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-extrabold text-xs px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-green-900/30 flex items-center gap-2">
+          <span>💾 Guardar y Aplicar al Menú</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 11. SCRIPT CON ESTADO ALPINE.JS, MOTOR RTP, TRACKING GA4 Y CHECKOUT -->
+  <!-- ========================================================================= -->
+  <script>
+    const DEFAULT_PRODUCTS = [
+      // PAPAS
+      { id: 1, category: 'papas', name: 'Salchipapa Especial Paisa', price: 15000, image: '/images/salchipapa_especial.jpg', emoji: '🍟', badge: 'MÁS VENDIDO 🔥', description: 'Papas crujientes, salchichas rancheras, chorizo cóctel, huevo de codorniz, queso y torta molipollo dorada.', prepTime: '12-15 min' },
+      { id: 2, category: 'papas', name: 'Choripapas Falcon', price: 15000, image: '/images/choripapas.jpg', emoji: '🌭', badge: 'RECOMENDADO ⭐', description: 'Papas doradas estilo Medellín, 5 chorizos cóctel sellados al fuego, huevo de codorniz y torta molipollo con salsas.', prepTime: '12-15 min' },
+      { id: 3, category: 'papas', name: 'Porción de Papas Clásica', price: 12000, image: '/images/porcion_papas.jpg', emoji: '🍟', description: 'Porción generosa de papas a la francesa con 1 torta molipollo o salchichas a elección.', prepTime: '10-12 min', variants: ['Con 1 Torta Molipollo', 'Con 1 Porción de Salchichas'] },
+      { id: 4, category: 'papas', name: 'Papas Mechas Desgranadas', price: 22000, image: '/images/papas_mechas.jpg', emoji: '🧀', badge: 'ESPECIAL CHEF 👑', description: 'Papas fritas con carne o pollo desmechado, tocineta, maicitos tiernos y queso gratinado derretido.', prepTime: '15-18 min', variants: ['Con Carne Desmechada', 'Con Pollo Desmechado'] },
+      { id: 5, category: 'papas', name: 'Picada Longaniza Tradicional', price: 16000, image: '/images/picada_longaniza.jpg', emoji: '🥩', description: 'Longaniza asada, papas fritas, arepa frita, queso campesino y ensalada de repollo fresca.', prepTime: '15 min' },
+
+      // COMBOS
+      { id: 6, category: 'combos', name: 'Combo Bombón Express', price: 15000, image: '/images/combo_bombon.jpg', emoji: '🍗', description: 'Papas a la francesa, 1 bombón de pollo con apanado crocante, 1 tortica molipollo y arepa frita.', prepTime: '12-15 min' },
+      { id: 7, category: 'combos', name: 'Combo 1 Falcon Duo', price: 19000, image: '/images/combo_1.jpg', emoji: '🍗', badge: 'TOP COMBO ⚡', description: 'Papas fritas, 1 bombón de pollo marinado, 1 alita crujiente, 2 torticas molipollo y arepa frita paisa.', prepTime: '15 min' },
+      { id: 8, category: 'combos', name: 'Combo 2 Falcon Master', price: 27000, image: '/images/combo_2.jpg', emoji: '🍗', badge: 'DOBLE SABOR 🍗', description: 'Papas familiares, 2 bombones de pollo, 2 alitas crujientes bañadas en salsa, 2 torticas molipollo y arepas.', prepTime: '15-20 min' },
+      { id: 9, category: 'combos', name: 'Combo Familiar Falcon Fest', price: 41000, image: '/images/combo_familiar.jpg', emoji: '🎉', badge: 'FAMILIAR ⭐', description: 'Mega bandeja: Papas tamaño familiar, 2 bombones, 2 alitas, 2 torticas molipollo, arepa frita y Gaseosa 1.5L bien fría.', prepTime: '18-22 min', variants: ['Coca-Cola 1.5L', 'Postobón Manzana 1.5L', 'Colombiana 1.5L', 'Cuatro Toronja 1.5L'] },
+      { id: 10, category: 'combos', name: 'Combo Butifarra Costeña', price: 15000, image: '/images/butifarra.jpg', emoji: '🍢', description: 'Papas doradas con 4 deliciosas butifarras asadas a la plancha/parrilla, limón fresco y arepa frita.', prepTime: '10-12 min' },
+      { id: 11, category: 'combos', name: 'Combo Tortas Molipollo (x4)', price: 15000, image: '/images/combo_tortas.jpg', emoji: '🥠', description: 'Papas crujientes con 4 torticas molipollo recién doradas y arepa frita.', prepTime: '10-12 min' },
+
+      // HAMBURGUESAS
+      { id: 12, category: 'hamburguesas', name: 'Hamburguesa Gourmet Falcon', price: 21000, image: '/images/hamburguesa_gourmet.jpg', emoji: '🍔', badge: 'ESTRELLA DE LA CASA 🌟', description: 'Carne artesanal 180g a la plancha, tocineta ahumada, jamón, doble queso mozzarella, ripio, lechuga y tomate.', prepTime: '15-18 min' },
+      { id: 13, category: 'hamburguesas', name: 'Hamburguesa Carne Desmechada', price: 20000, image: '/images/hamburguesa_desmechada.jpg', emoji: '🍔', badge: 'NUEVA RECETA 🥩', description: 'Abundante carne desmechada en jugo criollo, tocineta, jamón, queso derretido, maicitos, ripio, lechuga y tomate.', prepTime: '15-18 min' },
+      { id: 14, category: 'hamburguesas', name: 'Hamburguesa Especial Paisa', price: 19000, image: '/images/hamburguesa_especial_paisa.jpg', emoji: '🍔', description: 'Carne jugosa de res, tocineta ahumada, jamón, queso derretido, ripio crujiente, lechuga y tomate.', prepTime: '14-16 min' },
+      { id: 15, category: 'hamburguesas', name: 'Hamburguesa Sencilla Callejera', price: 15000, image: '/images/hamburguesa_sencilla_callejera.jpg', emoji: '🍔', description: 'Carne clásica de res, queso derretido, ripio de papa, lechuga fresca, tomate y salsa rosada.', prepTime: '12-14 min' },
+
+      // CHUZOS Y CARNES
+      { id: 16, category: 'chuzos', name: 'Chuzo de Pollo Callejero', price: 24000, image: '/images/chuzo_pollo.jpg', emoji: '🍢', badge: 'FAVORITO 🍢', description: 'Chuzo con trozos jugosos de pechuga marinada al fuego, papas fritas, arepa con queso y ensalada de repollo.', prepTime: '18-20 min' },
+      { id: 17, category: 'chuzos', name: 'Chuzo de Cerdo Parrillero', price: 22000, image: '/images/chuzo_cerdo.jpg', emoji: '🍢', description: 'Chuzo de lomo de cerdo asado con toque parrillero, papas fritas, arepa, queso campesino y ensalada.', prepTime: '18-20 min' },
+      { id: 18, category: 'chuzos', name: 'Churrasco al Carbón', price: 29000, image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=700&q=80', emoji: '🥩', badge: 'PREMIUM CUT 🥩', description: 'Corte grueso sellado a la plancha en su punto ideal de jugosidad, papas fritas, arepa frita, queso y ensalada.', prepTime: '20-25 min' },
+      { id: 19, category: 'chuzos', name: 'Carne de Cerdo a la Plancha', price: 25000, image: '/images/cerdo_plancha.jpg', emoji: '🥩', description: 'Filete jugoso de lomo de cerdo a la plancha con sazón especial, papas fritas, arepa, queso y ensalada.', prepTime: '18 min' },
+      { id: 20, category: 'chuzos', name: 'Pechuga a la Plancha Dorada', price: 25000, image: '/images/pechuga_plancha.jpg', emoji: '🍗', description: 'Filete magro de pechuga de pollo sellado y dorado con papas fritas, arepa, queso campesino y ensalada.', prepTime: '16-18 min' },
+
+      // AREPAS Y PATACÓN
+      { id: 21, category: 'arepas', name: 'Arepa Rellena Falcon Supreme', price: 22000, image: '/images/arepa_rellena.jpg', emoji: '🫓', badge: 'SUPER RELLENA 🥑', description: 'Arepa frita gigante rellena de carne desmechada, tocineta, maicitos, chicharrón, queso mozzarella, guacamole y pico de gallo.', prepTime: '15-18 min' },
+      { id: 22, category: 'arepas', name: 'Arepa Mechas (Carne o Pollo)', price: 18000, image: '/images/arepa_mechas.jpg', emoji: '🫓', badge: 'A ELECCIÓN 🥩🍗', description: 'Arepa dorada asada abierta y rellena a elegir de abundante y jugoso pollo desmechado o carne mechada criolla.', prepTime: '14-16 min', variants: ['Carne Desmechada Criolla', 'Pollo Desmechado Jugoso'] },
+      { id: 23, category: 'arepas', name: 'Arepa con Todo Paisa', price: 18000, image: '/images/arepa_paisa.jpg', emoji: '🫓', badge: 'REBOZADA PAISA 🫓', description: 'Arepa paisa asada al carbón rellena y rebosante de carne desmechada, trocitos de chicharrón, plátano maduro, tocineta y queso derretido.', prepTime: '14-16 min' },
+      { id: 24, category: 'arepas', name: 'Patacón Pisao con Mechas', price: 20000, image: '/images/patacon.jpg', emoji: '🍌', badge: 'CRUJIENTE 🍌', description: 'Patacón gigante de plátano verde tostado y crocante, cargado con abundante y jugosa carne o pollo desmechado al estilo criollo.', prepTime: '15-18 min', variants: ['Carne Desmechada', 'Pollo Desmechado'] },
+
+      // PERROS
+      { id: 25, category: 'perros', name: 'Perra Especial Falcon (Sin Salchicha)', price: 19000, image: 'https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=700&q=80', emoji: '🌭', badge: 'TOP PICADA 🌭', description: 'Longaniza asada, tocineta crocante, doble queso mozzarella, 3 huevitos de codorniz, ripio, lechuga y tomate.', prepTime: '12-15 min' },
+      { id: 26, category: 'perros', name: 'Perro Especial con Longaniza', price: 18000, image: '/images/perro_longaniza.jpg', emoji: '🌭', badge: 'CON LONGANIZA 🌭', description: 'Longaniza parrillera a la plancha, tocineta crujiente, queso fundido, 1 huevito de codorniz, ripio, lechuga y salsas de la casa.', prepTime: '12-14 min' },
+      { id: 27, category: 'perros', name: 'Perrito Callejero Tradicional', price: 9000, image: '/images/perro_callejero.jpg', emoji: '🌭', badge: 'CALLEJERO AUTÉNTICO 🌭', description: 'Salchicha tradicional en pan con ajonjolí, queso derretido, abundante ripio crujiente y bañado en salsas clásicas.', prepTime: '8-10 min' },
+
+      // ADICIONES
+      { id: 28, category: 'adiciones', name: 'Bombón o Alita Individual', price: 3500, image: '/images/bombon_alita.jpg', emoji: '🍗', badge: 'SUPER JUGOSO 🍗', description: 'Porción individual extra de bombón o alita con apanado dorado, bañada en tu salsa favorita.', prepTime: '5 min', variants: ['1 Bombón de Pollo Crocante ($3.500)', '1 Alita Crujiente ($3.500)'] },
+      { id: 29, category: 'adiciones', name: 'Tocineta Extra Crocante', price: 3500, image: 'https://images.unsplash.com/photo-1528607929212-2636ec44253e?auto=format&fit=crop&w=700&q=80', emoji: '🥓', description: 'Porción extra de tocineta ahumada.', prepTime: '3 min' },
+      { id: 30, category: 'adiciones', name: 'Queso Mozzarella Extra', price: 2500, image: '/images/queso_fundido.jpg', emoji: '🧀', badge: 'FUNDIDO Y CREMOSO 🧀', description: 'Generosa porción de queso fundido elástico y cremoso para bañar tus alitas o papas.', prepTime: '2 min' },
+      { id: 31, category: 'adiciones', name: 'Porción Salchichas Extra', price: 2500, image: '/images/salchichas_extra.jpg', emoji: '🌭', badge: 'EN RODAJAS 🌭', description: 'Generosa porción de salchichas en rodajas doradas a la plancha.', prepTime: '4 min' },
+      { id: 32, category: 'adiciones', name: 'Chorizo Coctelero (x2)', price: 1500, image: '/images/chorizo_coctelero.jpg', emoji: '🍖', badge: 'DORADOS 🔥', description: '2 unidades de chorizos cóctel dorados y jugosos sellados al calor.', prepTime: '4 min' },
+      { id: 33, category: 'adiciones', name: 'Butifarra Costeña (Unidad)', price: 1300, image: '/images/butifarra.jpg', emoji: '🍢', badge: 'AL CARBÓN 🔥', description: 'Unidad de butifarra asada a la parrilla con limón criollo.', prepTime: '3 min' },
+      { id: 34, category: 'adiciones', name: 'Torta Molipollo (Unidad)', price: 1300, image: '/images/torta_molipollo.jpg', emoji: '🥠', description: 'Unidad de tortica molipollo dorada y crocante con salsa de la casa.', prepTime: '3 min' },
+      { id: 35, category: 'adiciones', name: 'Salsas en Bolsita Extra', price: 500, image: '/images/salsas_bolsa.jpg', emoji: '🥣', badge: 'HECHAS EN CASA 🥣', description: 'Bolsita sellada de salsa artesanal a elección: Ajo, Tártara, Rosada, Maíz, Piña, BBQ o Picante.', prepTime: '1 min', variants: ['Salsa de Ajo Cremoso ($500)', 'Salsa Tártara Casa ($500)', 'Salsa Rosada Falcon ($500)', 'Salsa de Maíz Tierno ($500)', 'Salsa de Piña Dulce ($500)', 'Salsa BBQ Ahumada ($500)', 'Salsa Roja Especial ($500)', 'Salsa Mostaza Miel ($500)', 'Salsa Picante Suave ($500)'] },
+
+      // BEBIDAS
+      { 
+        id: 36, 
+        category: 'bebidas', 
+        name: 'Gaseosa 1.5 Litros Mega', 
+        price: 7000, 
+        image: '/images/gaseosas.jpg', 
+        emoji: '🍾', 
+        badge: 'MEGA 1.5L 🍾',
+        description: 'Botella familiar bien fría. Elige tu sabor favorito.', 
+        prepTime: '1 min',
+        variants: ['Coca-Cola 1.5L', 'Postobón Manzana 1.5L', 'Colombiana 1.5L', 'Cuatro Toronja 1.5L', 'Sprite 1.5L', 'Postobón Naranja 1.5L']
+      },
+      { 
+        id: 37, 
+        category: 'bebidas', 
+        name: 'Hit de Caja / Cerveza Nacional', 
+        price: 5000, 
+        image: '/images/cervezas.jpg', 
+        emoji: '🍺', 
+        badge: 'REFRESCANTES Y FRÍAS 🍺',
+        description: 'Cerveza Nacional helada (Águila Original, Águila Light, Pilsen, Andina) o Jugo Hit en caja.', 
+        prepTime: '1 min',
+        variants: ['Cerveza Águila Original ($5.000)', 'Cerveza Águila Light ($5.000)', 'Cerveza Pilsen ($5.000)', 'Cerveza Andina ($5.000)', 'Hit Mango Caja ($5.000)', 'Hit Mora Caja ($5.000)', 'Hit Lulo Caja ($5.000)', 'Hit Frutas Tropicales ($5.000)']
+      },
+      { 
+        id: 38, 
+        category: 'bebidas', 
+        name: 'Gaseosa Personal / Malta / Vive100 / Té', 
+        price: 3500, 
+        image: '/images/bebidas_personales.jpg', 
+        emoji: '🥤', 
+        badge: 'INDIVIDUAL $3.500 🥤',
+        description: 'Botella de vidrio 400ml o lata bien fría: Coca-Cola, Manzana, Colombiana, Cuatro, Sprite, Pony Malta, Vive 100 o Mr. Tea.', 
+        prepTime: '1 min',
+        variants: ['Coca-Cola Vidrio 400ml ($3.500)', 'Postobón Manzana 400ml ($3.500)', 'Colombiana 400ml ($3.500)', 'Cuatro 400ml ($3.500)', 'Sprite 400ml ($3.500)', 'Pony Malta Personal ($3.500)', 'Vive 100 Frío ($3.500)', 'Té Mr. Tea Limón ($3.500)', 'Té Mr. Tea Durazno ($3.500)']
+      },
+      { 
+        id: 39, 
+        category: 'bebidas', 
+        name: 'Gaseosa Mini / Pony Malta Mini', 
+        price: 2500, 
+        image: '/images/gaseosas_mini.jpg', 
+        emoji: '🥤', 
+        badge: 'MINI $2.500 🥤',
+        description: 'Botellas de vidrio mini bien frías: Coca-Cola Mini, Postobón Manzana, Colombiana, Cuatro o Pony Malta Mini.', 
+        prepTime: '1 min',
+        variants: ['Coca-Cola Mini ($2.500)', 'Postobón Manzana Mini ($2.500)', 'Colombiana Mini ($2.500)', 'Cuatro Mini ($2.500)', 'Pony Malta Mini ($2.500)']
+      },
+      { 
+        id: 40, 
+        category: 'bebidas', 
+        name: 'Agua Cristal Personal (600ml)', 
+        price: 2000, 
+        image: '/images/agua_cristal.jpg', 
+        emoji: '💧', 
+        badge: 'FRÍA Y PURA 💧',
+        description: 'Botella de vidrio de 600ml de Agua Cristal purificada bien fría.', 
+        prepTime: '1 min',
+        variants: ['Agua Cristal Sin Gas 600ml ($2.000)', 'Agua Cristal Tapa Blanca ($2.000)', 'Agua Cristal Tapa Verde ($2.000)']
+      }
+    ];
+
+    function appData() {
+      return {
+        activeCategory: 'papas',
+        searchQuery: '',
+        isProductModalOpen: false,
+        isCartOpen: false,
+        isSlotModalOpen: false,
+        isInfoModalOpen: false,
+        
+        selectedProduct: null,
+        modalVariant: '',
+        modalSauces: [],
+        modalOnion: 'Sofrita',
+        modalUpsellQuantities: {},
+        modalUpsellVariantQuantities: {},
+        modalNotes: '',
+        modalQty: 1,
+
+        // Gamification Slot State
+        slotStep: 1,
+        reviewDone: false,
+        unlockCountdown: 4,
+        isSpinning: false,
+        reel1: '🍗',
+        reel2: '🍔',
+        reel3: '🍟',
+        wonPrize: null,
+
+        // Promo Code & Session Lock (1 intento por sesión de pedido)
+        promoInput: '',
+        appliedPromo: null,
+        promoError: null,
+        isRouletteUsed: (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('falcon_ruleta_usada') === 'true'),
+
+        // Cybersecurity & Privacy (Ley 1581 Habeas Data / Ephemeral State)
+        habeasDataConsent: false,
+
+        // Protected Admin Panel & CMS State
+        isAdminLoginOpen: false,
+        isAdminCMSOpen: false,
+        isAdminAuthenticated: (typeof sessionStorage !== 'undefined' && Boolean(sessionStorage.getItem('falcon_admin_token'))),
+        adminUsername: '',
+        adminPassword: '',
+        adminError: '',
+        adminSearch: '',
+        adminCategoryFilter: 'all',
+        adminSaveNotification: false,
+        uploadingId: null,
+
+        init() {
+          // Ingesta de catálogo persistente si fue modificado en CMS
+          try {
+            if (typeof localStorage !== 'undefined') {
+              const saved = localStorage.getItem('falcons_custom_products');
+              if (saved) {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                  this.products = parsed;
+                }
+              }
+            }
+          } catch (e) {
+            console.error('Error cargando catálogo de CMS:', e);
+          }
+
+          if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('falcon_ruleta_usada') === 'true') {
+            this.isRouletteUsed = true;
+          }
+
+          if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('falcon_admin_token')) {
+            this.isAdminAuthenticated = true;
+          }
+
+          // Inicializar ScrollSpy inteligente para que el menú permanezca activo y centrado según la sección visible
+          this.initScrollSpy();
+        },
+
+        initScrollSpy() {
+          if (typeof window === 'undefined') return;
+
+          let manualTimer = null;
+          this._setManualScroll = () => {
+            this._isManualScroll = true;
+            clearTimeout(manualTimer);
+            manualTimer = setTimeout(() => {
+              this._isManualScroll = false;
+            }, 1200);
+          };
+
+          if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+              if (this._isManualScroll || (this.searchQuery && this.searchQuery.trim().length > 0)) return;
+
+              const visible = entries.filter(e => e.isIntersecting);
+              if (visible.length > 0) {
+                // Ordenar por cercanía al borde superior
+                visible.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+                const activeEl = visible[0].target;
+                const catId = activeEl.id.replace('cat-', '');
+                if (catId && catId !== this.activeCategory) {
+                  this.activeCategory = catId;
+                  const tabBtn = document.getElementById('cat-btn-' + catId);
+                  const strip = document.getElementById('category-scroll-strip') || (tabBtn && tabBtn.parentElement);
+                  if (tabBtn && strip) {
+                    const scrollLeft = tabBtn.offsetLeft - (strip.clientWidth / 2) + (tabBtn.clientWidth / 2);
+                    strip.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+                  }
+                }
+              }
+            }, {
+              root: null,
+              rootMargin: '-100px 0px -50% 0px',
+              threshold: [0, 0.2]
+            });
+
+            this.$nextTick(() => {
+              this.categories.forEach(cat => {
+                const el = document.getElementById('cat-' + cat.id);
+                if (el) observer.observe(el);
+              });
+            });
+          }
+        },
+
+        customer: {
+          name: '',
+          orderType: 'delivery',
+          address: '',
+          referencePoint: '',
+          neighborhood: 'El Rosario (San Antonio de Prado)',
+          googleMapsUrl: '',
+          tableNumber: '',
+          paymentMethod: 'Nequi',
+          cashChange: '',
+          notes: ''
+        },
+
+        gpsLoading: false,
+        gpsSuccess: false,
+        gpsError: null,
+        gpsWarning: null,
+        gpsAccuracy: null,
+        _lastGpsRequest: 0,
+
+        cart: [],
+
+        availableSauces: [
+          'Rosada Falcon', 'Piña Dulce', 'BBQ Ahumada', 
+          'Ajo Cremoso', 'Maíz Tierno', 'Tártara Casa', 
+          'Roja Especial', 'Mostaza Miel', 'Picante Suave'
+        ],
+
+        upsellOptions: [
+          { id: 'u1', name: 'Tocineta Extra Crocante', price: 3500 },
+          { id: 'u2', name: 'Doble Queso Fundido', price: 2500 },
+          { 
+            id: 'u3', 
+            name: 'Gaseosa Personal 400ml', 
+            price: 3500, 
+            label: 'Elige tu Gaseosa Personal 400ml:',
+            variants: ['Coca-Cola 400ml', 'Postobón Manzana', 'Colombiana 400ml', 'Cuatro Toronja', 'Sprite 400ml', 'Pony Malta 400ml']
+          },
+          { 
+            id: 'u4', 
+            name: 'Gaseosa 1.5L Familiar', 
+            price: 7000, 
+            label: 'Elige tu Gaseosa 1.5L:',
+            variants: ['Coca-Cola 1.5L', 'Postobón Manzana 1.5L', 'Colombiana 1.5L', 'Cuatro 1.5L']
+          },
+          { id: 'u5', name: 'Porción Papas Extra', price: 4500 },
+          { 
+            id: 'u6', 
+            name: 'Salsa Extra en Bolsita', 
+            price: 500, 
+            label: 'Elige el Sabor de la Salsa:',
+            variants: ['Ajo Cremoso', 'BBQ Ahumada', 'Piña Dulce', 'Maíz Tierno', 'Rosada Falcon', 'Tártara Casa', 'Roja Especial', 'Mostaza Miel', 'Picante Suave']
+          }
+        ],
+
+        neighborhoods: [
+          { name: 'El Rosario (San Antonio de Prado)', fee: 4000, time: '25-35 min' },
+          { name: 'Centro / Parque Principal Prado', fee: 3500, time: '20-30 min' },
+          { name: 'Pradito', fee: 4000, time: '25-35 min' },
+          { name: 'Barichara', fee: 4500, time: '30-40 min' },
+          { name: 'El Limonar 1 y 2', fee: 4500, time: '30-40 min' },
+          { name: 'Los Naranjos', fee: 4000, time: '25-35 min' },
+          { name: 'La Verde', fee: 5000, time: '35-45 min' },
+          { name: 'Santa Rita / San José', fee: 4500, time: '30-40 min' },
+          { name: 'Potrerito', fee: 5500, time: '35-45 min' },
+          { name: 'Itagüí Aledaño', fee: 7000, time: '40-50 min' }
+        ],
+
+        categories: [
+          { id: 'papas', name: 'Papas & Salchipapas', icon: '🍟', desc: 'Con salchichas, queso, huevo y molipollo' },
+          { id: 'combos', name: 'Combos & Alitas', icon: '🍗', desc: 'Alitas crujientes y combos familiares' },
+          { id: 'hamburguesas', name: 'Hamburguesas', icon: '🍔', desc: 'Carnes 100% artesanales y doble queso' },
+          { id: 'chuzos', name: 'Chuzos & Carnes', icon: '🥩', desc: 'Cortes jugosos con arepa, queso y papas' },
+          { id: 'arepas', name: 'Arepas & Patacón', icon: '🫓', desc: 'Rellenas de desmechada y tocineta' },
+          { id: 'perros', name: 'Perros & Perras', icon: '🌭', desc: 'Longaniza, tocineta y huevitos' },
+          { id: 'adiciones', name: 'Adiciones & Extras', icon: '➕', desc: 'Porciones individuales' },
+          { id: 'bebidas', name: 'Bebidas Frías', icon: '🥤', desc: 'Gaseosas y cervezas heladas' }
+        ],
+
+        products: (function() {
+          try {
+            if (typeof localStorage !== 'undefined') {
+              const saved = localStorage.getItem('falcons_custom_products');
+              if (saved) {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                  return parsed.map(p => {
+                    const def = DEFAULT_PRODUCTS.find(d => d.id === p.id);
+                    if (def && (!p.image || p.image.startsWith('/images/'))) {
+                      return { ...p, image: def.image };
+                    }
+                    return p;
+                  });
+                }
+              }
+            }
+          } catch (e) {}
+          return JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+        })(),
+
+        // CMS Methods
+        openAdminAuth() {
+          if (this.isAdminAuthenticated) {
+            this.isAdminCMSOpen = true;
+          } else {
+            this.adminUsername = '';
+            this.adminPassword = '';
+            this.adminError = '';
+            this.isAdminLoginOpen = true;
+          }
+        },
+
+        _adminAttempts: 0,
+        _adminLockUntil: 0,
+
+        async loginAdmin() {
+          const now = Date.now();
+          if (this._adminLockUntil > now) {
+            const waitSecs = Math.ceil((this._adminLockUntil - now) / 1000);
+            this.adminError = `Demasiados intentos fallidos. Bloqueo de seguridad temporal. Espera ${waitSecs}s.`;
+            return;
+          }
+
+          const u = (this.adminUsername || '').trim().toLowerCase();
+          const p = (this.adminPassword || '').trim();
+
+          if (!u || !p) {
+            this.adminError = 'Ingresa usuario y contraseña.';
+            return;
+          }
+
+          try {
+            // 1. Try serverless backend verification first
+            const res = await fetch('/api/admin-auth', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username: u, password: p })
+            });
+            if (res.ok) {
+              const data = await res.json();
+              if (data?.authenticated && data?.token) {
+                this._adminAttempts = 0;
+                this.isAdminAuthenticated = true;
+                if (typeof sessionStorage !== 'undefined') {
+                  sessionStorage.setItem('falcon_admin_token', data.token);
+                }
+                this.adminError = '';
+                this.adminPassword = '';
+                this.isAdminLoginOpen = false;
+                this.isAdminCMSOpen = true;
+                return;
+              }
+            } else if (res.status === 429) {
+              const data = await res.json().catch(() => ({}));
+              this.adminError = data.error || 'Demasiados intentos. Intenta más tarde.';
+              return;
+            }
+          } catch (e) {
+            // fallback to client-side cryptographic hash check
+          }
+
+          // 2. Client-side SHA-256 zero-plaintext verification fallback
+          try {
+            const msgBuffer = new TextEncoder().encode(p);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const pHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+            const knownHashes = [
+              '39591469be4b321fb4b73a388f8d6896e38b368ca31a48cbfba67041dc089f55',
+              'd83d1c44db6f958862cfb9b8b0e7740f9011beea3716e917d52b115668b57731',
+              '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',
+              '9581a02796dc65e94b281f62b7194f1f2e825ea558bc66e5f15951d4ae006253'
+            ];
+
+            if ((u === 'admin' || u === 'falcons' || u === 'falconsalitas') && knownHashes.includes(pHash)) {
+              this._adminAttempts = 0;
+              this.isAdminAuthenticated = true;
+              if (typeof sessionStorage !== 'undefined') {
+                sessionStorage.setItem('falcon_admin_token', 'f_adm_' + Date.now());
+              }
+              this.adminError = '';
+              this.adminPassword = '';
+              this.isAdminLoginOpen = false;
+              this.isAdminCMSOpen = true;
+              return;
+            }
+          } catch (e) {}
+
+          this._adminAttempts++;
+          if (this._adminAttempts >= 4) {
+            this._adminLockUntil = Date.now() + 60000;
+            this.adminError = '4 intentos fallidos. Panel bloqueado por 60 segundos por seguridad.';
+          } else {
+            this.adminError = `Credenciales no autorizadas. Intento ${this._adminAttempts} de 4.`;
+          }
+        },
+
+        logoutAdmin() {
+          this.isAdminAuthenticated = false;
+          if (typeof sessionStorage !== 'undefined') {
+            sessionStorage.removeItem('falcon_admin_token');
+          }
+          this.isAdminCMSOpen = false;
+        },
+
+        adminFilteredProducts() {
+          return this.products.filter(p => {
+            const matchCategory = this.adminCategoryFilter === 'all' || p.category === this.adminCategoryFilter;
+            const search = (this.adminSearch || '').toLowerCase().trim();
+            const matchSearch = !search || 
+              p.name.toLowerCase().includes(search) || 
+              p.category.toLowerCase().includes(search) ||
+              (p.description && p.description.toLowerCase().includes(search));
+            return matchCategory && matchSearch;
+          });
+        },
+
+        async handleCMSFileUpload(productId, event) {
+          const file = event.target.files && event.target.files[0];
+          if (!file) return;
+          
+          if (!file.type.startsWith('image/')) {
+            alert('Por favor selecciona un archivo de imagen válido (JPG, PNG, WebP).');
+            return;
+          }
+
+          this.uploadingId = productId;
+
+          // Helper client-side compression
+          const compress = (imgFile) => {
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.readAsDataURL(imgFile);
+              reader.onload = (e) => {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = () => {
+                  let width = img.width;
+                  let height = img.height;
+                  const maxDim = 900;
+                  if (width > height && width > maxDim) {
+                    height = Math.round((height * maxDim) / width);
+                    width = maxDim;
+                  } else if (height > maxDim) {
+                    width = Math.round((width * maxDim) / height);
+                    height = maxDim;
+                  }
+                  const canvas = document.createElement('canvas');
+                  canvas.width = width;
+                  canvas.height = height;
+                  const ctx = canvas.getContext('2d');
+                  if (ctx) {
+                    ctx.drawImage(img, 0, 0, width, height);
+                    resolve(canvas.toDataURL('image/jpeg', 0.85));
+                  } else {
+                    resolve(e.target.result);
+                  }
+                };
+                img.onerror = reject;
+              };
+              reader.onerror = reject;
+            });
+          };
+
+          try {
+            const compressed = await compress(file);
+            let finalUrl = compressed;
+
+            // Optional upload to backend API if active
+            try {
+              const formData = new FormData();
+              formData.append('file', file);
+              formData.append('productId', productId);
+              const res = await fetch('/api/upload', { method: 'POST', body: formData });
+              if (res.ok) {
+                const data = await res.json();
+                if (data.url) finalUrl = data.url;
+              }
+            } catch (err) {
+              console.warn('API cloud upload fallback active:', err);
+            }
+
+            const targetProd = this.products.find(p => p.id === productId);
+            if (targetProd) {
+              targetProd.image = finalUrl;
+            }
+          } catch (error) {
+            console.error('Error subiendo imagen en CMS:', error);
+            alert('Error procesando la imagen seleccionada.');
+          } finally {
+            this.uploadingId = null;
+            if (event.target) event.target.value = '';
+          }
+        },
+
+        saveCMSChanges() {
+          try {
+            localStorage.setItem('falcons_custom_products', JSON.stringify(this.products));
+            this.adminSaveNotification = true;
+            setTimeout(() => {
+              this.adminSaveNotification = false;
+            }, 3000);
+          } catch (e) {
+            console.error('Error guardando cambios:', e);
+          }
+        },
+
+        resetDefaultProducts() {
+          if (confirm('¿Deseas restablecer todos los precios e imágenes del menú a los valores oficiales de fábrica?')) {
+            try {
+              localStorage.removeItem('falcons_custom_products');
+              this.products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+              this.adminSaveNotification = true;
+              setTimeout(() => {
+                this.adminSaveNotification = false;
+              }, 3000);
+            } catch (e) {
+              console.error(e);
+            }
+          }
+        },
+
+        formatMoney(amount) {
+          return '$' + Math.max(0, amount).toLocaleString('es-CO');
+        },
+
+        getProductsByCategory(catId) {
+          return this.products.filter(p => p.category === catId);
+        },
+
+        filteredProducts() {
+          const q = this.searchQuery.toLowerCase().trim();
+          if (!q) return [];
+          return this.products.filter(p => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q));
+        },
+
+        scrollToCategory(catId) {
+          if (this._setManualScroll) {
+            this._setManualScroll();
+          }
+          this.activeCategory = catId;
+          this.searchQuery = '';
+
+          this.$nextTick(() => {
+            const el = document.getElementById('cat-' + catId);
+            if (el) {
+              const headerEl = document.querySelector('.sticky.top-0');
+              const headerHeight = headerEl ? headerEl.getBoundingClientRect().height : 130;
+              const targetPosition = el.getBoundingClientRect().top + window.pageYOffset - (headerHeight + 12);
+              
+              window.scrollTo({
+                top: Math.max(0, targetPosition),
+                behavior: 'smooth'
+              });
+            }
+
+            const tabBtn = document.getElementById('cat-btn-' + catId);
+            const strip = document.getElementById('category-scroll-strip') || (tabBtn && tabBtn.parentElement);
+            if (tabBtn && strip) {
+              const scrollLeft = tabBtn.offsetLeft - (strip.clientWidth / 2) + (tabBtn.clientWidth / 2);
+              strip.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+            }
+          });
+        },
+
+        // GA4 EVENT TRACKING HELPER
+        trackGA(eventName, params = {}) {
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', eventName, params);
+          }
+        },
+
+        // PRODUCT MODAL OPEN (Trigger select_item)
+        openProductModal(product) {
+          this.selectedProduct = product;
+          this.modalVariant = (product.variants && product.variants.length > 0) ? product.variants[0] : '';
+          this.modalSauces = [];
+          this.modalOnion = 'Sofrita';
+          this.modalUpsellQuantities = {};
+          this.modalUpsellVariantQuantities = {};
+          this.modalNotes = '';
+          this.modalQty = 1;
+          this.isProductModalOpen = true;
+
+          // GA4: select_item
+          this.trackGA('select_item', {
+            item_list_id: product.category,
+            item_list_name: product.category,
+            items: [{
+              item_id: product.id.toString(),
+              item_name: product.name,
+              price: product.price,
+              item_category: product.category
+            }]
+          });
+        },
+
+        toggleSauce(sauce) {
+          if (this.modalSauces.includes(sauce)) {
+            this.modalSauces = this.modalSauces.filter(s => s !== sauce);
+          } else {
+            if (this.modalSauces.length < 3) {
+              this.modalSauces.push(sauce);
+            }
+          }
+        },
+
+        // Simple upsell without variants
+        getUpsellQty(id) {
+          return this.modalUpsellQuantities[id] || 0;
+        },
+
+        updateUpsellQty(id, delta) {
+          const current = this.getUpsellQty(id);
+          const next = Math.max(0, current + delta);
+          if (next === 0) {
+            delete this.modalUpsellQuantities[id];
+          } else {
+            this.modalUpsellQuantities[id] = next;
+          }
+          this.modalUpsellQuantities = { ...this.modalUpsellQuantities };
+        },
+
+        // Variant upsell with specific flavor/reference counters
+        getUpsellVariantQty(id, variant) {
+          if (!this.modalUpsellVariantQuantities[id]) return 0;
+          return this.modalUpsellVariantQuantities[id][variant] || 0;
+        },
+
+        updateUpsellVariantQty(id, variant, delta) {
+          if (!this.modalUpsellVariantQuantities[id]) {
+            this.modalUpsellVariantQuantities[id] = {};
+          }
+          const current = this.modalUpsellVariantQuantities[id][variant] || 0;
+          const next = Math.max(0, current + delta);
+          if (next === 0) {
+            delete this.modalUpsellVariantQuantities[id][variant];
+            if (Object.keys(this.modalUpsellVariantQuantities[id]).length === 0) {
+              delete this.modalUpsellVariantQuantities[id];
+            }
+          } else {
+            this.modalUpsellVariantQuantities[id][variant] = next;
+          }
+          this.modalUpsellVariantQuantities = { ...this.modalUpsellVariantQuantities };
+        },
+
+        getUpsellTotalQty(id, hasVariants) {
+          if (!hasVariants) {
+            return this.getUpsellQty(id);
+          }
+          if (!this.modalUpsellVariantQuantities[id]) return 0;
+          return Object.values(this.modalUpsellVariantQuantities[id]).reduce((a, b) => a + b, 0);
+        },
+
+        calculateModalSubtotal() {
+          if (!this.selectedProduct) return 0;
+          const isBeverage = this.selectedProduct.category === 'bebidas';
+          let upsellsSum = 0;
+          if (!isBeverage) {
+            // Sum simple upsells
+            for (const [id, qty] of Object.entries(this.modalUpsellQuantities)) {
+              if (qty > 0) {
+                const found = this.upsellOptions.find(u => u.id === id);
+                if (found) {
+                  upsellsSum += found.price * qty;
+                }
+              }
+            }
+            // Sum variant-specific upsells
+            for (const [id, varMap] of Object.entries(this.modalUpsellVariantQuantities)) {
+              const found = this.upsellOptions.find(u => u.id === id);
+              if (found && varMap) {
+                for (const [_, qty] of Object.entries(varMap)) {
+                  if (qty > 0) {
+                    upsellsSum += found.price * qty;
+                  }
+                }
+              }
+            }
+          }
+          return (this.selectedProduct.price + upsellsSum) * this.modalQty;
+        },
+
+        // ADD TO CART (Trigger add_to_cart)
+        confirmAddToCart() {
+          if (!this.selectedProduct) return;
+
+          // Ensure default variant is picked if product has variants
+          if (this.selectedProduct.variants && this.selectedProduct.variants.length > 0 && !this.modalVariant) {
+            this.modalVariant = this.selectedProduct.variants[0];
+          }
+
+          const isBeverage = this.selectedProduct.category === 'bebidas';
+          
+          // Salsas (hasta 3 incluidas)
+          const saucesList = isBeverage ? [] : this.modalSauces.map(name => ({ name, qty: 1 }));
+
+          // Adiciones estructuradas con cantidades y variantes
+          const upsellsList = [];
+
+          if (!isBeverage) {
+            // Simple upsells
+            this.upsellOptions.forEach(u => {
+              const hasOptVariants = Boolean(u.variants && u.variants.length > 0);
+              if (!hasOptVariants) {
+                const qty = this.modalUpsellQuantities[u.id] || 0;
+                if (qty > 0) {
+                  upsellsList.push({
+                    id: u.id,
+                    name: u.name,
+                    displayName: u.name,
+                    variant: null,
+                    price: u.price,
+                    qty: qty
+                  });
+                }
+              } else {
+                const varMap = this.modalUpsellVariantQuantities[u.id] || {};
+                Object.entries(varMap).forEach(([vName, qty]) => {
+                  if (qty > 0) {
+                    upsellsList.push({
+                      id: u.id,
+                      name: u.name,
+                      displayName: `${u.name} [Ref: ${vName}]`,
+                      variant: vName,
+                      price: u.price,
+                      qty: qty
+                    });
+                  }
+                });
+              }
+            });
+          }
+
+          const upsellsCost = upsellsList.reduce((acc, u) => acc + (u.price * u.qty), 0);
+          const unitPrice = this.selectedProduct.price + upsellsCost;
+
+          const cartItem = {
+            cartItemId: this.selectedProduct.id + '-' + Date.now(),
+            product: this.selectedProduct,
+            qty: this.modalQty,
+            variant: this.modalVariant || null,
+            sauces: saucesList,
+            onion: (!isBeverage && (this.selectedProduct.category === 'hamburguesas' || this.selectedProduct.category === 'perros')) ? this.modalOnion : null,
+            upsells: upsellsList,
+            notes: this.modalNotes.trim(),
+            unitPrice: unitPrice
+          };
+
+          this.cart.push(cartItem);
+          this.isProductModalOpen = false;
+          this.isCartOpen = true;
+
+          // GA4: add_to_cart
+          this.trackGA('add_to_cart', {
+            currency: 'COP',
+            value: unitPrice * this.modalQty,
+            items: [{
+              item_id: this.selectedProduct.id.toString(),
+              item_name: this.selectedProduct.name + (this.modalVariant ? ' [' + this.modalVariant + ']' : ''),
+              price: unitPrice,
+              quantity: this.modalQty,
+              item_category: this.selectedProduct.category
+            }]
+          });
+        },
+
+        cartCount() {
+          return this.cart.reduce((acc, item) => acc + item.qty, 0);
+        },
+
+        cartSubtotal() {
+          return this.cart.reduce((acc, item) => acc + (item.unitPrice * item.qty), 0);
+        },
+
+        deliveryFee() {
+          if (this.customer.orderType !== 'delivery') return 0;
+          let found = this.neighborhoods.find(n => n.name === this.customer.neighborhood);
+          return found ? found.fee : 4000;
+        },
+
+        _generateChecksum(payload) {
+          const salt = 'FALCON_SECURE_RTP_2026_PRADO';
+          let hash = 5381;
+          const combined = payload + ':' + salt;
+          for (let i = 0; i < combined.length; i++) {
+            hash = ((hash << 5) + hash) ^ combined.charCodeAt(i);
+          }
+          return (Math.abs(hash) % 0xffff).toString(16).toUpperCase().padStart(4, '0');
+        },
+
+        discountAmount() {
+          if (!this.appliedPromo) return 0;
+          const sub = this.cartSubtotal();
+          if (sub < 5000) return 0; // Minimum order subtotal requirement
+
+          if (this.appliedPromo.percent) {
+            const calculated = Math.round((sub * Math.min(this.appliedPromo.percent, 15)) / 100);
+            return Math.min(sub, Math.min(calculated, 10000)); // Capped at $10.000 max
+          }
+          if (this.appliedPromo.fixed) {
+            return Math.min(sub, Math.min(this.appliedPromo.fixed, 5000)); // Capped at $5.000 max
+          }
+          return 0;
+        },
+
+        grandTotal() {
+          return Math.max(0, this.cartSubtotal() - this.discountAmount() + this.deliveryFee());
+        },
+
+        cartTotal() {
+          return this.grandTotal();
+        },
+
+        updateCartQty(itemId, delta) {
+          let item = this.cart.find(i => i.cartItemId === itemId);
+          if (item) {
+            item.qty += delta;
+            if (item.qty <= 0) {
+              this.cart = this.cart.filter(i => i.cartItemId !== itemId);
+            }
+          }
+        },
+
+        removeFromCart(itemId) {
+          this.cart = this.cart.filter(i => i.cartItemId !== itemId);
+        },
+
+        clearCart() {
+          this.cart = [];
+        },
+
+        applyPromo() {
+          const isUsed = typeof sessionStorage !== 'undefined' && sessionStorage.getItem('falcon_ruleta_usada') === 'true';
+          if (isUsed && this.appliedPromo) {
+            this.promoError = '⚠️ Ya has utilizado tu oportunidad de premio/descuento en este pedido.';
+            return;
+          }
+
+          let code = this.sanitizeText(this.promoInput).toUpperCase().trim();
+          if (!code) {
+            this.promoError = 'Ingresa un código de cupón.';
+            return;
+          }
+
+          if (this.cartSubtotal() < 5000) {
+            this.promoError = 'El pedido mínimo para aplicar descuentos es de $5.000.';
+            return;
+          }
+
+          // 1. Static Authorized Coupons
+          if (code === 'FALCONS10' || code === 'FALCON-10') {
+            this.appliedPromo = { code: code, percent: 10, desc: '10% Descuento Especial' };
+            this.promoError = null;
+            if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('falcon_ruleta_usada', 'true');
+            this.isRouletteUsed = true;
+            return;
+          } else if (code === 'ALITASVIP') {
+            this.appliedPromo = { code: code, fixed: 3000, desc: '$3.000 Descuento VIP' };
+            this.promoError = null;
+            if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('falcon_ruleta_usada', 'true');
+            this.isRouletteUsed = true;
+            return;
+          } else if (code === 'PRADOFEST') {
+            this.appliedPromo = { code: code, percent: 15, desc: '15% Descuento especial Prado' };
+            this.promoError = null;
+            if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('falcon_ruleta_usada', 'true');
+            this.isRouletteUsed = true;
+            return;
+          }
+
+          // 2. Cryptographic Checksum Verification for Dynamic Slot Machine Codes
+          const parts = code.split('-');
+          if (parts.length >= 3) {
+            const prefix = `${parts[0]}-${parts[1]}`;
+            const randomNum = parts[2];
+            const checksum = parts[3];
+
+            // Verify with today's or yesterday's date
+            const now = new Date();
+            let isValid = false;
+
+            for (let offset = 0; offset <= 2; offset++) {
+              const targetDate = new Date(now.getTime() - offset * 86400000);
+              const dateKey = `${targetDate.getFullYear()}${String(targetDate.getMonth() + 1).padStart(2, '0')}${String(targetDate.getDate()).padStart(2, '0')}`;
+              const payload = `${prefix}-${randomNum}-${dateKey}`;
+              const expectedChecksum = this._generateChecksum(payload);
+              if (checksum === expectedChecksum) {
+                isValid = true;
+                break;
+              }
+            }
+
+            // Legacy fallback if no 4th part checksum
+            if (!isValid && parts.length === 3) {
+              isValid = true;
+            }
+
+            if (isValid) {
+              if (prefix === 'FALCON-DESC') {
+                this.appliedPromo = { code: code, percent: 10, desc: '10% Descuento Tragamonedas' };
+                this.promoError = null;
+                if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('falcon_ruleta_usada', 'true');
+                this.isRouletteUsed = true;
+                return;
+              } else if (prefix === 'FALCON-DRINK') {
+                this.appliedPromo = { code: code, fixed: 3500, desc: 'Bebida/Salsa Gratis ($3.500 desc)' };
+                this.promoError = null;
+                if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('falcon_ruleta_usada', 'true');
+                this.isRouletteUsed = true;
+                return;
+              } else if (prefix === 'FALCON-JACKPOT') {
+                this.appliedPromo = { code: code, fixed: 5000, desc: 'JACKPOT Falcon ($5.000 desc)' };
+                this.promoError = null;
+                if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('falcon_ruleta_usada', 'true');
+                this.isRouletteUsed = true;
+                return;
+              }
+            }
+          }
+
+          this.promoError = 'Cupón no válido, expirado o manipulado.';
+        },
+
+        // GAMIFICATION NFC SLOTS LOGIC
+        openSlotModal() {
+          const isUsed = typeof sessionStorage !== 'undefined' && sessionStorage.getItem('falcon_ruleta_usada') === 'true';
+          if (isUsed) {
+            this.isRouletteUsed = true;
+            this.slotStep = 'locked';
+          } else {
+            this.slotStep = this.reviewDone ? 3 : 1;
+          }
+          this.isSlotModalOpen = true;
+        },
+
+        triggerGoogleReview() {
+          // Open Exact Google Review Link in new tab
+          window.open('https://search.google.com/local/writereview?placeid=ChIJNfenHViBRo4RkHjghosd4M0', '_blank');
+          
+          // Switch to Step 2 with 4s automatic unlock
+          this.slotStep = 2;
+          this.unlockCountdown = 4;
+
+          let interval = setInterval(() => {
+            this.unlockCountdown--;
+            if (this.unlockCountdown <= 0) {
+              clearInterval(interval);
+              this.reviewDone = true;
+              this.slotStep = 3;
+            }
+          }, 1000);
+        },
+
+        handleStartGoogleReview() {
+          this.triggerGoogleReview();
+        },
+
+        spinSlotMachine() {
+          const isUsed = typeof sessionStorage !== 'undefined' && sessionStorage.getItem('falcon_ruleta_usada') === 'true';
+          if (this.isSpinning || isUsed || this.isRouletteUsed) return;
+          this.isSpinning = true;
+
+          // Session Lock on spin initiation
+          if (typeof sessionStorage !== 'undefined') {
+            sessionStorage.setItem('falcon_ruleta_usada', 'true');
+          }
+          this.isRouletteUsed = true;
+
+          let emojis = ['🍗', '🍔', '🍟', '🥤', '👑', '💰'];
+          let counter = 0;
+
+          let spinInterval = setInterval(() => {
+            this.reel1 = emojis[Math.floor(Math.random() * emojis.length)];
+            this.reel2 = emojis[Math.floor(Math.random() * emojis.length)];
+            this.reel3 = emojis[Math.floor(Math.random() * emojis.length)];
+            counter++;
+
+            if (counter > 18) {
+              clearInterval(spinInterval);
+              this.isSpinning = false;
+              this.calculateRTPPrize();
+            }
+          }, 100);
+        },
+
+        calculateRTPPrize() {
+          // RTP ENGINE:
+          // 70% -> 10% Descuento en consumo
+          // 25% -> Bebida personal o Salsa Gratis
+          // 5%  -> Jackpot Adición / Combo ($5.000)
+          let rand = Math.random() * 100;
+          let randomCodeNum = Math.floor(1000 + Math.random() * 9000);
+          const now = new Date();
+          const dateKey = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
+
+          if (rand < 70) {
+            this.reel1 = '🍗'; this.reel2 = '🍗'; this.reel3 = '🍗';
+            const payload = `FALCON-DESC-${randomCodeNum}-${dateKey}`;
+            const checksum = this._generateChecksum(payload);
+            const signedCode = `FALCON-DESC-${randomCodeNum}-${checksum}`;
+            this.wonPrize = {
+              title: '10% de Descuento en tu Pedido',
+              desc: 'Válido en tu orden de hoy con pantallazo de reseña 5★.',
+              code: signedCode,
+              type: 'percent',
+              val: 10
+            };
+          } else if (rand < 95) {
+            this.reel1 = '🥤'; this.reel2 = '🥤'; this.reel3 = '🥤';
+            const payload = `FALCON-DRINK-${randomCodeNum}-${dateKey}`;
+            const checksum = this._generateChecksum(payload);
+            const signedCode = `FALCON-DRINK-${randomCodeNum}-${checksum}`;
+            this.wonPrize = {
+              title: 'Bebida Personal o Salsa Gratis',
+              desc: 'Descuento de $3.500 con pantallazo de reseña 5★.',
+              code: signedCode,
+              type: 'fixed',
+              val: 3500
+            };
+          } else {
+            this.reel1 = '👑'; this.reel2 = '👑'; this.reel3 = '👑';
+            const payload = `FALCON-JACKPOT-${randomCodeNum}-${dateKey}`;
+            const checksum = this._generateChecksum(payload);
+            const signedCode = `FALCON-JACKPOT-${randomCodeNum}-${checksum}`;
+            this.wonPrize = {
+              title: 'JACKPOT FALCON ($5.000 OFF)',
+              desc: '¡Premio mayor! $5.000 OFF con pantallazo de reseña 5★.',
+              code: signedCode,
+              type: 'fixed',
+              val: 5000
+            };
+          }
+
+          this.slotStep = 4;
+
+          // Confetti celebration
+          if (typeof window.confetti === 'function') {
+            window.confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
+          }
+
+          // GA4: claim_reward
+          this.trackGA('claim_reward', {
+            reward_name: this.wonPrize.title,
+            coupon_code: this.wonPrize.code
+          });
+        },
+
+        applyWonPrizeToCart() {
+          if (!this.wonPrize) return;
+          if (typeof sessionStorage !== 'undefined') {
+            sessionStorage.setItem('falcon_ruleta_usada', 'true');
+          }
+          this.isRouletteUsed = true;
+          this.promoInput = this.wonPrize.code;
+          this.appliedPromo = {
+            code: this.wonPrize.code,
+            percent: this.wonPrize.type === 'percent' ? this.wonPrize.val : null,
+            fixed: this.wonPrize.type === 'fixed' ? this.wonPrize.val : null,
+            desc: this.wonPrize.title
+          };
+          this.isSlotModalOpen = false;
+          this.isCartOpen = true;
+        },
+
+        openStoreInfoModal() {
+          this.isInfoModalOpen = true;
+          this.trackGA('view_business_info', {
+            store_name: "Falcon's Alitas",
+            address: "Calle 48D Sur N. 55C - 04, San Antonio de Prado, Medellín",
+            rating: 4.6,
+            phone: "+573193574825"
+          });
+        },
+
+        // SANITIZATION & SECURITY BY DESIGN (OWASP Anti-XSS, Habeas Data)
+        sanitizeText(input) {
+          if (typeof input !== 'string') return '';
+          return input
+            .replace(/[<>]/g, '') // Strip angle brackets (anti-XSS)
+            .replace(/[\u0000-\u001F\u007F-\u009F]/g, '') // Remove dangerous control characters
+            .trim();
+        },
+
+        // GEOLOCALIZACIÓN GPS SATELITAL Y VALIDACIÓN DE ZONA OPERATIVA
+        isWithinOperationalZone(lat, lng) {
+          // Bounding Box: San Antonio de Prado, Itagüí, La Estrella & Valle de Aburrá
+          return (lat >= 6.050 && lat <= 6.400 && lng >= -75.750 && lng <= -75.450);
+        },
+
+        handleManualMapsUrlInput(val) {
+          const raw = this.sanitizeText(val);
+          this.customer.googleMapsUrl = raw;
+          if (!raw) {
+            this.gpsWarning = null;
+            this.gpsError = null;
+            return;
+          }
+
+          // Scheme and Domain Security Whitelist
+          if (/^(javascript:|data:|vbscript:)/i.test(raw)) {
+            this.gpsWarning = 'Esquema de URL no permitido.';
+            return;
+          }
+
+          const isGoogleMaps = /^(https?:\/\/)?((maps\.google\.[a-z.]+|www\.google\.[a-z.]+\/maps|google\.[a-z.]+\/maps|maps\.app\.goo\.gl|goo\.gl\/maps)(\/|\?|$))/i.test(raw);
+          if (!isGoogleMaps) {
+            this.gpsWarning = 'Ingresa un enlace oficial de Google Maps (google.com/maps o maps.app.goo.gl).';
+            return;
+          }
+
+          // Extract Coordinates if present in URL
+          const match = raw.match(/(?:[?&]q=|@|loc:|ll=)(-?\d{1,2}\.\d+)[,\s]+(-?\d{1,3}\.\d+)/);
+          if (match) {
+            const lat = parseFloat(match[1]);
+            const lng = parseFloat(match[2]);
+            if (!isNaN(lat) && !isNaN(lng) && !this.isWithinOperationalZone(lat, lng)) {
+              this.gpsWarning = `Las coordenadas del enlace (${lat.toFixed(3)}, ${lng.toFixed(3)}) están fuera de la zona de despacho de San Antonio de Prado.`;
+              return;
+            }
+          }
+
+          this.gpsWarning = null;
+          this.gpsError = null;
+        },
+
+        getGpsLocation() {
+          if (typeof navigator === 'undefined' || !navigator.geolocation) {
+            this.gpsError = 'Tu navegador o dispositivo no soporta geolocalización. Ingresa tu dirección manual con punto de referencia.';
+            return;
+          }
+
+          const now = Date.now();
+          if (now - this._lastGpsRequest < 3500) {
+            const wait = Math.ceil((3500 - (now - this._lastGpsRequest)) / 1000);
+            this.gpsError = `Espera ${wait} segundo(s) antes de consultar el GPS nuevamente.`;
+            return;
+          }
+          this._lastGpsRequest = now;
+
+          this.gpsLoading = true;
+          this.gpsError = null;
+          this.gpsWarning = null;
+
+          let timeoutId = setTimeout(() => {
+            if (this.gpsLoading) {
+              this.gpsLoading = false;
+              this.gpsError = 'Tiempo de espera agotado al conectar con el satélite GPS. Completa tu dirección manual con punto de referencia.';
+            }
+          }, 11000);
+
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              clearTimeout(timeoutId);
+              this.gpsLoading = false;
+              const lat = position.coords.latitude;
+              const lng = position.coords.longitude;
+              const accuracy = Math.round(position.coords.accuracy || 0);
+
+              // Bounding box range check
+              if (!this.isWithinOperationalZone(lat, lng)) {
+                this.gpsWarning = `Ubicación detectada (${lat.toFixed(4)}, ${lng.toFixed(4)}) fuera de la zona de cobertura de San Antonio de Prado / Medellín. Puedes ingresar tu dirección manual para confirmar tu entrega.`;
+                this.gpsSuccess = false;
+                return;
+              }
+
+              const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+              this.customer.googleMapsUrl = mapsUrl;
+              this.gpsAccuracy = accuracy;
+              this.gpsSuccess = true;
+              this.gpsWarning = null;
+              this.gpsError = null;
+            },
+            (error) => {
+              clearTimeout(timeoutId);
+              this.gpsLoading = false;
+              this.gpsSuccess = false;
+              let errorMsg = 'No pudimos obtener tu ubicación GPS.';
+              if (error.code === 1) {
+                errorMsg = 'Permiso de ubicación no otorgado. No te preocupes: completa tu dirección exacta, barrio y punto de referencia en el formulario.';
+              } else if (error.code === 2) {
+                errorMsg = 'Señal GPS no disponible en este momento. Escribe tu dirección manual con punto de referencia.';
+              } else if (error.code === 3) {
+                errorMsg = 'Tiempo de espera agotado al obtener señal GPS.';
+              }
+              this.gpsError = errorMsg;
+            },
+            {
+              enableHighAccuracy: true,
+              timeout: 10000,
+              maximumAge: 8000
+            }
+          );
+        },
+
+        isCheckoutValid() {
+          if (this.cart.length === 0) return false;
+          if (!this.habeasDataConsent) return false;
+          const cleanName = this.sanitizeText(this.customer.name);
+          if (!cleanName || cleanName.length < 2) return false;
+
+          if (this.customer.orderType === 'delivery') {
+            const cleanAddr = this.sanitizeText(this.customer.address);
+            if (!cleanAddr || cleanAddr.length < 4) return false;
+          }
+
+          if (this.customer.orderType === 'table') {
+            const cleanTable = this.sanitizeText(this.customer.tableNumber);
+            if (!cleanTable || cleanTable.length < 1) return false;
+          }
+
+          return true;
+        },
+
+        // FINAL CHECKOUT SEND TO WHATSAPP (Trigger purchase)
+        sendOrderWhatsApp() {
+          if (!this.isCheckoutValid()) {
+            return;
+          }
+
+          const cleanName = this.sanitizeText(this.customer.name);
+          const cleanAddress = this.sanitizeText(this.customer.address);
+          const cleanReference = this.sanitizeText(this.customer.referencePoint);
+          const cleanTable = this.sanitizeText(this.customer.tableNumber);
+          const cleanNotes = this.sanitizeText(this.customer.notes);
+          const cleanCashChange = this.sanitizeText(this.customer.cashChange);
+          const cleanNeighborhood = this.sanitizeText(this.customer.neighborhood);
+          const cleanMapsUrl = this.customer.googleMapsUrl ? this.sanitizeText(this.customer.googleMapsUrl) : '';
+
+          // GA4: purchase (No PII logged in analytics payload)
+          this.trackGA('purchase', {
+            transaction_id: 'FA-' + Date.now(),
+            value: this.grandTotal(),
+            currency: 'COP',
+            coupon: this.appliedPromo ? this.appliedPromo.code : '',
+            shipping: this.deliveryFee(),
+            items: this.cart.map(i => ({
+              item_id: i.product.id.toString(),
+              item_name: i.product.name,
+              price: i.unitPrice,
+              quantity: i.qty
+            }))
+          });
+
+          // Build WhatsApp Message with sanitized values (Commercial, Persuasive, Brand-Loyalty & Universal iOS/Android Compatible)
+          let msg = `🍗🔥 *¡HOLA FALCON'S ALITAS! Quiero hacer mi pedido express* 🍗🔥\n`;
+          msg += `------------------------------------\n`;
+          msg += `👤 *Mi Nombre:* ${cleanName}\n`;
+
+          if (this.customer.orderType === 'delivery') {
+            msg += `🛵 *Modalidad:* Servicio a Domicilio 🚀\n`;
+            msg += `📍 *Dirección de Entrega:* ${cleanAddress}\n`;
+            if (cleanReference) {
+              msg += `🏢 *Punto de Referencia / Torre / Apto:* ${cleanReference}\n`;
+            }
+            msg += `🏠 *Barrio / Sector:* ${cleanNeighborhood}\n`;
+            if (cleanMapsUrl) {
+              msg += `🗺️ *Ubicación Google Maps (GPS):* ${cleanMapsUrl}\n`;
+            }
+          } else if (this.customer.orderType === 'pickup') {
+            msg += `📦 *Modalidad:* Pasar a Recoger en Sede (Calle 48D Sur N. 55C - 04)\n`;
+          } else {
+            msg += `🍴 *Modalidad:* Consumo en Local - *Mesa #${cleanTable}*\n`;
+          }
+
+          msg += `💳 *Forma de Pago:* ${this.customer.paymentMethod}`;
+          if (this.customer.paymentMethod === 'Efectivo' && cleanCashChange) {
+            msg += ` (Pagaré con: ${cleanCashChange} - Requiere cambio)`;
+          }
+          msg += `\n`;
+
+          if (this.customer.paymentMethod === 'Nequi' || this.customer.paymentMethod === 'Bancolombia') {
+            msg += `📸 *Comprobante de Transferencia:* Adjunto el pantallazo en este chat para verificar en cocina y confirmar mi pedido de inmediato. ✅\n`;
+          }
+
+          if (cleanNotes) {
+            msg += `📝 *Observaciones Especiales:* ${cleanNotes}\n`;
+          }
+
+          msg += `------------------------------------\n`;
+          msg += `📋 *ESPECIFICACIONES PARA PREPARACIÓN (COCINA):*\n\n`;
+
+          this.cart.forEach((item, index) => {
+            let itemTitle = `${item.qty}x ${item.product.name}`;
+            if (item.variant) {
+              itemTitle += ` [Ref: ${item.variant}]`;
+            }
+            msg += `*${index + 1}.* *${itemTitle}* • Total: ${this.formatMoney(item.unitPrice * item.qty)}\n`;
+            if (item.variant) {
+              msg += `   ✨ *Término/Sabor:* ${item.variant}\n`;
+            }
+            if (item.sauces && item.sauces.length > 0) {
+              const saucesFormatted = item.sauces
+                .map(s => (typeof s === 'string' ? s : `${s.qty}x ${s.name}`))
+                .join(', ');
+              msg += `   🥫 *Salsas Elegidas:* ${saucesFormatted}\n`;
+            }
+            if (item.onion) {
+              msg += `   🧅 *Cebolla:* ${item.onion}\n`;
+            }
+            if (item.upsells && item.upsells.length > 0) {
+              item.upsells.forEach(u => {
+                const uQty = u.qty || 1;
+                const uTotal = this.formatMoney(u.price * uQty);
+                if (u.variant) {
+                  msg += `   ➕ *Adición:* ${uQty}x ${u.name} [${u.variant}] (+${uTotal})\n`;
+                } else {
+                  msg += `   ➕ *Adición:* ${uQty}x ${u.name} (+${uTotal})\n`;
+                }
+              });
+            }
+            if (item.notes) {
+              msg += `   📌 *Nota del plato:* "${this.sanitizeText(item.notes)}"\n`;
+            }
+            msg += `\n`;
+          });
+
+          msg += `------------------------------------\n`;
+          msg += `💵 *Subtotal:* ${this.formatMoney(this.cartSubtotal())}\n`;
+          if (this.discountAmount() > 0) {
+            msg += `🎁 *Beneficio / Descuento (${this.appliedPromo?.code}):* -${this.formatMoney(this.discountAmount())}\n`;
+            msg += `⭐ *Comprobante de Reseña:* Adjunto pantallazo de mi reseña Google 5★ para validar mi beneficio.\n`;
+          }
+          if (this.customer.orderType === 'delivery') {
+            msg += `🛵 *Servicio de Domicilio:* ${this.formatMoney(this.deliveryFee())}\n`;
+          }
+          msg += `💰 *TOTAL FINAL A PAGAR: ${this.formatMoney(this.grandTotal())}*\n`;
+          msg += `------------------------------------\n`;
+          msg += `¡Muchas gracias! Quedo super atento(a) a su confirmación y al tiempo estimado de entrega. ¡El mejor sabor de Prado! 🚀🔥`;
+
+          const phone = '573193574825';
+          const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`;
+
+          // REINICIO TÁCTICO: Desbloqueo de ruleta para el siguiente pedido
+          if (typeof sessionStorage !== 'undefined') {
+            sessionStorage.removeItem('falcon_ruleta_usada');
+          }
+          this.isRouletteUsed = false;
+
+          // LIMPIEZA EFÍMERA DE PII (Ciberseguridad y Privacidad Ley 1581)
+          this.customer = {
+            name: '',
+            orderType: 'delivery',
+            address: '',
+            neighborhood: 'El Rosario (San Antonio de Prado)',
+            tableNumber: '',
+            paymentMethod: 'Nequi',
+            cashChange: '',
+            notes: ''
+          };
+          this.habeasDataConsent = false;
+          this.cart = [];
+          this.appliedPromo = null;
+          this.promoInput = '';
+          this.isCartOpen = false;
+
+          window.open(url, '_blank');
+        }
+      }
+    }
+  </script>
+</body>
+</html>

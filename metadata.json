@@ -1,0 +1,6 @@
+{
+  "name": "Falcon's Alitas - Menú Digital & Pedidos 3D",
+  "description": "Menú digital interactivo 3D y sistema de pedidos de alta conversión para Falcon's Alitas en San Antonio de Prado, con personalización de combos, salsas, QR deep-linking y despacho a WhatsApp.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
