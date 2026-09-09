@@ -258,15 +258,15 @@
     <div class="bg-gradient-to-r from-neutral-900 via-neutral-950 to-neutral-900 rounded-3xl p-4 sm:p-5 border border-neutral-800 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
       <div class="space-y-2 text-center md:text-left flex-1 min-w-0">
         <div class="inline-flex items-center gap-1.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider whitespace-normal">
-          <span>⭐ CALIFICA TU EXPERIENCIA Y GANA PREMIOS</span>
+          <span>🎰 GIRA Y GANA UN PREMIO GRATIS</span>
           <span>•</span>
           <span>PEDIDOS RÁPIDOS POR WHATSAPP</span>
         </div>
         <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white uppercase tracking-wide leading-tight whitespace-normal break-words">
-          ¡Califica con 5 Estrellas y Pide Fácil en Minutos!
+          ¡Pide Fácil en Minutos y Gana un Premio!
         </h2>
         <p class="text-xs sm:text-sm text-neutral-300 max-w-xl leading-relaxed whitespace-normal break-words">
-          Disfruta tus alitas, hamburguesas y combos preparados al instante con tus salsas gratis incluidas. Haz tu pedido express en 3 simples pasos y déjanos tu reseña.
+          Disfruta tus alitas, hamburguesas y combos preparados al instante con tus salsas gratis incluidas. Haz tu pedido express en 3 simples pasos.
         </p>
 
         <!-- 3 PASOS FÁCILES PARA PEDIR -->
@@ -1601,15 +1601,16 @@
         </div>
 
         <!-- INVITACIÓN OPCIONAL A RESEÑAR (el cupón ya es válido, esto no lo condiciona) -->
-        <div class="bg-neutral-900/80 border border-neutral-800 p-2.5 rounded-2xl text-[11px] text-neutral-300 text-left space-y-1.5">
-          <p class="leading-relaxed">
-            🎉 ¡Tu cupón ya está activo y listo para usar! Si te gustó tu experiencia, nos ayudas muchísimo dejando una reseña en Google Maps.
+        <div class="bg-gradient-to-br from-blue-950/50 via-neutral-900 to-neutral-900 border border-blue-500/40 p-3 rounded-2xl text-left space-y-2.5">
+          <p class="text-xs text-neutral-200 leading-relaxed">
+            🎉 <strong class="text-white">¡Tu cupón ya está activo y listo para usar!</strong> Si te gustó tu experiencia, nos ayudas muchísimo dejando una reseña en Google Maps.
           </p>
           <button
             type="button"
             @click="triggerGoogleReview()"
-            class="text-amber-300 hover:text-amber-200 font-bold underline underline-offset-2 flex items-center gap-1">
-            <span>Dejar una reseña (opcional)</span>
+            class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wide transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-900/40 active:scale-95">
+            <span>⭐</span>
+            <span>Dejar una Reseña (Opcional)</span>
             <span>↗</span>
           </button>
         </div>
@@ -3188,7 +3189,7 @@
             const signedCode = `FALCON-DESC-${randomCodeNum}-${checksum}`;
             this.wonPrize = {
               title: '10% de Descuento en tu Pedido',
-              desc: 'Válido en tu orden de hoy con pantallazo de reseña 5★.',
+              desc: 'Válido en tu orden de hoy. ¡Aplícalo ya!',
               code: signedCode,
               type: 'percent',
               val: 10
@@ -3200,7 +3201,7 @@
             const signedCode = `FALCON-DRINK-${randomCodeNum}-${checksum}`;
             this.wonPrize = {
               title: 'Bebida Personal o Salsa Gratis',
-              desc: 'Descuento de $3.500 con pantallazo de reseña 5★.',
+              desc: 'Descuento de $3.500 en tu pedido de hoy.',
               code: signedCode,
               type: 'fixed',
               val: 3500
@@ -3212,7 +3213,7 @@
             const signedCode = `FALCON-JACKPOT-${randomCodeNum}-${checksum}`;
             this.wonPrize = {
               title: 'JACKPOT FALCON ($5.000 OFF)',
-              desc: '¡Premio mayor! $5.000 OFF con pantallazo de reseña 5★.',
+              desc: '¡Premio mayor! $5.000 OFF en tu pedido de hoy.',
               code: signedCode,
               type: 'fixed',
               val: 5000
@@ -3506,7 +3507,6 @@
           msg += `💵 *Subtotal:* ${this.formatMoney(this.cartSubtotal())}\n`;
           if (this.discountAmount() > 0) {
             msg += `🎁 *Beneficio / Descuento (${this.appliedPromo?.code}):* -${this.formatMoney(this.discountAmount())}\n`;
-            msg += `⭐ *Comprobante de Reseña:* Adjunto pantallazo de mi reseña Google 5★ para validar mi beneficio.\n`;
           }
           if (this.customer.orderType === 'delivery') {
             msg += `🛵 *Servicio de Domicilio:* ${this.formatMoney(this.deliveryFee())}\n`;
