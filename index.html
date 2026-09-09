@@ -2782,12 +2782,18 @@
             const compressed = await compress(file);
             let finalUrl = compressed;
 
-            // Optional upload to backend API if active
+            // Subida al backend: se envía como JSON con la imagen ya comprimida
+            // en base64 (el servidor procesa este formato correctamente).
+            // El envío anterior como archivo binario (FormData) hacía que el
+            // servidor devolviera el archivo corrupto cuando no había un
+            // servicio de nube (Cloudinary) configurado — por eso se veía
+            // la imagen genérica de reemplazo.
             try {
-              const formData = new FormData();
-              formData.append('file', file);
-              formData.append('productId', productId);
-              const res = await fetch('/api/upload', { method: 'POST', body: formData });
+              const res = await fetch('/api/upload', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image: compressed, productId })
+              });
               if (res.ok) {
                 const data = await res.json();
                 if (data.url) finalUrl = data.url;
