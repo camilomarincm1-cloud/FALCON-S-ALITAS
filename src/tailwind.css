@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+/* Aseguramos explícitamente que Tailwind escanee las clases usadas en el
+   index.html de la raíz del proyecto (este CSS vive un nivel abajo, en src/). */
+@source "../index.html";
+
+/* Mismo tema personalizado que antes vivía en `tailwind.config` del CDN de Tailwind.
+   Cualquier cambio de color/fuente/animación de marca se hace aquí. */
+@theme {
+  --color-brand-black: #0A0A0A;
+  --color-brand-card: #141414;
+  --color-brand-cardLight: #1C1C1C;
+  --color-brand-crimson: #FF3B00;
+  --color-brand-red: #FF3B00;
+  --color-brand-redHover: #E03400;
+  --color-brand-gold: #D69E2E;
+  --color-brand-goldLight: #F6E05E;
+  --color-brand-green: #22C55E;
+  --color-brand-darkBorder: #262626;
+
+  --font-display: 'Teko', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+
+  --animate-glow-pulse: glowPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-crimson-pulse: crimsonPulse 1.8s ease-in-out infinite;
+  --animate-slot-spin: slotSpin 0.2s linear infinite;
+  --animate-bounce-gentle: bounceGentle 2s infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.03); }
+}
+@keyframes crimsonPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 59, 0, 0.7); transform: scale(1); }
+  50% { box-shadow: 0 0 25px 6px rgba(255, 59, 0, 0.4); transform: scale(1.015); }
+}
+@keyframes slotSpin {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-100%); }
+}
+@keyframes bounceGentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* === A partir de aquí: el mismo <style> plano que ya existía en index.html === */
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+}
+html {
+  min-height: 100dvh;
+  width: 100%;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  min-height: 100dvh;
+  width: 100%;
+  overflow-x: clip;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: #0A0A0A;
+  color: #FFFFFF;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.font-display {
+  font-family: 'Teko', sans-serif;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+/* Universal iOS Smooth Momentum Scrolling */
+.overflow-y-auto,
+.overflow-x-auto,
+.overflow-auto,
+[class*="overflow-y-auto"],
+[class*="overflow-x-auto"] {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+/* Fixed Positioning Stability on WebKit */
+.fixed,
+[class*="fixed"] {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.neon-gold-border {
+  box-shadow: 0 0 15px rgba(214, 158, 46, 0.25);
+}
+.neon-red-border {
+  box-shadow: 0 0 20px rgba(229, 62, 62, 0.35);
+}
+/* iOS input font size safety to prevent automatic zooming */
+@media screen and (max-width: 640px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+/* Safe Area insets for modern mobile devices */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.pb-safe-bottom-bar {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
+}
+[x-cloak] { display: none !important; }
