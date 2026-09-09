@@ -2262,9 +2262,21 @@
     // ============================================================
     const SUPABASE_URL = 'https://yqlvwpfdpkovntdklmwu.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_GIF5zC1AO0iGFHIEH1noGw_XJ35WkJ1';
-    const supabaseClient = (typeof window !== 'undefined' && window.supabase)
-      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-      : null;
+
+    // IMPORTANTE: no crear el cliente aquí arriba. Este bloque de script
+    // corre de inmediato mientras el navegador todavía está leyendo la
+    // página, ANTES de que termine de cargar el script "defer" de Supabase.
+    // Por eso el cliente se crea de forma perezosa (lazy), solo la primera
+    // vez que realmente se necesita (login, guardar catálogo, etc.) —
+    // para ese momento Supabase ya está disponible.
+    let _supabaseClientInstance = null;
+    function getSupabaseClient() {
+      if (_supabaseClientInstance) return _supabaseClientInstance;
+      if (typeof window !== 'undefined' && window.supabase) {
+        _supabaseClientInstance = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
+      return _supabaseClientInstance;
+    }
 
     // Convierte una fila de la tabla `products` de Supabase (snake_case)
     // al formato que usa la plantilla (camelCase), sin romper el resto del código.
@@ -2462,8 +2474,8 @@
           await this.loadCatalogFromSupabase();
 
           // Restaura la sesión de admin si ya había una activa (Supabase Auth)
-          if (supabaseClient) {
-            const { data: { session } } = await supabaseClient.auth.getSession();
+          if (getSupabaseClient()) {
+            const { data: { session } } = await getSupabaseClient().auth.getSession();
             this.isAdminAuthenticated = !!session;
           }
 
@@ -2609,15 +2621,15 @@
         // Trae el catálogo real y compartido desde Supabase (productos + adicionales).
         // Si algo falla, deja el catálogo por defecto tal como estaba — nunca deja el sitio en blanco.
         async loadCatalogFromSupabase() {
-          if (!supabaseClient) {
+          if (!getSupabaseClient()) {
             console.error('Supabase no está disponible; usando catálogo por defecto.');
             this.catalogSource = 'error';
             return;
           }
           try {
             const [productsRes, upsellsRes] = await Promise.all([
-              supabaseClient.from('products').select('*').order('sort_order', { ascending: true }),
-              supabaseClient.from('upsell_options').select('*').order('sort_order', { ascending: true })
+              getSupabaseClient().from('products').select('*').order('sort_order', { ascending: true }),
+              getSupabaseClient().from('upsell_options').select('*').order('sort_order', { ascending: true })
             ]);
 
             if (productsRes.error) throw productsRes.error;
@@ -2667,7 +2679,7 @@
             return;
           }
 
-          if (!supabaseClient) {
+          if (!getSupabaseClient()) {
             this.adminError = 'No se pudo conectar con el servidor de autenticación. Intenta de nuevo en unos segundos.';
             return;
           }
@@ -2675,7 +2687,7 @@
           // Autenticación real vía Supabase Auth. Sin fallback local:
           // si esto falla, el login falla — nunca se degrada a una
           // verificación insegura en el navegador.
-          const { data, error } = await supabaseClient.auth.signInWithPassword({
+          const { data, error } = await getSupabaseClient().auth.signInWithPassword({
             email,
             password: p
           });
@@ -2700,8 +2712,8 @@
         },
 
         async logoutAdmin() {
-          if (supabaseClient) {
-            await supabaseClient.auth.signOut();
+          if (getSupabaseClient()) {
+            await getSupabaseClient().auth.signOut();
           }
           this.isAdminAuthenticated = false;
           this.isAdminCMSOpen = false;
@@ -2798,7 +2810,7 @@
         },
 
         async saveCMSChanges() {
-          if (!supabaseClient) {
+          if (!getSupabaseClient()) {
             alert('No hay conexión con la base de datos. Los cambios no se guardaron.');
             return;
           }
@@ -2816,7 +2828,7 @@
               variants: p.variants && p.variants.length > 0 ? p.variants : null,
               sort_order: index
             }));
-            const { error } = await supabaseClient.from('products').upsert(rows, { onConflict: 'id' });
+            const { error } = await getSupabaseClient().from('products').upsert(rows, { onConflict: 'id' });
             if (error) throw error;
 
             this.adminSaveNotification = true;
@@ -2833,7 +2845,7 @@
           if (!confirm('¿Deseas restablecer todos los precios e imágenes del menú a los valores oficiales de fábrica?')) {
             return;
           }
-          if (!supabaseClient) {
+          if (!getSupabaseClient()) {
             alert('No hay conexión con la base de datos. No se pudo restablecer.');
             return;
           }
@@ -2851,7 +2863,7 @@
               variants: p.variants && p.variants.length > 0 ? p.variants : null,
               sort_order: index
             }));
-            const { error } = await supabaseClient.from('products').upsert(rows, { onConflict: 'id' });
+            const { error } = await getSupabaseClient().from('products').upsert(rows, { onConflict: 'id' });
             if (error) throw error;
 
             this.products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
