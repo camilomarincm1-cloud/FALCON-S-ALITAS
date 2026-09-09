@@ -106,6 +106,9 @@
     }
   </script>
 
+  <!-- Supabase JS SDK (debe cargar ANTES que Alpine.js) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
   <!-- Alpine.js CDN -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
@@ -223,7 +226,7 @@
     <div class="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">
       <div class="absolute -right-6 sm:right-16 -top-10 sm:-top-8 w-44 h-44 sm:w-56 sm:h-56 opacity-10 sm:opacity-15 blur-[0.5px] transform rotate-12 transition-all">
         <img 
-          src="/logo.png" 
+          src="/logo.jpg" 
           alt="Falcon's Background Watermark" 
           class="w-full h-full object-contain filter drop-shadow-2xl"
           referrerpolicy="no-referrer"
@@ -241,7 +244,7 @@
         <div class="relative shrink-0">
           <div class="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-neutral-900/80 backdrop-blur-md border border-amber-500/40 p-1 flex items-center justify-center shadow-lg shadow-red-950/40 transform group-hover:scale-105 transition-all">
             <img 
-              src="/logo.png" 
+              src="/logo.jpg" 
               alt="Falcon's Alitas Logo" 
               class="w-full h-full object-cover rounded-xl opacity-90 group-hover:opacity-100 transition-opacity"
               referrerpolicy="no-referrer"
@@ -592,7 +595,7 @@
         <div class="space-y-1">
           <div class="flex items-center justify-center sm:justify-start gap-2">
             <img 
-              src="/logo.png" 
+              src="/logo.jpg" 
               alt="Falcon's Alitas Logo" 
               class="w-8 h-8 rounded-xl object-cover border border-amber-500/40 bg-neutral-900" 
               referrerpolicy="no-referrer"
@@ -1822,7 +1825,7 @@
       <div class="flex justify-between items-start">
         <div class="flex items-center gap-3">
           <img 
-            src="/logo.png" 
+            src="/logo.jpg" 
             alt="Falcon's Alitas Logo" 
             class="w-12 h-12 rounded-2xl object-cover border border-amber-500/40 shadow-lg shadow-brand-red/30 bg-neutral-900 shrink-0"
             referrerpolicy="no-referrer"
@@ -1998,11 +2001,11 @@
         </template>
 
         <div class="space-y-1.5">
-          <label class="text-xs font-bold text-neutral-300 uppercase tracking-wider block">Usuario</label>
+          <label class="text-xs font-bold text-neutral-300 uppercase tracking-wider block">Correo electrónico</label>
           <input 
-            type="text" 
+            type="email" 
             x-model="adminUsername" 
-            placeholder="Usuario administrador (ej: admin)" 
+            placeholder="admin@tunegocio.com" 
             required
             autocomplete="username"
             class="w-full bg-neutral-900 border border-neutral-800 focus:border-amber-500 rounded-xl p-3 text-sm text-white placeholder-neutral-500 outline-none transition-colors"
@@ -2251,6 +2254,45 @@
   <!-- 11. SCRIPT CON ESTADO ALPINE.JS, MOTOR RTP, TRACKING GA4 Y CHECKOUT -->
   <!-- ========================================================================= -->
   <script>
+    // ============================================================
+    // CONFIGURACIÓN DE SUPABASE
+    // Al migrar este proyecto a la cuenta del cliente, SOLO estos
+    // 2 valores cambian (Project URL y anon/publishable key del
+    // proyecto Supabase del cliente). Nada más del código se toca.
+    // ============================================================
+    const SUPABASE_URL = 'https://yqlvwpfdpkovntdklmwu.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_GIF5zC1AO0iGFHIEH1noGw_XJ35WkJ1';
+    const supabaseClient = (typeof window !== 'undefined' && window.supabase)
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+      : null;
+
+    // Convierte una fila de la tabla `products` de Supabase (snake_case)
+    // al formato que usa la plantilla (camelCase), sin romper el resto del código.
+    function mapDbProduct(row) {
+      return {
+        id: row.id,
+        category: row.category,
+        name: row.name,
+        price: row.price,
+        image: row.image,
+        emoji: row.emoji,
+        badge: row.badge || undefined,
+        description: row.description,
+        prepTime: row.prep_time,
+        variants: row.variants || undefined
+      };
+    }
+
+    function mapDbUpsell(row) {
+      return {
+        id: row.id,
+        name: row.name,
+        price: row.price,
+        label: row.label || undefined,
+        variants: row.variants || undefined
+      };
+    }
+
     const DEFAULT_PRODUCTS = [
       // PAPAS
       { id: 1, category: 'papas', name: 'Salchipapa Especial Paisa', price: 15000, image: '/images/salchipapa_especial.jpg', emoji: '🍟', badge: 'MÁS VENDIDO 🔥', description: 'Papas crujientes, salchichas rancheras, chorizo cóctel, huevo de codorniz, queso y torta molipollo dorada.', prepTime: '12-15 min' },
@@ -2404,7 +2446,7 @@
         // Protected Admin Panel & CMS State
         isAdminLoginOpen: false,
         isAdminCMSOpen: false,
-        isAdminAuthenticated: (typeof sessionStorage !== 'undefined' && Boolean(sessionStorage.getItem('falcon_admin_token'))),
+        isAdminAuthenticated: false, // se determina realmente en init() consultando la sesión de Supabase Auth
         adminUsername: '',
         adminPassword: '',
         adminError: '',
@@ -2413,28 +2455,20 @@
         adminSaveNotification: false,
         uploadingId: null,
 
-        init() {
-          // Ingesta de catálogo persistente si fue modificado en CMS
-          try {
-            if (typeof localStorage !== 'undefined') {
-              const saved = localStorage.getItem('falcons_custom_products');
-              if (saved) {
-                const parsed = JSON.parse(saved);
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                  this.products = parsed;
-                }
-              }
-            }
-          } catch (e) {
-            console.error('Error cargando catálogo de CMS:', e);
+        async init() {
+          // Carga el catálogo real y compartido desde Supabase.
+          // Si falla (sin internet, proyecto pausado, etc.), se queda con
+          // el catálogo por defecto embebido — el sitio nunca se rompe.
+          await this.loadCatalogFromSupabase();
+
+          // Restaura la sesión de admin si ya había una activa (Supabase Auth)
+          if (supabaseClient) {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            this.isAdminAuthenticated = !!session;
           }
 
           if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('falcon_ruleta_usada') === 'true') {
             this.isRouletteUsed = true;
-          }
-
-          if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('falcon_admin_token')) {
-            this.isAdminAuthenticated = true;
           }
 
           // Inicializar ScrollSpy inteligente para que el menú permanezca activo y centrado según la sección visible
@@ -2567,26 +2601,40 @@
           { id: 'bebidas', name: 'Bebidas Frías', icon: '🥤', desc: 'Gaseosas y cervezas heladas' }
         ],
 
-        products: (function() {
+        // Arranca con el catálogo por defecto (respaldo instantáneo mientras carga la red);
+        // init() lo reemplaza con los datos reales de Supabase en cuanto responden.
+        products: JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)),
+        catalogSource: 'default', // 'default' | 'supabase' | 'error' — útil para depurar
+
+        // Trae el catálogo real y compartido desde Supabase (productos + adicionales).
+        // Si algo falla, deja el catálogo por defecto tal como estaba — nunca deja el sitio en blanco.
+        async loadCatalogFromSupabase() {
+          if (!supabaseClient) {
+            console.error('Supabase no está disponible; usando catálogo por defecto.');
+            this.catalogSource = 'error';
+            return;
+          }
           try {
-            if (typeof localStorage !== 'undefined') {
-              const saved = localStorage.getItem('falcons_custom_products');
-              if (saved) {
-                const parsed = JSON.parse(saved);
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                  return parsed.map(p => {
-                    const def = DEFAULT_PRODUCTS.find(d => d.id === p.id);
-                    if (def && (!p.image || p.image.startsWith('/images/'))) {
-                      return { ...p, image: def.image };
-                    }
-                    return p;
-                  });
-                }
-              }
+            const [productsRes, upsellsRes] = await Promise.all([
+              supabaseClient.from('products').select('*').order('sort_order', { ascending: true }),
+              supabaseClient.from('upsell_options').select('*').order('sort_order', { ascending: true })
+            ]);
+
+            if (productsRes.error) throw productsRes.error;
+            if (productsRes.data && productsRes.data.length > 0) {
+              this.products = productsRes.data.map(mapDbProduct);
             }
-          } catch (e) {}
-          return JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
-        })(),
+
+            if (!upsellsRes.error && upsellsRes.data && upsellsRes.data.length > 0) {
+              this.upsellOptions = upsellsRes.data.map(mapDbUpsell);
+            }
+
+            this.catalogSource = 'supabase';
+          } catch (e) {
+            console.error('Error cargando catálogo desde Supabase, usando catálogo por defecto:', e);
+            this.catalogSource = 'error';
+          }
+        },
 
         // CMS Methods
         openAdminAuth() {
@@ -2611,86 +2659,51 @@
             return;
           }
 
-          const u = (this.adminUsername || '').trim().toLowerCase();
+          const email = (this.adminUsername || '').trim().toLowerCase();
           const p = (this.adminPassword || '').trim();
 
-          if (!u || !p) {
-            this.adminError = 'Ingresa usuario y contraseña.';
+          if (!email || !p) {
+            this.adminError = 'Ingresa correo y contraseña.';
             return;
           }
 
-          try {
-            // 1. Try serverless backend verification first
-            const res = await fetch('/api/admin-auth', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ username: u, password: p })
-            });
-            if (res.ok) {
-              const data = await res.json();
-              if (data?.authenticated && data?.token) {
-                this._adminAttempts = 0;
-                this.isAdminAuthenticated = true;
-                if (typeof sessionStorage !== 'undefined') {
-                  sessionStorage.setItem('falcon_admin_token', data.token);
-                }
-                this.adminError = '';
-                this.adminPassword = '';
-                this.isAdminLoginOpen = false;
-                this.isAdminCMSOpen = true;
-                return;
-              }
-            } else if (res.status === 429) {
-              const data = await res.json().catch(() => ({}));
-              this.adminError = data.error || 'Demasiados intentos. Intenta más tarde.';
-              return;
-            }
-          } catch (e) {
-            // fallback to client-side cryptographic hash check
+          if (!supabaseClient) {
+            this.adminError = 'No se pudo conectar con el servidor de autenticación. Intenta de nuevo en unos segundos.';
+            return;
           }
 
-          // 2. Client-side SHA-256 zero-plaintext verification fallback
-          try {
-            const msgBuffer = new TextEncoder().encode(p);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const pHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+          // Autenticación real vía Supabase Auth. Sin fallback local:
+          // si esto falla, el login falla — nunca se degrada a una
+          // verificación insegura en el navegador.
+          const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email,
+            password: p
+          });
 
-            const knownHashes = [
-              '39591469be4b321fb4b73a388f8d6896e38b368ca31a48cbfba67041dc089f55',
-              'd83d1c44db6f958862cfb9b8b0e7740f9011beea3716e917d52b115668b57731',
-              '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',
-              '9581a02796dc65e94b281f62b7194f1f2e825ea558bc66e5f15951d4ae006253'
-            ];
-
-            if ((u === 'admin' || u === 'falcons' || u === 'falconsalitas') && knownHashes.includes(pHash)) {
-              this._adminAttempts = 0;
-              this.isAdminAuthenticated = true;
-              if (typeof sessionStorage !== 'undefined') {
-                sessionStorage.setItem('falcon_admin_token', 'f_adm_' + Date.now());
-              }
-              this.adminError = '';
-              this.adminPassword = '';
-              this.isAdminLoginOpen = false;
-              this.isAdminCMSOpen = true;
-              return;
+          if (error || !data?.session) {
+            this._adminAttempts++;
+            if (this._adminAttempts >= 4) {
+              this._adminLockUntil = Date.now() + 60000;
+              this.adminError = '4 intentos fallidos. Panel bloqueado por 60 segundos por seguridad.';
+            } else {
+              this.adminError = `Credenciales no autorizadas. Intento ${this._adminAttempts} de 4.`;
             }
-          } catch (e) {}
-
-          this._adminAttempts++;
-          if (this._adminAttempts >= 4) {
-            this._adminLockUntil = Date.now() + 60000;
-            this.adminError = '4 intentos fallidos. Panel bloqueado por 60 segundos por seguridad.';
-          } else {
-            this.adminError = `Credenciales no autorizadas. Intento ${this._adminAttempts} de 4.`;
+            return;
           }
+
+          this._adminAttempts = 0;
+          this.isAdminAuthenticated = true;
+          this.adminError = '';
+          this.adminPassword = '';
+          this.isAdminLoginOpen = false;
+          this.isAdminCMSOpen = true;
         },
 
-        logoutAdmin() {
-          this.isAdminAuthenticated = false;
-          if (typeof sessionStorage !== 'undefined') {
-            sessionStorage.removeItem('falcon_admin_token');
+        async logoutAdmin() {
+          if (supabaseClient) {
+            await supabaseClient.auth.signOut();
           }
+          this.isAdminAuthenticated = false;
           this.isAdminCMSOpen = false;
         },
 
@@ -2784,30 +2797,71 @@
           }
         },
 
-        saveCMSChanges() {
+        async saveCMSChanges() {
+          if (!supabaseClient) {
+            alert('No hay conexión con la base de datos. Los cambios no se guardaron.');
+            return;
+          }
           try {
-            localStorage.setItem('falcons_custom_products', JSON.stringify(this.products));
+            const rows = this.products.map((p, index) => ({
+              id: p.id,
+              category: p.category,
+              name: p.name,
+              price: p.price,
+              image: p.image || null,
+              emoji: p.emoji || null,
+              badge: p.badge || null,
+              description: p.description || null,
+              prep_time: p.prepTime || null,
+              variants: p.variants && p.variants.length > 0 ? p.variants : null,
+              sort_order: index
+            }));
+            const { error } = await supabaseClient.from('products').upsert(rows, { onConflict: 'id' });
+            if (error) throw error;
+
             this.adminSaveNotification = true;
             setTimeout(() => {
               this.adminSaveNotification = false;
             }, 3000);
           } catch (e) {
-            console.error('Error guardando cambios:', e);
+            console.error('Error guardando cambios en Supabase:', e);
+            alert('No se pudieron guardar los cambios. Revisa tu conexión e intenta de nuevo.');
           }
         },
 
-        resetDefaultProducts() {
-          if (confirm('¿Deseas restablecer todos los precios e imágenes del menú a los valores oficiales de fábrica?')) {
-            try {
-              localStorage.removeItem('falcons_custom_products');
-              this.products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
-              this.adminSaveNotification = true;
-              setTimeout(() => {
-                this.adminSaveNotification = false;
-              }, 3000);
-            } catch (e) {
-              console.error(e);
-            }
+        async resetDefaultProducts() {
+          if (!confirm('¿Deseas restablecer todos los precios e imágenes del menú a los valores oficiales de fábrica?')) {
+            return;
+          }
+          if (!supabaseClient) {
+            alert('No hay conexión con la base de datos. No se pudo restablecer.');
+            return;
+          }
+          try {
+            const rows = DEFAULT_PRODUCTS.map((p, index) => ({
+              id: p.id,
+              category: p.category,
+              name: p.name,
+              price: p.price,
+              image: p.image || null,
+              emoji: p.emoji || null,
+              badge: p.badge || null,
+              description: p.description || null,
+              prep_time: p.prepTime || null,
+              variants: p.variants && p.variants.length > 0 ? p.variants : null,
+              sort_order: index
+            }));
+            const { error } = await supabaseClient.from('products').upsert(rows, { onConflict: 'id' });
+            if (error) throw error;
+
+            this.products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+            this.adminSaveNotification = true;
+            setTimeout(() => {
+              this.adminSaveNotification = false;
+            }, 3000);
+          } catch (e) {
+            console.error('Error restableciendo catálogo en Supabase:', e);
+            alert('No se pudo restablecer el catálogo. Revisa tu conexión e intenta de nuevo.');
           }
         },
 
