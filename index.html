@@ -83,7 +83,7 @@
       <div class="flex items-center gap-1.5 min-w-0 flex-1">
         <span class="animate-ping inline-flex h-2 w-2 rounded-full bg-amber-400 shrink-0"></span>
         <p class="font-extrabold text-amber-300 uppercase tracking-wider text-[10px] sm:text-[11px] leading-snug whitespace-normal break-words">
-          ⭐ ¡Pide fácil y califica tu experiencia! <span class="text-neutral-200 font-medium whitespace-normal">• San Antonio de Prado</span>
+          🔥 Pide directo y gana premios en tu pedido
         </p>
       </div>
 
@@ -303,7 +303,42 @@
       </div>
     </template>
 
-    <!-- MODO BÚSQUEDA -->
+    <!-- LOS MÁS PEDIDOS: prueba social real para el cliente indeciso -->
+    <template x-if="!searchQuery.trim().length && topProducts().length > 0">
+      <section class="space-y-3">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl">🔥</span>
+          <h2 class="font-display text-2xl sm:text-3xl font-bold tracking-wide text-brand-gold uppercase leading-none">Los Más Pedidos</h2>
+        </div>
+        <div class="flex items-stretch gap-3 overflow-x-auto hide-scrollbar pb-1">
+          <template x-for="product in topProducts()" :key="'top-' + product.id">
+            <div 
+              @click="openProductModal(product)"
+              class="shrink-0 w-[150px] sm:w-[168px] bg-brand-card rounded-2xl border border-neutral-800/90 hover:border-neutral-700 transition-all overflow-hidden cursor-pointer group">
+              <div class="relative h-[100px] sm:h-[112px] overflow-hidden">
+                <img 
+                  :src="product.image" 
+                  :alt="product.name" 
+                  loading="lazy"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                <template x-if="product.badge">
+                  <span class="absolute top-1.5 left-1.5 bg-brand-crimson text-white font-extrabold text-[9px] px-2 py-0.5 rounded-lg shadow-md uppercase tracking-wide leading-tight" x-text="product.badge"></span>
+                </template>
+              </div>
+              <div class="p-2.5 space-y-1">
+                <h3 class="font-bold text-white text-[12.5px] leading-tight line-clamp-2 whitespace-normal break-words" x-text="product.name"></h3>
+                <div class="flex items-center justify-between gap-1 pt-0.5">
+                  <span class="font-display text-lg text-brand-crimson font-extrabold" x-text="formatMoney(product.price)"></span>
+                  <span class="bg-brand-crimson group-hover:bg-red-600 text-white w-6 h-6 rounded-lg flex items-center justify-center text-sm font-black shrink-0 transition-colors">+</span>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </section>
+    </template>
+
+
     <template x-if="searchQuery.trim().length > 0">
       <section class="space-y-4">
         <div class="flex items-center justify-between border-b border-neutral-800 pb-2">
@@ -354,7 +389,7 @@
               <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
                 <div>
                   <h3 class="font-bold text-white text-[16px] sm:text-[18px] leading-snug group-hover:text-amber-400 transition-colors whitespace-normal break-words" x-text="product.name"></h3>
-                  <p class="text-[14px] text-neutral-300 mt-1.5 font-normal leading-relaxed whitespace-normal break-words" x-text="product.description"></p>
+                  <p class="text-[14px] text-neutral-300 mt-1.5 font-normal leading-relaxed line-clamp-2 whitespace-normal break-words" x-text="product.description"></p>
                 </div>
 
                 <div class="pt-3 border-t border-neutral-800/80 flex items-center justify-between gap-2">
@@ -434,7 +469,7 @@
                   <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
                     <div>
                       <h3 class="font-bold text-white text-[16px] sm:text-[18px] leading-snug group-hover:text-amber-400 transition-colors whitespace-normal break-words" x-text="product.name"></h3>
-                      <p class="text-[14px] text-neutral-300 mt-1.5 font-normal leading-relaxed whitespace-normal break-words" x-text="product.description"></p>
+                      <p class="text-[14px] text-neutral-300 mt-1.5 font-normal leading-relaxed line-clamp-2 whitespace-normal break-words" x-text="product.description"></p>
                     </div>
 
                     <div class="pt-3 border-t border-neutral-800/80 flex items-center justify-between gap-2">
@@ -718,7 +753,7 @@
           class="bg-neutral-900/60 p-3.5 rounded-2xl border border-neutral-800 space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-xs font-extrabold text-amber-300 tracking-wider uppercase flex items-center gap-1.5 whitespace-normal break-words">
-              <span>🔥 EL COMPLEMENTO PERFECTO: ¿Añadimos adicionales?</span>
+              <span>😈 Ya que estás... completa tu pedido</span>
             </span>
           </div>
           
@@ -914,7 +949,7 @@
             <h2 class="font-display text-2xl sm:text-3xl font-bold text-white uppercase tracking-wider leading-none">
               Tu Pedido
             </h2>
-            <p class="text-[10px] text-neutral-400">Embudo de Despacho Seguro • Falcon's</p>
+            <p class="text-[10px] text-neutral-400">Revisa y confirma tu pedido</p>
           </div>
           <span class="bg-brand-crimson text-white text-xs font-extrabold px-2.5 py-0.5 rounded-full" x-text="cartCount() + ' items'"></span>
         </div>
@@ -1077,6 +1112,25 @@
                   </div>
                 </div>
               </template>
+            </div>
+
+            <!-- ¿TE FALTA ALGO? sugerencia no bloqueante, solo productos reales del catálogo -->
+            <div x-show="cartStep === 1 && cartSuggestions().length > 0" class="space-y-2">
+              <span class="text-xs font-extrabold text-amber-300 tracking-wider uppercase">🔥 ¿Te falta algo?</span>
+              <div class="flex items-stretch gap-2 overflow-x-auto hide-scrollbar pb-1">
+                <template x-for="sugg in cartSuggestions()" :key="'sugg-' + sugg.id">
+                  <button
+                    type="button"
+                    @click="openProductModal(sugg)"
+                    class="shrink-0 w-[120px] bg-neutral-900/80 border border-neutral-800 hover:border-amber-400/50 rounded-xl p-2 text-left transition-all">
+                    <p class="text-[11px] font-bold text-white leading-tight line-clamp-2" x-text="sugg.name"></p>
+                    <div class="flex items-center justify-between mt-1.5">
+                      <span class="text-[11px] font-extrabold text-brand-gold" x-text="formatMoney(sugg.price)"></span>
+                      <span class="bg-brand-crimson text-white w-5 h-5 rounded-md flex items-center justify-center text-xs font-black shrink-0">+</span>
+                    </div>
+                  </button>
+                </template>
+              </div>
             </div>
 
             <!-- Modalidad del Pedido (Paso 2) -->
@@ -2805,6 +2859,31 @@
 
         getProductsByCategory(catId) {
           return this.products.filter(p => p.category === catId);
+        },
+
+        // "Los Más Pedidos": solo productos que YA tienen un badge real en el
+        // catálogo (más vendido, favorito, estrella de la casa, etc.) — nunca
+        // se inventan valoraciones ni popularidad que no existan en los datos.
+        topProducts() {
+          const preferredIds = [1, 2, 7, 12, 16];
+          const withBadge = preferredIds
+            .map(id => this.products.find(p => p.id === id))
+            .filter(p => p && p.badge);
+          if (withBadge.length >= 3) return withBadge;
+          // Respaldo: si algún admin borró/editó esos productos, toma
+          // cualquier producto real que tenga badge, hasta completar 5.
+          const fallback = this.products.filter(p => p.badge && !withBadge.includes(p));
+          return [...withBadge, ...fallback].slice(0, 5);
+        },
+
+        // Sugerencias no bloqueantes para el carrito ("¿Te falta algo?").
+        // Solo productos reales del catálogo (bebidas/adiciones) que aún no
+        // están en el carrito — nunca inventa productos ni descuentos.
+        cartSuggestions() {
+          const inCartIds = new Set(this.cart.map(i => i.product.id));
+          return this.products
+            .filter(p => (p.category === 'bebidas' || p.category === 'adiciones') && !inCartIds.has(p.id))
+            .slice(0, 4);
         },
 
         filteredProducts() {
