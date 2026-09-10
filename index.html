@@ -260,7 +260,7 @@
     <template x-if="products.find(p => p.id === 12)">
       <div 
         @click="openProductModal(products.find(p => p.id === 12))"
-        class="relative rounded-3xl overflow-hidden border border-neutral-800 shadow-2xl cursor-pointer group h-[68vh] min-h-[440px] max-h-[620px]">
+        class="relative rounded-3xl overflow-hidden border border-neutral-800 shadow-2xl cursor-pointer group h-[54vh] min-h-[380px] max-h-[500px]">
         <img 
           :src="products.find(p => p.id === 12).image" 
           :alt="products.find(p => p.id === 12).name"
@@ -561,7 +561,7 @@
     x-transition>
     
     <div 
-      @click.outside="isProductModalOpen = false" 
+      @click.outside="isProductModalOpen = false; editingCartItemId = null" 
       class="bg-brand-card w-full max-w-lg rounded-t-3xl sm:rounded-3xl border border-neutral-800 max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
       
       <!-- Large Hero Image Showcase Banner -->
@@ -595,7 +595,7 @@
           </div>
 
           <button 
-            @click="isProductModalOpen = false" 
+            @click="isProductModalOpen = false; editingCartItemId = null" 
             aria-label="Cerrar modal"
             class="pointer-events-auto text-white p-2 sm:p-2.5 rounded-xl bg-black/80 hover:bg-neutral-800 backdrop-blur-md border border-white/20 transition-all active:scale-95 shadow-xl cursor-pointer shrink-0">
             ✕
@@ -622,7 +622,7 @@
       </div>
 
       <!-- Modal Body Scroll -->
-      <div class="p-4 sm:p-5 overflow-y-auto space-y-5 hide-scrollbar">
+      <div id="product-modal-body" class="p-4 sm:p-5 overflow-y-auto space-y-5 hide-scrollbar">
         <p class="text-xs sm:text-sm text-neutral-300 leading-relaxed whitespace-normal break-words" x-text="selectedProduct?.description"></p>
 
         <!-- INDICADOR DE PROGRESO DEL STEPPER (puntos + texto) -->
@@ -880,7 +880,7 @@
           x-show="modalIsLastStep()"
           @click="confirmAddToCart()"
           class="flex-1 bg-brand-crimson hover:bg-red-600 active:scale-95 text-white py-3.5 rounded-2xl font-extrabold text-sm tracking-wider uppercase shadow-xl shadow-brand-crimson/30 transition-all flex items-center justify-center gap-2">
-          <span>CONFIRMAR & AGREGAR</span>
+          <span x-text="editingCartItemId ? 'GUARDAR CAMBIOS' : 'CONFIRMAR & AGREGAR'"></span>
           <span>•</span>
           <span x-text="formatMoney(calculateModalSubtotal())"></span>
         </button>
@@ -935,7 +935,7 @@
       </div>
 
       <!-- Cart Content Body -->
-      <div class="p-4 sm:p-5 overflow-y-auto space-y-6 flex-1 hide-scrollbar">
+      <div id="cart-modal-body" class="p-4 sm:p-5 overflow-y-auto space-y-6 flex-1 hide-scrollbar">
         
         <template x-if="cart.length === 0">
           <div class="text-center py-16 space-y-4">
@@ -1051,11 +1051,18 @@
 
                   <!-- Qty Controls -->
                   <div class="flex flex-col items-end justify-between shrink-0 pl-1">
-                    <button 
-                      @click="removeFromCart(item.cartItemId)" 
-                      class="text-neutral-500 hover:text-red-400 p-1 text-xs">
-                      🗑️
-                    </button>
+                    <div class="flex items-center gap-2.5">
+                      <button 
+                        @click="editCartItem(item)" 
+                        class="text-neutral-500 hover:text-amber-400 p-1 text-xs">
+                        ✏️
+                      </button>
+                      <button 
+                        @click="removeFromCart(item.cartItemId)" 
+                        class="text-neutral-500 hover:text-red-400 p-1 text-xs">
+                        🗑️
+                      </button>
+                    </div>
                     <div class="flex items-center gap-1.5 bg-neutral-900 border border-neutral-800 rounded-xl p-1">
                       <button 
                         @click="updateCartQty(item.cartItemId, -1)" 
@@ -2334,6 +2341,7 @@
         
         selectedProduct: null,
         modalStep: 1,
+        editingCartItemId: null,
         modalVariant: '',
         modalSauces: [],
         modalOnion: 'Sofrita',
@@ -2840,9 +2848,37 @@
         },
 
         // PRODUCT MODAL OPEN (Trigger select_item)
+        // Reabre el modal de personalización con las selecciones que el
+        // cliente ya había hecho, para poder corregirlas sin duplicar el ítem.
+        editCartItem(item) {
+          this.selectedProduct = item.product;
+          this.modalStep = 1;
+          this.editingCartItemId = item.cartItemId;
+          this.modalVariant = item.variant || '';
+          this.modalSauces = (item.sauces || []).map(s => typeof s === 'string' ? s : s.name);
+          this.modalOnion = item.onion || 'Sofrita';
+          this.modalNotes = item.notes || '';
+          this.modalQty = item.qty || 1;
+
+          this.modalUpsellQuantities = {};
+          this.modalUpsellVariantQuantities = {};
+          (item.upsells || []).forEach(u => {
+            if (u.variant) {
+              if (!this.modalUpsellVariantQuantities[u.id]) this.modalUpsellVariantQuantities[u.id] = {};
+              this.modalUpsellVariantQuantities[u.id][u.variant] = u.qty;
+            } else {
+              this.modalUpsellQuantities[u.id] = u.qty;
+            }
+          });
+
+          this.isCartOpen = false;
+          this.isProductModalOpen = true;
+        },
+
         openProductModal(product) {
           this.selectedProduct = product;
           this.modalStep = 1;
+          this.editingCartItemId = null;
           this.modalVariant = (product.variants && product.variants.length > 0) ? product.variants[0] : '';
           this.modalSauces = [];
           this.modalOnion = 'Sofrita';
@@ -2898,13 +2934,25 @@
         modalGoNext() {
           if (!this.modalIsLastStep()) {
             this.modalStep++;
+            this.scrollModalBodyToTop('product-modal-body');
           }
         },
 
         modalGoBack() {
           if (this.modalStep > 1) {
             this.modalStep--;
+            this.scrollModalBodyToTop('product-modal-body');
           }
+        },
+
+        // Lleva el contenedor con scroll de vuelta arriba al cambiar de paso,
+        // así el cliente siempre ve el inicio del nuevo paso sin tener que
+        // subir manualmente.
+        scrollModalBodyToTop(elementId) {
+          this.$nextTick(() => {
+            const el = document.getElementById(elementId);
+            if (el) el.scrollTo({ top: 0, behavior: 'smooth' });
+          });
         },
 
         toggleSauce(sauce) {
@@ -3046,6 +3094,32 @@
 
           const upsellsCost = upsellsList.reduce((acc, u) => acc + (u.price * u.qty), 0);
           const unitPrice = this.selectedProduct.price + upsellsCost;
+
+          if (this.editingCartItemId) {
+            // Editando un ítem ya existente: lo reemplazamos manteniendo su mismo id.
+            const idx = this.cart.findIndex(i => i.cartItemId === this.editingCartItemId);
+            const cartItem = {
+              cartItemId: this.editingCartItemId,
+              product: this.selectedProduct,
+              qty: this.modalQty,
+              variant: this.modalVariant || null,
+              sauces: saucesList,
+              onion: (!isBeverage && (this.selectedProduct.category === 'hamburguesas' || this.selectedProduct.category === 'perros')) ? this.modalOnion : null,
+              upsells: upsellsList,
+              notes: this.modalNotes.trim(),
+              unitPrice: unitPrice
+            };
+            if (idx !== -1) {
+              this.cart.splice(idx, 1, cartItem);
+            } else {
+              this.cart.push(cartItem);
+            }
+            this.editingCartItemId = null;
+            this.isProductModalOpen = false;
+            this.isCartOpen = true;
+            this.cartStep = 1;
+            return;
+          }
 
           const cartItem = {
             cartItemId: this.selectedProduct.id + '-' + Date.now(),
@@ -3522,12 +3596,14 @@
         cartGoNext() {
           if (this.cartStep < this.cartTotalSteps) {
             this.cartStep++;
+            this.scrollModalBodyToTop('cart-modal-body');
           }
         },
 
         cartGoBack() {
           if (this.cartStep > 1) {
             this.cartStep--;
+            this.scrollModalBodyToTop('cart-modal-body');
           }
         },
 
