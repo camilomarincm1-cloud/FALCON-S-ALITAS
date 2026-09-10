@@ -194,7 +194,7 @@
 
         <!-- Cart Trigger Button -->
         <button 
-          @click="isCartOpen = true"
+          @click="isCartOpen = true; cartStep = 1"
           class="relative bg-gradient-to-r from-red-600 via-brand-red to-amber-600 hover:from-red-500 hover:to-amber-500 text-white p-2 sm:px-3.5 sm:py-2.5 rounded-xl font-bold flex items-center gap-1.5 sm:gap-2 shadow-lg shadow-red-950/50 border border-amber-500/30 transition-all active:scale-95 cursor-pointer">
           <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
           <span class="hidden sm:inline text-xs tracking-wide uppercase font-extrabold">Carrito</span>
@@ -542,7 +542,7 @@
     
     <div class="max-w-4xl mx-auto pointer-events-auto">
       <button 
-        @click="isCartOpen = true"
+        @click="isCartOpen = true; cartStep = 1"
         class="w-full bg-brand-crimson hover:bg-red-600 active:scale-[0.99] text-white p-3.5 sm:p-4 rounded-2xl font-bold flex items-center justify-between shadow-2xl shadow-brand-crimson/50 border border-red-500/40 transition-all group gap-2 animate-crimson-pulse">
         <div class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
           <span class="bg-black/50 text-amber-300 text-[11px] sm:text-xs font-extrabold px-2.5 py-1 rounded-xl border border-white/20 flex items-center gap-1 shrink-0">
@@ -597,7 +597,7 @@
         <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-3 pointer-events-none z-10">
           <div class="flex flex-wrap items-center gap-1.5 max-w-[calc(100%-48px)]">
             <span class="text-[10px] sm:text-[11px] bg-brand-crimson text-white font-extrabold px-2.5 py-1 rounded-xl shadow-lg uppercase tracking-wider backdrop-blur-md">
-              Paso 2: Personalizar
+              Personalizar
             </span>
             <template x-if="selectedProduct?.badge">
               <span class="text-[10px] sm:text-[11px] bg-amber-400 text-black font-extrabold px-2.5 py-1 rounded-xl shadow-lg uppercase tracking-wide" x-text="selectedProduct?.badge"></span>
@@ -635,9 +635,22 @@
       <div class="p-4 sm:p-5 overflow-y-auto space-y-5 hide-scrollbar">
         <p class="text-xs sm:text-sm text-neutral-300 leading-relaxed whitespace-normal break-words" x-text="selectedProduct?.description"></p>
 
+        <!-- INDICADOR DE PROGRESO DEL STEPPER (puntos + texto) -->
+        <div x-show="modalSteps().length > 1" class="flex items-center justify-between gap-2 bg-neutral-900/60 border border-neutral-800 rounded-xl px-3 py-2">
+          <div class="flex items-center gap-1.5">
+            <template x-for="(step, idx) in modalSteps()" :key="step">
+              <span 
+                class="w-2 h-2 rounded-full transition-all"
+                :class="(idx + 1) === modalStep ? 'bg-brand-crimson w-5' : ((idx + 1) < modalStep ? 'bg-amber-400' : 'bg-neutral-700')">
+              </span>
+            </template>
+          </div>
+          <span class="text-[10.5px] font-bold text-neutral-300 uppercase tracking-wide" x-text="'Paso ' + modalStep + ' de ' + modalSteps().length"></span>
+        </div>
+
         <!-- SELECTOR EXCLUSIVO DE REFERENCIA / SABOR (BEBIDAS Y PRODUCTOS CON VARIANTES) -->
         <div 
-          x-show="selectedProduct?.variants && selectedProduct?.variants.length > 0" 
+          x-show="modalCurrentStepKey() === 'variant'" 
           class="space-y-3 bg-neutral-900/90 p-4 rounded-2xl border border-amber-500/40 shadow-inner">
           <div class="flex justify-between items-center">
             <label class="text-xs font-extrabold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
@@ -665,7 +678,7 @@
 
         <!-- SALSAS GRATIS (HASTA 3) - OCULTO EN BEBIDAS Y ADICIONES -->
         <div 
-          x-show="selectedProduct?.category !== 'bebidas' && selectedProduct?.category !== 'adiciones'" 
+          x-show="modalCurrentStepKey() === 'sauces'" 
           class="space-y-2.5 bg-neutral-900/60 p-3.5 rounded-2xl border border-neutral-800/80">
           <div class="flex justify-between items-center">
             <label class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
@@ -691,7 +704,7 @@
 
         <!-- CEBOLLA (Hamburguesas / Perros) - OCULTO EN BEBIDAS -->
         <div 
-          x-show="selectedProduct?.category === 'hamburguesas' || selectedProduct?.category === 'perros'" 
+          x-show="modalCurrentStepKey() === 'sauces' && (selectedProduct?.category === 'hamburguesas' || selectedProduct?.category === 'perros')" 
           class="space-y-2.5 bg-neutral-900/60 p-3.5 rounded-2xl border border-neutral-800/80">
           <label class="text-xs font-bold text-white uppercase tracking-wider block">Preparación de Cebolla</label>
           <div class="grid grid-cols-3 gap-2">
@@ -709,7 +722,7 @@
 
         <!-- ADICIONES Y EXTRAS CON CONTADORES DINÁMICOS (+ / -) Y CÁLCULO REACTIVO -->
         <div 
-          x-show="selectedProduct?.category !== 'bebidas'" 
+          x-show="modalCurrentStepKey() === 'addons'" 
           class="bg-neutral-900/60 p-3.5 rounded-2xl border border-neutral-800 space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-xs font-extrabold text-amber-300 tracking-wider uppercase flex items-center gap-1.5 whitespace-normal break-words">
@@ -829,8 +842,8 @@
           </div>
         </div>
 
-        <!-- NOTAS ESPECIALES -->
-        <div>
+        <!-- NOTAS ESPECIALES (último paso) -->
+        <div x-show="modalCurrentStepKey() === 'notes'">
           <label class="text-xs font-bold text-neutral-300 uppercase tracking-wider block mb-1">Instrucciones Especiales (Opcional)</label>
           <input 
             type="text" 
@@ -839,7 +852,7 @@
             class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-brand-crimson">
         </div>
 
-        <!-- CANTIDAD -->
+        <!-- CANTIDAD (siempre visible, no depende del paso) -->
         <div class="flex items-center justify-between pt-2 border-t border-neutral-800">
           <span class="text-xs font-bold text-white uppercase">Cantidad</span>
           <div class="flex items-center gap-3 bg-neutral-900 border border-neutral-800 rounded-xl p-1">
@@ -856,12 +869,27 @@
         </div>
       </div>
 
-      <!-- Footer Modal CTA -->
-      <div class="p-4 sm:p-5 border-t border-neutral-800 bg-neutral-900/80">
+      <!-- Footer Modal CTA: Atrás / Siguiente / Confirmar según el paso -->
+      <div class="p-4 sm:p-5 border-t border-neutral-800 bg-neutral-900/80 flex items-center gap-2.5">
         <button 
           type="button"
+          x-show="modalStep > 1"
+          @click="modalGoBack()"
+          class="shrink-0 bg-neutral-800 hover:bg-neutral-700 active:scale-95 text-white px-4 py-3.5 rounded-2xl font-bold text-sm transition-all">
+          ← Atrás
+        </button>
+        <button 
+          type="button"
+          x-show="!modalIsLastStep()"
+          @click="modalGoNext()"
+          class="flex-1 bg-amber-400 hover:bg-amber-300 active:scale-95 text-black py-3.5 rounded-2xl font-extrabold text-sm tracking-wider uppercase shadow-xl shadow-amber-500/20 transition-all">
+          Siguiente →
+        </button>
+        <button 
+          type="button"
+          x-show="modalIsLastStep()"
           @click="confirmAddToCart()"
-          class="w-full bg-brand-crimson hover:bg-red-600 active:scale-95 text-white py-3.5 rounded-2xl font-extrabold text-sm tracking-wider uppercase shadow-xl shadow-brand-crimson/30 transition-all flex items-center justify-center gap-2">
+          class="flex-1 bg-brand-crimson hover:bg-red-600 active:scale-95 text-white py-3.5 rounded-2xl font-extrabold text-sm tracking-wider uppercase shadow-xl shadow-brand-crimson/30 transition-all flex items-center justify-center gap-2">
           <span>CONFIRMAR & AGREGAR</span>
           <span>•</span>
           <span x-text="formatMoney(calculateModalSubtotal())"></span>
@@ -940,8 +968,25 @@
 
         <template x-if="cart.length > 0">
           <div class="space-y-5">
+
+            <!-- INDICADOR DE PROGRESO DEL CHECKOUT (puntos + texto) -->
+            <div class="flex items-center justify-between gap-2 bg-neutral-900/60 border border-neutral-800 rounded-xl px-3 py-2">
+              <div class="flex items-center gap-1.5">
+                <template x-for="n in cartTotalSteps" :key="n">
+                  <span 
+                    class="w-2 h-2 rounded-full transition-all"
+                    :class="n === cartStep ? 'bg-brand-crimson w-5' : (n < cartStep ? 'bg-amber-400' : 'bg-neutral-700')">
+                  </span>
+                </template>
+              </div>
+              <span 
+                class="text-[10.5px] font-bold text-neutral-300 uppercase tracking-wide" 
+                x-text="'Paso ' + cartStep + ' de ' + cartTotalSteps + ': ' + (cartStep === 1 ? 'Revisión' : cartStep === 2 ? 'Entrega' : cartStep === 3 ? 'Pago' : 'Resumen')">
+              </span>
+            </div>
+
             <!-- Lista de Productos -->
-            <div class="space-y-3">
+            <div x-show="cartStep === 1" class="space-y-3">
               <div class="flex items-center justify-between pb-1">
                 <span class="text-xs font-bold text-neutral-300 uppercase tracking-wider">Productos Seleccionados</span>
                 <span class="text-[11px] text-neutral-400" x-text="cart.length + ' tipos de plato'"></span>
@@ -1035,8 +1080,8 @@
               </template>
             </div>
 
-            <!-- Modalidad del Pedido -->
-            <div class="bg-neutral-900/60 p-3.5 rounded-2xl border border-neutral-800 space-y-2">
+            <!-- Modalidad del Pedido (Paso 2) -->
+            <div x-show="cartStep === 2" class="bg-neutral-900/60 p-3.5 rounded-2xl border border-neutral-800 space-y-2">
               <label class="text-xs font-bold text-white uppercase tracking-wider block">Modalidad del Pedido</label>
               <div class="grid grid-cols-3 gap-2">
                 <button 
@@ -1063,11 +1108,10 @@
               </div>
             </div>
 
-            <!-- PASO 3: DATOS SANITIZADOS Y PRIVACIDAD HABEAS DATA -->
-            <div class="bg-neutral-900/60 p-4 rounded-2xl border border-neutral-800 space-y-3.5">
+            <!-- DATOS DE ENTREGA (Paso 2) -->
+            <div x-show="cartStep === 2" class="bg-neutral-900/60 p-4 rounded-2xl border border-neutral-800 space-y-3.5">
               <div class="border-b border-neutral-800 pb-1.5 flex items-center justify-between">
                 <div class="flex items-center gap-2">
-                  <span class="text-[10px] bg-brand-crimson text-white font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider">Paso 3</span>
                   <h3 class="font-bold text-white text-sm uppercase tracking-wide">Datos del Cliente & Despacho</h3>
                 </div>
                 <span class="text-[10px] text-neutral-400 font-normal">San Antonio de Prado</span>
@@ -1277,7 +1321,10 @@
                   </div>
                 </div>
               </template>
+            </div>
 
+            <!-- MÉTODO DE PAGO Y NOTAS (Paso 3) -->
+            <div x-show="cartStep === 3" class="bg-neutral-900/60 p-4 rounded-2xl border border-neutral-800 space-y-3.5">
               <!-- Método de Pago -->
               <div>
                 <label class="text-[11px] font-bold text-neutral-300 uppercase block mb-1">Método de Pago *</label>
@@ -1437,57 +1484,88 @@
                 </template>
               </div>
             </div>
+
+            <!-- RESUMEN FINAL ANTES DE ENVIAR (Paso 4) -->
+            <div x-show="cartStep === 4" class="bg-neutral-900/60 p-4 rounded-2xl border border-neutral-800 space-y-3">
+              <h3 class="font-bold text-white text-sm uppercase tracking-wide border-b border-neutral-800 pb-1.5">Resumen de tu Pedido</h3>
+              <div class="space-y-1.5 text-xs text-neutral-300">
+                <div class="flex justify-between">
+                  <span>Subtotal Productos:</span>
+                  <span class="font-semibold text-white" x-text="formatMoney(cartSubtotal())"></span>
+                </div>
+                <template x-if="discountAmount() > 0">
+                  <div class="flex justify-between text-green-400 font-semibold">
+                    <span x-text="'Descuento (' + appliedPromo?.code + '):'"></span>
+                    <span x-text="'-' + formatMoney(discountAmount())"></span>
+                  </div>
+                </template>
+                <template x-if="customer.orderType === 'delivery'">
+                  <div class="flex justify-between">
+                    <span>Costo Domicilio (<span x-text="customer.neighborhood"></span>):</span>
+                    <span class="font-semibold text-white" x-text="formatMoney(deliveryFee())"></span>
+                  </div>
+                </template>
+                <div class="flex justify-between items-center pt-2 border-t border-neutral-800 text-sm font-bold text-white">
+                  <span class="text-neutral-200">Total a Pagar:</span>
+                  <span class="font-display text-2xl sm:text-3xl text-brand-crimson tracking-wide font-extrabold" x-text="formatMoney(grandTotal())"></span>
+                </div>
+              </div>
+
+              <!-- Datos de entrega y pago ya elegidos, para revisar de un vistazo -->
+              <div class="bg-neutral-950 p-2.5 rounded-xl border border-neutral-800 text-[11px] text-neutral-300 space-y-1">
+                <p><strong class="text-white" x-text="customer.name || '(sin nombre)'"></strong></p>
+                <p x-show="customer.orderType === 'delivery'" x-text="'🛵 Domicilio a: ' + (customer.address || '(sin dirección)') + ' — ' + customer.neighborhood"></p>
+                <p x-show="customer.orderType === 'pickup'">🛍️ Para recoger en el local</p>
+                <p x-show="customer.orderType === 'table'" x-text="'🍽️ Mesa: ' + (customer.tableNumber || '(sin número)')"></p>
+                <p x-text="'💳 Pago: ' + customer.paymentMethod"></p>
+              </div>
+
+              <!-- Checkout Gate Info / Warnings -->
+              <div x-show="!isCheckoutValid()" class="bg-neutral-950 p-2.5 rounded-xl border border-neutral-800 text-[11px] text-neutral-400 space-y-1">
+                <p class="font-bold text-amber-300">🔒 Para habilitar el despacho express:</p>
+                <ul class="list-disc list-inside space-y-0.5 text-[10px] text-neutral-300">
+                  <li x-show="!customer.name || customer.name.trim().length < 2">Ingresa tu Nombre Completo.</li>
+                  <li x-show="customer.orderType === 'delivery' && (!customer.address || customer.address.trim().length < 4)">Ingresa la Dirección de Entrega.</li>
+                  <li x-show="customer.orderType === 'table' && (!customer.tableNumber || customer.tableNumber.trim().length < 1)">Ingresa el Número de Mesa.</li>
+                  <li x-show="!habeasDataConsent">Acepta la casilla de Habeas Data (Ley 1581).</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </template>
 
       </div>
 
-      <!-- Bottom Checkout Summary & WhatsApp Send (PASO 4: CHECKOUT GATE BLOQUEADO HASTA VALIDACIÓN) -->
+      <!-- Footer de navegación del checkout: Atrás/Siguiente en pasos 1-3, envío final en el paso 4 -->
       <template x-if="cart.length > 0">
-        <div class="p-4 sm:p-5 border-t border-neutral-800 bg-neutral-900/95 space-y-3 shadow-2xl">
-          <div class="space-y-1.5 text-xs text-neutral-300">
-            <div class="flex justify-between">
-              <span>Subtotal Productos:</span>
-              <span class="font-semibold text-white" x-text="formatMoney(cartSubtotal())"></span>
-            </div>
-            <template x-if="discountAmount() > 0">
-              <div class="flex justify-between text-green-400 font-semibold">
-                <span x-text="'Descuento (' + appliedPromo?.code + '):'"></span>
-                <span x-text="'-' + formatMoney(discountAmount())"></span>
-              </div>
-            </template>
-            <template x-if="customer.orderType === 'delivery'">
-              <div class="flex justify-between">
-                <span>Costo Domicilio (<span x-text="customer.neighborhood"></span>):</span>
-                <span class="font-semibold text-white" x-text="formatMoney(deliveryFee())"></span>
-              </div>
-            </template>
-            <div class="flex justify-between items-center pt-2 border-t border-neutral-800 text-sm font-bold text-white">
-              <span class="text-neutral-200">Total a Pagar:</span>
-              <span class="font-display text-2xl sm:text-3xl text-brand-crimson tracking-wide font-extrabold" x-text="formatMoney(grandTotal())"></span>
-            </div>
-          </div>
-
-          <!-- Checkout Gate Info / Warnings -->
-          <div x-show="!isCheckoutValid()" class="bg-neutral-950 p-2.5 rounded-xl border border-neutral-800 text-[11px] text-neutral-400 space-y-1">
-            <p class="font-bold text-amber-300">🔒 Para habilitar el despacho express:</p>
-            <ul class="list-disc list-inside space-y-0.5 text-[10px] text-neutral-300">
-              <li x-show="!customer.name || customer.name.trim().length < 2">Ingresa tu Nombre Completo.</li>
-              <li x-show="customer.orderType === 'delivery' && (!customer.address || customer.address.trim().length < 4)">Ingresa la Dirección de Entrega.</li>
-              <li x-show="customer.orderType === 'table' && (!customer.tableNumber || customer.tableNumber.trim().length < 1)">Ingresa el Número de Mesa.</li>
-              <li x-show="!habeasDataConsent">Acepta la casilla de Habeas Data (Ley 1581).</li>
-            </ul>
-          </div>
-
-          <!-- CTA BLOQUEADO HASTA VALIDACIÓN ESTRICTA -->
+        <div class="p-4 sm:p-5 border-t border-neutral-800 bg-neutral-900/95 shadow-2xl flex items-center gap-2.5">
           <button 
             type="button"
+            x-show="cartStep > 1"
+            @click="cartGoBack()"
+            class="shrink-0 bg-neutral-800 hover:bg-neutral-700 active:scale-95 text-white px-4 py-4 rounded-2xl font-bold text-sm transition-all">
+            ← Atrás
+          </button>
+
+          <button 
+            type="button"
+            x-show="cartStep < cartTotalSteps"
+            @click="cartGoNext()"
+            class="flex-1 bg-amber-400 hover:bg-amber-300 active:scale-95 text-black py-4 rounded-2xl font-extrabold text-sm tracking-wider uppercase shadow-xl shadow-amber-500/20 transition-all flex items-center justify-center gap-2">
+            <span>Siguiente →</span>
+            <span>•</span>
+            <span x-text="formatMoney(grandTotal())"></span>
+          </button>
+
+          <button 
+            type="button"
+            x-show="cartStep >= cartTotalSteps"
             :disabled="!isCheckoutValid()"
             @click="sendOrderWhatsApp()"
             :class="isCheckoutValid() 
               ? 'bg-brand-crimson hover:bg-red-600 active:scale-95 text-white shadow-2xl shadow-brand-crimson/50 border border-red-500/40 animate-crimson-pulse cursor-pointer' 
               : 'opacity-30 cursor-not-allowed bg-neutral-800 text-neutral-400 border border-neutral-700/50 shadow-none'"
-            class="w-full py-4 rounded-2xl font-black text-sm sm:text-base tracking-wider uppercase transition-all flex items-center justify-center gap-2.5">
+            class="flex-1 py-4 rounded-2xl font-black text-sm sm:text-base tracking-wider uppercase transition-all flex items-center justify-center gap-2.5">
             <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
             <span>¡MANDAR MI PEDIDO AHORA! 🚀</span>
           </button>
@@ -1551,7 +1629,7 @@
         </div>
         <div class="pt-2">
           <button 
-            @click="isSlotModalOpen = false; isCartOpen = true;"
+            @click="isSlotModalOpen = false; isCartOpen = true; cartStep = 1;"
             class="w-full bg-neutral-800 hover:bg-neutral-700 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all">
             Ir al Carrito & Completar Pedido
           </button>
@@ -2260,10 +2338,12 @@
         searchQuery: '',
         isProductModalOpen: false,
         isCartOpen: false,
+        cartStep: 1,
         isSlotModalOpen: false,
         isInfoModalOpen: false,
         
         selectedProduct: null,
+        modalStep: 1,
         modalVariant: '',
         modalSauces: [],
         modalOnion: 'Sofrita',
@@ -2772,6 +2852,7 @@
         // PRODUCT MODAL OPEN (Trigger select_item)
         openProductModal(product) {
           this.selectedProduct = product;
+          this.modalStep = 1;
           this.modalVariant = (product.variants && product.variants.length > 0) ? product.variants[0] : '';
           this.modalSauces = [];
           this.modalOnion = 'Sofrita';
@@ -2792,6 +2873,48 @@
               item_category: product.category
             }]
           });
+        },
+
+        // Devuelve solo los pasos que aplican a este producto (una bebida no
+        // tiene los mismos pasos que una hamburguesa). Siempre incluye
+        // 'notes' al final para que nunca quede un modal sin pasos.
+        modalSteps() {
+          if (!this.selectedProduct) return ['notes'];
+          const steps = [];
+          const isBeverage = this.selectedProduct.category === 'bebidas';
+          const isAddition = this.selectedProduct.category === 'adiciones';
+          if (this.selectedProduct.variants && this.selectedProduct.variants.length > 0) {
+            steps.push('variant');
+          }
+          if (!isBeverage && !isAddition) {
+            steps.push('sauces');
+          }
+          if (!isBeverage) {
+            steps.push('addons');
+          }
+          steps.push('notes');
+          return steps;
+        },
+
+        modalCurrentStepKey() {
+          const steps = this.modalSteps();
+          return steps[this.modalStep - 1] || steps[0];
+        },
+
+        modalIsLastStep() {
+          return this.modalStep >= this.modalSteps().length;
+        },
+
+        modalGoNext() {
+          if (!this.modalIsLastStep()) {
+            this.modalStep++;
+          }
+        },
+
+        modalGoBack() {
+          if (this.modalStep > 1) {
+            this.modalStep--;
+          }
         },
 
         toggleSauce(sauce) {
@@ -2949,6 +3072,7 @@
           this.cart.push(cartItem);
           this.isProductModalOpen = false;
           this.isCartOpen = true;
+          this.cartStep = 1;
 
           // GA4: add_to_cart
           this.trackGA('add_to_cart', {
@@ -3249,6 +3373,7 @@
           };
           this.isSlotModalOpen = false;
           this.isCartOpen = true;
+          this.cartStep = 1;
         },
 
         openStoreInfoModal() {
@@ -3401,6 +3526,21 @@
         },
 
         // FINAL CHECKOUT SEND TO WHATSAPP (Trigger purchase)
+        // El carrito tiene 4 pasos fijos: 1) Revisión, 2) Entrega, 3) Pago, 4) Resumen final.
+        cartTotalSteps: 4,
+
+        cartGoNext() {
+          if (this.cartStep < this.cartTotalSteps) {
+            this.cartStep++;
+          }
+        },
+
+        cartGoBack() {
+          if (this.cartStep > 1) {
+            this.cartStep--;
+          }
+        },
+
         sendOrderWhatsApp() {
           if (!this.isCheckoutValid()) {
             return;
