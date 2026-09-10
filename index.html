@@ -225,19 +225,19 @@
       </div>
 
       <!-- Categories Pills Scroll Strip -->
-      <div class="relative">
+      <div class="relative bg-neutral-950/60 border border-neutral-800/70 rounded-2xl p-2">
         <div 
           id="category-scroll-strip"
-          class="flex items-center gap-2 sm:gap-2.5 overflow-x-auto hide-scrollbar py-1 scroll-smooth">
+          class="flex items-center gap-2.5 sm:gap-3 overflow-x-auto hide-scrollbar py-0.5 scroll-smooth">
           <template x-for="cat in categories" :key="cat.id">
             <button 
               :id="'cat-btn-' + cat.id"
               @click="activeCategory = cat.id; searchQuery = ''; scrollToCategory(cat.id)"
               :class="activeCategory === cat.id && !searchQuery 
-                ? 'bg-gradient-to-r from-brand-red via-red-600 to-brand-crimson text-white font-black border-red-500 shadow-lg shadow-brand-red/35 ring-2 ring-red-500/40 scale-[1.03]' 
+                ? 'bg-gradient-to-r from-brand-red via-red-600 to-brand-crimson text-white font-black border-red-500 shadow-lg shadow-brand-red/35 ring-2 ring-red-500/40 scale-[1.04]' 
                 : 'bg-neutral-900/95 text-neutral-200 border-neutral-800 hover:bg-neutral-800 hover:text-white hover:border-neutral-700 font-bold'"
-              class="px-3.5 py-2.5 sm:px-4.5 sm:py-2.5 rounded-2xl text-xs sm:text-[13px] whitespace-nowrap border transition-all flex items-center gap-2 shrink-0 active:scale-95 cursor-pointer min-h-[42px] sm:min-h-[44px] shadow-sm select-none">
-              <span class="text-base sm:text-lg shrink-0 leading-none" x-text="cat.icon"></span>
+              class="px-4 py-3 sm:px-5 sm:py-3.5 rounded-2xl text-[13px] sm:text-sm whitespace-nowrap border transition-all flex items-center gap-2.5 shrink-0 active:scale-95 cursor-pointer min-h-[48px] sm:min-h-[52px] shadow-sm select-none">
+              <span class="text-lg sm:text-xl shrink-0 leading-none" x-text="cat.icon"></span>
               <span class="tracking-wide" x-text="cat.name"></span>
               <template x-if="activeCategory === cat.id && !searchQuery">
                 <span class="w-2 h-2 rounded-full bg-amber-300 shadow-sm animate-pulse ml-0.5"></span>
@@ -245,6 +245,8 @@
             </button>
           </template>
         </div>
+        <!-- Desvanecido en el borde derecho: indica que hay más categorías al deslizar -->
+        <div class="pointer-events-none absolute top-2 bottom-2 right-2 w-8 bg-gradient-to-l from-neutral-950/90 to-transparent rounded-r-2xl"></div>
       </div>
     </nav>
   </div>
@@ -254,62 +256,45 @@
   <!-- ========================================================================= -->
   <main id="menu" class="max-w-4xl mx-auto px-4 pt-5 space-y-10">
 
-    <!-- HERO PROMO BANNER: EXPERIENCIA INTUITIVA FALCON'S -->
-    <div class="bg-gradient-to-r from-neutral-900 via-neutral-950 to-neutral-900 rounded-3xl p-4 sm:p-5 border border-neutral-800 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
-      <div class="space-y-2 text-center md:text-left flex-1 min-w-0">
-        <div class="inline-flex items-center gap-1.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider whitespace-normal">
-          <span>🎰 GIRA Y GANA UN PREMIO GRATIS</span>
-          <span>•</span>
-          <span>PEDIDOS RÁPIDOS POR WHATSAPP</span>
-        </div>
-        <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white uppercase tracking-wide leading-tight whitespace-normal break-words">
-          ¡Pide Fácil en Minutos y Gana un Premio!
-        </h2>
-        <p class="text-xs sm:text-sm text-neutral-300 max-w-xl leading-relaxed whitespace-normal break-words">
-          Disfruta tus alitas, hamburguesas y combos preparados al instante con tus salsas gratis incluidas. Haz tu pedido express en 3 simples pasos.
-        </p>
+    <!-- HERO: PRODUCTO ESTRELLA DE LA CASA -->
+    <template x-if="products.find(p => p.id === 12)">
+      <div 
+        @click="openProductModal(products.find(p => p.id === 12))"
+        class="relative rounded-3xl overflow-hidden border border-neutral-800 shadow-2xl cursor-pointer group h-[280px] sm:h-[340px]">
+        <img 
+          :src="products.find(p => p.id === 12).image" 
+          :alt="products.find(p => p.id === 12).name"
+          loading="eager"
+          class="absolute inset-0 w-full h-full object-cover group-active:scale-105 transition-transform duration-300">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/10"></div>
 
-        <!-- 3 PASOS FÁCILES PARA PEDIR -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-left">
-          <div class="bg-neutral-900/90 border border-neutral-800/80 rounded-xl p-2.5 flex items-center gap-2">
-            <span class="text-base shrink-0 p-1 bg-red-950/60 text-brand-red rounded-lg font-black text-xs">1</span>
-            <div class="min-w-0">
-              <p class="text-[11px] font-bold text-white leading-tight">Elige tu plato</p>
-              <p class="text-[10px] text-neutral-300 leading-tight whitespace-normal break-words">Alitas, burgers y combos</p>
-            </div>
+        <div class="relative h-full flex flex-col justify-end p-4 sm:p-6 space-y-2">
+          <span 
+            x-show="products.find(p => p.id === 12).badge"
+            x-text="products.find(p => p.id === 12).badge"
+            class="inline-block w-fit bg-brand-gold text-black text-[10px] sm:text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-md">
+          </span>
+          <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-[0.95] max-w-md whitespace-normal break-words">
+            Doble Queso Fundido, Tocineta Ahumada y Carne 180g a la Plancha
+          </h2>
+          <p class="text-xs sm:text-sm text-neutral-200 max-w-sm whitespace-normal break-words">
+            La hamburguesa que todo Prado pide de nuevo.
+          </p>
+          <div class="flex items-center gap-3 pt-1.5">
+            <span class="font-display text-2xl sm:text-3xl text-brand-gold font-extrabold" x-text="formatMoney(products.find(p => p.id === 12).price)"></span>
+            <span class="bg-brand-crimson hover:bg-red-600 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-2xl shadow-lg shadow-brand-crimson/40 transition-all">
+              Pedir esta Hamburguesa →
+            </span>
           </div>
-          <div class="bg-neutral-900/90 border border-neutral-800/80 rounded-xl p-2.5 flex items-center gap-2">
-            <span class="text-base shrink-0 p-1 bg-amber-950/60 text-brand-gold rounded-lg font-black text-xs">2</span>
-            <div class="min-w-0">
-              <p class="text-[11px] font-bold text-white leading-tight">Baña tus salsas</p>
-              <p class="text-[10px] text-neutral-300 leading-tight whitespace-normal break-words">Hasta 3 gratis incluidas</p>
-            </div>
-          </div>
-          <div class="bg-neutral-900/90 border border-neutral-800/80 rounded-xl p-2.5 flex items-center gap-2">
-            <span class="text-base shrink-0 p-1 bg-green-950/60 text-green-400 rounded-lg font-black text-xs">3</span>
-            <div class="min-w-0">
-              <p class="text-[11px] font-bold text-white leading-tight">Recibe al instante</p>
-              <p class="text-[10px] text-neutral-300 leading-tight whitespace-normal break-words">Domicilio o en tu mesa</p>
-            </div>
-          </div>
+          <button 
+            type="button"
+            @click.stop="scrollToCategory(categories[0].id)"
+            class="text-[11px] text-neutral-300 hover:text-white underline underline-offset-2 w-fit pt-0.5">
+            o mira el menú completo ↓
+          </button>
         </div>
       </div>
-
-      <div class="flex flex-col sm:flex-row md:flex-col items-center gap-2.5 shrink-0 w-full sm:w-auto">
-        <button 
-          @click="openSlotModal()" 
-          class="w-full sm:w-auto bg-gradient-to-r from-brand-gold via-yellow-400 to-amber-500 hover:from-yellow-400 hover:to-brand-gold text-black text-xs font-black px-4 py-3 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 active:scale-95 whitespace-nowrap border border-yellow-200">
-          <span>🎰</span>
-          <span>¡GIRA Y GANA TU PREMIO AL INSTANTE!</span>
-        </button>
-        <button 
-          @click="openStoreInfoModal()" 
-          class="w-full sm:w-auto bg-neutral-900 border border-neutral-700 hover:border-neutral-500 text-neutral-200 hover:text-white text-xs font-bold px-4 py-2.5 rounded-2xl transition-all flex items-center justify-center gap-1.5 active:scale-95 whitespace-nowrap">
-          <span>📍</span>
-          <span>Calle 48D Sur N. 55C - 04</span>
-        </button>
-      </div>
-    </div>
+    </template>
 
     <!-- MODO BÚSQUEDA -->
     <template x-if="searchQuery.trim().length > 0">
