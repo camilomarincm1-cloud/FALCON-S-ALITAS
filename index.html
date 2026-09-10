@@ -260,39 +260,44 @@
     <template x-if="products.find(p => p.id === 12)">
       <div 
         @click="openProductModal(products.find(p => p.id === 12))"
-        class="relative rounded-3xl overflow-hidden border border-neutral-800 shadow-2xl cursor-pointer group h-[280px] sm:h-[340px]">
+        class="relative rounded-3xl overflow-hidden border border-neutral-800 shadow-2xl cursor-pointer group h-[68vh] min-h-[440px] max-h-[620px]">
         <img 
           :src="products.find(p => p.id === 12).image" 
           :alt="products.find(p => p.id === 12).name"
           loading="eager"
           class="absolute inset-0 w-full h-full object-cover group-active:scale-105 transition-transform duration-300">
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/10"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/25 to-transparent"></div>
 
-        <div class="relative h-full flex flex-col justify-end p-4 sm:p-6 space-y-2">
+        <!-- Badge arriba: no compite con la imagen -->
+        <div class="relative h-full flex flex-col justify-between p-4 sm:p-6">
           <span 
             x-show="products.find(p => p.id === 12).badge"
             x-text="products.find(p => p.id === 12).badge"
             class="inline-block w-fit bg-brand-gold text-black text-[10px] sm:text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-md">
           </span>
-          <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-[0.95] max-w-md whitespace-normal break-words">
-            Doble Queso Fundido, Tocineta Ahumada y Carne 180g a la Plancha
-          </h2>
-          <p class="text-xs sm:text-sm text-neutral-200 max-w-sm whitespace-normal break-words">
-            La hamburguesa que todo Prado pide de nuevo.
-          </p>
-          <div class="flex items-center gap-3 pt-1.5">
-            <span class="font-display text-2xl sm:text-3xl text-brand-gold font-extrabold" x-text="formatMoney(products.find(p => p.id === 12).price)"></span>
-            <span class="bg-brand-crimson hover:bg-red-600 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-2xl shadow-lg shadow-brand-crimson/40 transition-all">
-              Pedir esta Hamburguesa →
-            </span>
+
+          <!-- Bloque de texto compacto, solo en la franja inferior -->
+          <div class="space-y-2">
+            <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-[0.98] max-w-sm whitespace-normal break-words">
+              La Hamburguesa Que Todo Prado Pide de Nuevo
+            </h2>
+            <div class="flex items-center gap-3 pt-1">
+              <span class="font-display text-2xl sm:text-3xl text-brand-gold font-extrabold" x-text="formatMoney(products.find(p => p.id === 12).price)"></span>
+              <span class="bg-brand-crimson hover:bg-red-600 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-2xl shadow-lg shadow-brand-crimson/40 transition-all">
+                Pedir esta Hamburguesa →
+              </span>
+            </div>
           </div>
-          <button 
-            type="button"
-            @click.stop="scrollToCategory(categories[0].id)"
-            class="text-[11px] text-neutral-300 hover:text-white underline underline-offset-2 w-fit pt-0.5">
-            o mira el menú completo ↓
-          </button>
         </div>
+
+        <!-- Guía sutil de scroll hacia el menú -->
+        <button 
+          type="button"
+          @click.stop="scrollToCategory(categories[0].id)"
+          class="absolute bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-0.5 text-neutral-300 hover:text-white transition-colors animate-bounce-gentle">
+          <span class="text-[10px] font-medium tracking-wide">Ver menú completo</span>
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
       </div>
     </template>
 
