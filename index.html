@@ -270,11 +270,22 @@
 
         <!-- Badge arriba: no compite con la imagen -->
         <div class="relative h-full flex flex-col justify-between p-4 sm:p-6">
-          <span 
-            x-show="products.find(p => p.id === 12).badge"
-            x-text="products.find(p => p.id === 12).badge"
-            class="inline-block w-fit bg-brand-gold text-black text-[10px] sm:text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-md">
-          </span>
+          <div class="flex items-start justify-between gap-3">
+            <span 
+              x-show="products.find(p => p.id === 12).badge"
+              x-text="products.find(p => p.id === 12).badge"
+              class="inline-block w-fit bg-brand-gold text-black text-[10px] sm:text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-md">
+            </span>
+
+            <!-- Guía de scroll hacia el menú: esquina opuesta, nunca se cruza con el CTA -->
+            <button 
+              type="button"
+              @click.stop="scrollToCategory(categories[0].id)"
+              class="shrink-0 flex flex-col items-center gap-0.5 text-yellow-300 hover:text-yellow-200 transition-colors animate-bounce-gentle drop-shadow-[0_0_8px_rgba(253,224,71,0.85)]">
+              <span class="text-[10px] font-bold tracking-wide">Ver menú completo</span>
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+          </div>
 
           <!-- Bloque de texto compacto, solo en la franja inferior -->
           <div class="space-y-2">
@@ -289,15 +300,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Guía sutil de scroll hacia el menú -->
-        <button 
-          type="button"
-          @click.stop="scrollToCategory(categories[0].id)"
-          class="absolute bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-0.5 text-neutral-300 hover:text-white transition-colors animate-bounce-gentle">
-          <span class="text-[10px] font-medium tracking-wide">Ver menú completo</span>
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </button>
       </div>
     </template>
 
