@@ -86,15 +86,6 @@
           🔥 Pide directo y gana premios en tu pedido
         </p>
       </div>
-
-      <!-- BOTÓN TRIGGER TRAGAMONEDAS / PREMIOS -->
-      <button 
-        @click="openSlotModal()"
-        class="bg-gradient-to-r from-brand-gold to-yellow-400 hover:from-yellow-400 hover:to-brand-gold text-black text-[10px] sm:text-[11px] font-extrabold px-2.5 sm:px-3 py-1 rounded-full shadow-lg shadow-amber-500/30 flex items-center gap-1 sm:gap-1.5 animate-bounce-gentle shrink-0 border border-yellow-200 active:scale-95 transition-transform whitespace-nowrap">
-        <span>🎰</span>
-        <span>RULETA DE PREMIOS</span>
-        <span class="bg-black/20 text-black px-1.5 py-0.2 rounded text-[9px] sm:text-[10px] hidden xs:inline">¡GANA HOY!</span>
-      </button>
     </div>
   </div>
 
@@ -180,14 +171,6 @@
           <span class="text-sm sm:text-base leading-none">ℹ️</span>
         </button>
 
-        <!-- Google Reviews / Ruleta Quick Icon -->
-        <button 
-          @click="openSlotModal()"
-          title="Gira y gana un premio gratis"
-          class="bg-neutral-900/80 hover:bg-neutral-800 text-amber-400 p-2 sm:p-2.5 rounded-xl border border-amber-500/30 backdrop-blur-md transition-all flex items-center justify-center shadow-md active:scale-95 cursor-pointer">
-          <span class="text-base sm:text-lg leading-none">🎰</span>
-        </button>
-
         <!-- WhatsApp Quick Chat -->
         <a 
           href="https://wa.me/573193574825?text=Hola%20Falcon's%20Alitas!%20Quiero%20hacer%20un%20pedido%20o%20tengo%20una%20consulta" 
@@ -198,7 +181,7 @@
 
         <!-- Cart Trigger Button -->
         <button 
-          @click="isCartOpen = true; cartStep = 1"
+          @click="isCartOpen = true; cartStep = 1; cartStepError = ''"
           class="relative bg-gradient-to-r from-red-600 via-brand-red to-amber-600 hover:from-red-500 hover:to-amber-500 text-white p-2 sm:px-3.5 sm:py-2.5 rounded-xl font-bold flex items-center gap-1.5 sm:gap-2 shadow-lg shadow-red-950/50 border border-amber-500/30 transition-all active:scale-95 cursor-pointer">
           <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
           <span class="hidden sm:inline text-xs tracking-wide uppercase font-extrabold">Carrito</span>
@@ -542,10 +525,6 @@
             <span>🕒</span>
             <span>Horarios & Pagos</span>
           </button>
-          <button @click="openSlotModal()" class="bg-neutral-900 hover:bg-neutral-800 text-amber-300 px-3 py-2 rounded-xl border border-amber-500/30 transition-colors flex items-center gap-1.5 active:scale-95">
-            <span>⭐</span>
-            <span>Gana Premios</span>
-          </button>
           <a href="https://wa.me/573193574825" target="_blank" class="bg-emerald-950/80 hover:bg-emerald-900 text-emerald-400 font-bold px-3 py-2 rounded-xl border border-emerald-500/40 transition-colors flex items-center gap-1.5 active:scale-95">
             <span>💬</span>
             <span>319 357 4825</span>
@@ -588,7 +567,7 @@
     
     <div class="max-w-4xl mx-auto pointer-events-auto">
       <button 
-        @click="isCartOpen = true; cartStep = 1"
+        @click="isCartOpen = true; cartStep = 1; cartStepError = ''"
         class="w-full bg-brand-crimson hover:bg-red-600 active:scale-[0.99] text-white p-3.5 sm:p-4 rounded-2xl font-bold flex items-center justify-between shadow-2xl shadow-brand-crimson/50 border border-red-500/40 transition-all group gap-2 animate-crimson-pulse">
         <div class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
           <span class="bg-black/50 text-amber-300 text-[11px] sm:text-xs font-extrabold px-2.5 py-1 rounded-xl border border-white/20 flex items-center gap-1 shrink-0">
@@ -1135,7 +1114,7 @@
 
             <!-- ¿TE FALTA ALGO? sugiere adicionales reales para personalizar más el combo que ya armaste -->
             <div x-show="cartStep === 1 && cartSuggestions().length > 0" class="space-y-2">
-              <span class="text-xs font-extrabold text-amber-300 tracking-wider uppercase">🔥 ¿Te falta algo?</span>
+              <span class="text-xs font-extrabold text-amber-300 tracking-wider uppercase">🔥 Adiciónale algo a tu pedido</span>
               <div class="flex items-stretch gap-2 overflow-x-auto hide-scrollbar pb-1">
                 <template x-for="sugg in cartSuggestions()" :key="'sugg-' + sugg.id">
                   <div class="shrink-0 w-[120px] bg-neutral-900/80 border border-neutral-800 rounded-xl p-2 text-left">
@@ -1165,6 +1144,30 @@
                       </template>
                     </div>
                   </div>
+                </template>
+              </div>
+            </div>
+
+            <!-- ¿QUIERES PEDIR ALGO MÁS? sugiere otros productos completos del menú, como pedidos nuevos y separados -->
+            <div x-show="cartStep === 1 && moreProductSuggestions().length > 0" class="space-y-2">
+              <span class="text-xs font-extrabold text-amber-300 tracking-wider uppercase">🍔 ¿Pedimos algo más?</span>
+              <div class="flex items-stretch gap-2.5 overflow-x-auto hide-scrollbar pb-1">
+                <template x-for="more in moreProductSuggestions()" :key="'more-' + more.id">
+                  <button
+                    type="button"
+                    @click="openProductModal(more)"
+                    class="shrink-0 w-[110px] bg-neutral-900/80 border border-neutral-800 hover:border-amber-400/50 rounded-xl overflow-hidden text-left transition-all">
+                    <div class="h-[70px] w-full overflow-hidden bg-neutral-950">
+                      <img :src="more.image" :alt="more.name" loading="lazy" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-1.5">
+                      <p class="text-[10.5px] font-bold text-white leading-tight line-clamp-2" x-text="more.name"></p>
+                      <div class="flex items-center justify-between mt-1">
+                        <span class="text-[10.5px] font-extrabold text-brand-gold" x-text="formatMoney(more.price)"></span>
+                        <span class="bg-brand-crimson text-white w-4 h-4 rounded flex items-center justify-center text-[10px] font-black shrink-0">+</span>
+                      </div>
+                    </div>
+                  </button>
                 </template>
               </div>
             </div>
@@ -1627,7 +1630,9 @@
 
       <!-- Footer de navegación del checkout: Atrás/Siguiente en pasos 1-3, envío final en el paso 4 -->
       <template x-if="cart.length > 0">
-        <div class="p-4 sm:p-5 border-t border-neutral-800 bg-neutral-900/95 shadow-2xl flex items-center gap-2.5">
+        <div class="p-4 sm:p-5 border-t border-neutral-800 bg-neutral-900/95 shadow-2xl space-y-2">
+          <p x-show="cartStepError" x-text="cartStepError" class="text-[11px] font-bold text-red-400 text-center"></p>
+          <div class="flex items-center gap-2.5">
           <button 
             type="button"
             x-show="cartStep > 1"
@@ -1658,6 +1663,7 @@
             <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
             <span>¡MANDAR MI PEDIDO AHORA! 🚀</span>
           </button>
+          </div>
         </div>
       </template>
 
@@ -1718,7 +1724,7 @@
         </div>
         <div class="pt-2">
           <button 
-            @click="isSlotModalOpen = false; isCartOpen = true; cartStep = 1;"
+            @click="isSlotModalOpen = false; isCartOpen = true;"
             class="w-full bg-neutral-800 hover:bg-neutral-700 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all">
             Ir al Carrito & Completar Pedido
           </button>
@@ -3038,6 +3044,17 @@
           this.cart = [...this.cart];
         },
 
+        // "¿Pedimos algo más?" — sugiere otros productos completos del menú
+        // (no adicionales) para agregarlos como un pedido nuevo y separado.
+        // Prioriza los más pedidos, con respaldo a cualquier producto disponible.
+        moreProductSuggestions() {
+          if (this.cart.length === 0) return [];
+          const inCartIds = new Set(this.cart.map(i => i.product.id));
+          const fromTop = this.topProducts().filter(p => !inCartIds.has(p.id) && p.available !== false);
+          if (fromTop.length > 0) return fromTop.slice(0, 4);
+          return this.products.filter(p => !inCartIds.has(p.id) && p.available !== false).slice(0, 4);
+        },
+
         filteredProducts() {
           const q = this.searchQuery.toLowerCase().trim();
           if (!q) return [];
@@ -3371,6 +3388,7 @@
             this.isProductModalOpen = false;
             this.isCartOpen = true;
             this.cartStep = 1;
+          this.cartStepError = '';
             return;
           }
 
@@ -3390,6 +3408,7 @@
           this.isProductModalOpen = false;
           this.isCartOpen = true;
           this.cartStep = 1;
+          this.cartStepError = '';
 
           // GA4: add_to_cart
           this.trackGA('add_to_cart', {
@@ -3705,7 +3724,6 @@
           };
           this.isSlotModalOpen = false;
           this.isCartOpen = true;
-          this.cartStep = 1;
         },
 
         openStoreInfoModal() {
@@ -3857,12 +3875,50 @@
           return true;
         },
 
+        // Valida lo más importante de cada paso antes de dejar avanzar.
+        cartStepValid(step) {
+          if (step === 2) {
+            const cleanName = this.sanitizeText(this.customer.name);
+            if (!cleanName || cleanName.length < 2) return false;
+            if (this.customer.orderType === 'delivery') {
+              const cleanAddr = this.sanitizeText(this.customer.address);
+              if (!cleanAddr || cleanAddr.length < 4) return false;
+            }
+            if (this.customer.orderType === 'table') {
+              const cleanTable = this.sanitizeText(this.customer.tableNumber);
+              if (!cleanTable || cleanTable.length < 1) return false;
+            }
+            return true;
+          }
+          if (step === 3) {
+            return !!this.habeasDataConsent;
+          }
+          return true;
+        },
+
+        cartStepBlockMessage(step) {
+          if (step === 2) {
+            if (this.customer.orderType === 'table') return '⚠️ Ingresa tu nombre y el número de mesa para continuar.';
+            if (this.customer.orderType === 'delivery') return '⚠️ Ingresa tu nombre y la dirección de entrega para continuar.';
+            return '⚠️ Ingresa tu nombre para continuar.';
+          }
+          if (step === 3) return '⚠️ Acepta la casilla de Habeas Data (Ley 1581) para continuar.';
+          return '';
+        },
+
+        cartStepError: '',
+
         // FINAL CHECKOUT SEND TO WHATSAPP (Trigger purchase)
         // El carrito tiene 4 pasos fijos: 1) Revisión, 2) Entrega, 3) Pago, 4) Resumen final.
         cartTotalSteps: 4,
 
         cartGoNext() {
           if (this.cartStep < this.cartTotalSteps) {
+            if (!this.cartStepValid(this.cartStep)) {
+              this.cartStepError = this.cartStepBlockMessage(this.cartStep);
+              return;
+            }
+            this.cartStepError = '';
             if (this.cartStep === 1) {
               this.trackGA('begin_checkout', { value: this.grandTotal(), currency: 'COP' });
             }
@@ -3873,6 +3929,7 @@
 
         cartGoBack() {
           if (this.cartStep > 1) {
+            this.cartStepError = '';
             this.cartStep--;
             this.scrollModalBodyToTop('cart-modal-body');
           }
