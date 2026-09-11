@@ -1117,29 +1117,25 @@
               <span class="text-xs font-extrabold text-amber-300 tracking-wider uppercase">🔥 Adiciónale algo a tu pedido</span>
               <div class="flex items-stretch gap-2 overflow-x-auto hide-scrollbar pb-1">
                 <template x-for="sugg in cartSuggestions()" :key="'sugg-' + sugg.id">
-                  <div class="shrink-0 w-[120px] bg-neutral-900/80 border border-neutral-800 rounded-xl p-2 text-left">
+                  <div 
+                    @click="addSuggestionToCartItem(sugg)"
+                    class="shrink-0 w-[120px] bg-neutral-900/80 border border-neutral-800 hover:border-amber-400/50 rounded-xl p-2 text-left cursor-pointer transition-all active:scale-95">
                     <p class="text-[11px] font-bold text-white leading-tight line-clamp-2" x-text="sugg.name"></p>
                     <div class="flex items-center justify-between mt-1.5">
                       <span class="text-[11px] font-extrabold text-brand-gold" x-text="formatMoney(sugg.price)"></span>
 
                       <template x-if="getSuggestionQty(sugg) === 0">
-                        <button
-                          type="button"
-                          @click="addSuggestionToCartItem(sugg)"
-                          class="bg-brand-crimson hover:bg-red-600 active:scale-95 text-white w-5 h-5 rounded-md flex items-center justify-center text-xs font-black shrink-0 transition-all">+</button>
+                        <span class="bg-brand-crimson text-white w-5 h-5 rounded-md flex items-center justify-center text-xs font-black shrink-0">+</span>
                       </template>
 
                       <template x-if="getSuggestionQty(sugg) > 0">
                         <div class="flex items-center gap-1 bg-neutral-950 border border-neutral-800 rounded-md px-1">
                           <button
                             type="button"
-                            @click="removeSuggestionFromCartItem(sugg)"
+                            @click.stop="removeSuggestionFromCartItem(sugg)"
                             class="text-white w-4 h-5 flex items-center justify-center text-xs font-black active:scale-90">-</button>
                           <span class="text-[10px] font-extrabold text-amber-300 w-3 text-center" x-text="getSuggestionQty(sugg)"></span>
-                          <button
-                            type="button"
-                            @click="addSuggestionToCartItem(sugg)"
-                            class="text-white w-4 h-5 flex items-center justify-center text-xs font-black active:scale-90">+</button>
+                          <span class="text-white w-4 h-5 flex items-center justify-center text-xs font-black">+</span>
                         </div>
                       </template>
                     </div>
@@ -1147,6 +1143,16 @@
                 </template>
               </div>
             </div>
+
+            <!-- Volver a explorar el menú completo, sin perder lo ya agregado al carrito -->
+            <button
+              type="button"
+              x-show="cartStep === 1"
+              @click="isCartOpen = false; scrollToCategory(categories[0].id)"
+              class="w-full bg-neutral-900/70 hover:bg-neutral-800 border border-dashed border-neutral-700 hover:border-amber-400/50 text-neutral-300 hover:text-white text-xs font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2">
+              <span>📖</span>
+              <span>Ver el menú completo y seguir agregando</span>
+            </button>
 
             <!-- ¿QUIERES PEDIR ALGO MÁS? sugiere otros productos completos del menú, como pedidos nuevos y separados -->
             <div x-show="cartStep === 1 && moreProductSuggestions().length > 0" class="space-y-2">
