@@ -1654,7 +1654,7 @@
             class="flex-1 bg-amber-400 hover:bg-amber-300 active:scale-95 text-black py-4 rounded-2xl font-extrabold text-sm tracking-wider uppercase shadow-xl shadow-amber-500/20 transition-all flex items-center justify-center gap-2">
             <span>Siguiente →</span>
             <span>•</span>
-            <span x-text="formatMoney(grandTotal())"></span>
+            <span x-text="formatMoney(cartStepTotal())"></span>
           </button>
 
           <button 
@@ -3471,6 +3471,17 @@
 
         grandTotal() {
           return Math.max(0, this.cartSubtotal() - this.discountAmount() + this.deliveryFee());
+        },
+
+        // Total a mostrar en el botón "Siguiente" del carrito. En el paso 1
+        // (Revisión) aún no le hemos preguntado al cliente si es domicilio o
+        // recoger, así que no se le suma ningún costo de envío todavía —
+        // solo se refleja desde el paso 2 en adelante, una vez lo confirma.
+        cartStepTotal() {
+          if (this.cartStep === 1) {
+            return Math.max(0, this.cartSubtotal() - this.discountAmount());
+          }
+          return this.grandTotal();
         },
 
         cartTotal() {
