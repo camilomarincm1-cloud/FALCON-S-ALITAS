@@ -155,12 +155,16 @@
           </p>
 
           <div class="flex items-center gap-1.5 sm:gap-2 mt-1 text-[9.5px] sm:text-[10.5px] flex-wrap">
-            <span class="inline-flex items-center gap-1 bg-emerald-950/40 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.5 rounded-md font-semibold">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
-              <span>Local 3PM - 11PM</span>
+            <span 
+              :class="storeOpenStatus().isLocalOpen ? 'bg-emerald-950/40 text-emerald-400 border-emerald-500/30' : 'bg-red-950/40 text-red-400 border-red-500/30'"
+              class="inline-flex items-center gap-1 border px-1.5 py-0.5 rounded-md font-semibold">
+              <span :class="storeOpenStatus().isLocalOpen ? 'bg-emerald-400' : 'bg-red-400'" class="w-1.5 h-1.5 rounded-full inline-block animate-pulse"></span>
+              <span x-text="storeOpenStatus().isLocalOpen ? '🟢 Local Abierto' : '🔴 Cerrado · Abre ' + storeOpenStatus().localNextTime"></span>
             </span>
-            <span class="inline-flex items-center gap-1 bg-amber-950/40 text-amber-300 border border-amber-500/30 px-1.5 py-0.5 rounded-md font-semibold">
-              <span>🛵 Domicilios 5PM - 10:30PM</span>
+            <span 
+              :class="storeOpenStatus().isDeliveryOpen ? 'bg-emerald-950/40 text-emerald-400 border-emerald-500/30' : 'bg-red-950/40 text-red-400 border-red-500/30'"
+              class="inline-flex items-center gap-1 border px-1.5 py-0.5 rounded-md font-semibold">
+              <span x-text="storeOpenStatus().isDeliveryOpen ? '🛵 Domicilios Abiertos' : '🛵 Domicilios Cerrados · Abren ' + storeOpenStatus().deliveryNextTime"></span>
             </span>
           </div>
         </div>
@@ -512,9 +516,10 @@
               onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=200&auto=format&fit=crop&q=80'"
             />
             <span class="font-display text-2xl font-bold text-white uppercase tracking-wider">Falcon's Alitas</span>
-            <span class="text-[10px] bg-brand-red/20 text-red-400 px-2 py-0.5 rounded-full border border-brand-red/30 font-bold">OFICIAL</span>
+            <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full border border-amber-500/30 font-bold">⭐ 4.6/5 · 30+ reseñas</span>
           </div>
           <p class="text-[12px] text-neutral-300">Calle 48D Sur N. 55C - 04, San Antonio de Prado, Medellín.</p>
+          <p class="text-[11px] text-neutral-400 italic">El templo del sabor en San Antonio de Prado.</p>
           <p class="text-[11px] text-neutral-500">Envíos express en San Antonio de Prado, Prado Centro, Barichara, El Limonar e Itagüí.</p>
         </div>
 
@@ -540,8 +545,9 @@
           <span>Plataforma Activa • Vercel Edge Fast Engine v2.4.0 (Zero-Cache)</span>
         </div>
 
-        <!-- Botón Acceso Panel Administrativo Protegido -->
-        <div>
+        <!-- Acceso Panel Administrativo: oculto de la experiencia pública normal.
+             Solo visible entrando con ?admin=1 en la URL, o si ya hay una sesión activa. -->
+        <div x-show="showAdminEntry || isAdminAuthenticated">
           <button 
             @click="openAdminAuth()" 
             class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900/90 hover:bg-neutral-800 text-neutral-400 hover:text-amber-400 border border-neutral-800 hover:border-amber-500/40 transition-all text-xs font-semibold shadow-sm group">
@@ -672,7 +678,7 @@
               </span>
             </template>
           </div>
-          <span class="text-[10.5px] font-bold text-neutral-300 uppercase tracking-wide" x-text="'Paso ' + modalStep + ' de ' + modalSteps().length"></span>
+          <span class="text-[10.5px] font-bold text-neutral-300 uppercase tracking-wide" x-text="modalStepLabel()"></span>
         </div>
 
         <!-- SELECTOR EXCLUSIVO DE REFERENCIA / SABOR (BEBIDAS Y PRODUCTOS CON VARIANTES) -->
@@ -1114,21 +1120,38 @@
               </template>
             </div>
 
-            <!-- ¿TE FALTA ALGO? sugerencia no bloqueante, solo productos reales del catálogo -->
+            <!-- ¿TE FALTA ALGO? sugiere adicionales reales para personalizar más el combo que ya armaste -->
             <div x-show="cartStep === 1 && cartSuggestions().length > 0" class="space-y-2">
               <span class="text-xs font-extrabold text-amber-300 tracking-wider uppercase">🔥 ¿Te falta algo?</span>
               <div class="flex items-stretch gap-2 overflow-x-auto hide-scrollbar pb-1">
                 <template x-for="sugg in cartSuggestions()" :key="'sugg-' + sugg.id">
-                  <button
-                    type="button"
-                    @click="openProductModal(sugg)"
-                    class="shrink-0 w-[120px] bg-neutral-900/80 border border-neutral-800 hover:border-amber-400/50 rounded-xl p-2 text-left transition-all">
+                  <div class="shrink-0 w-[120px] bg-neutral-900/80 border border-neutral-800 rounded-xl p-2 text-left">
                     <p class="text-[11px] font-bold text-white leading-tight line-clamp-2" x-text="sugg.name"></p>
                     <div class="flex items-center justify-between mt-1.5">
                       <span class="text-[11px] font-extrabold text-brand-gold" x-text="formatMoney(sugg.price)"></span>
-                      <span class="bg-brand-crimson text-white w-5 h-5 rounded-md flex items-center justify-center text-xs font-black shrink-0">+</span>
+
+                      <template x-if="getSuggestionQty(sugg) === 0">
+                        <button
+                          type="button"
+                          @click="addSuggestionToCartItem(sugg)"
+                          class="bg-brand-crimson hover:bg-red-600 active:scale-95 text-white w-5 h-5 rounded-md flex items-center justify-center text-xs font-black shrink-0 transition-all">+</button>
+                      </template>
+
+                      <template x-if="getSuggestionQty(sugg) > 0">
+                        <div class="flex items-center gap-1 bg-neutral-950 border border-neutral-800 rounded-md px-1">
+                          <button
+                            type="button"
+                            @click="removeSuggestionFromCartItem(sugg)"
+                            class="text-white w-4 h-5 flex items-center justify-center text-xs font-black active:scale-90">-</button>
+                          <span class="text-[10px] font-extrabold text-amber-300 w-3 text-center" x-text="getSuggestionQty(sugg)"></span>
+                          <button
+                            type="button"
+                            @click="addSuggestionToCartItem(sugg)"
+                            class="text-white w-4 h-5 flex items-center justify-center text-xs font-black active:scale-90">+</button>
+                        </div>
+                      </template>
                     </div>
-                  </button>
+                  </div>
                 </template>
               </div>
             </div>
@@ -1652,10 +1675,10 @@
           </div>
           <div>
             <h3 class="font-display text-2xl font-bold text-white uppercase tracking-wider leading-none">
-              Ruleta de Premios Falcon's
+              🎰 Tu Premio Está Esperando
             </h3>
             <p class="text-xs text-amber-400 mt-0.5">
-              ¡Gana premios y descuentos al instante para tu pedido!
+              Completa tu pedido para descubrir qué ganaste
             </p>
           </div>
         </div>
@@ -2392,6 +2415,7 @@
         isProductModalOpen: false,
         isCartOpen: false,
         cartStep: 1,
+        showAdminEntry: false,
         isSlotModalOpen: false,
         isInfoModalOpen: false,
         
@@ -2438,6 +2462,14 @@
         uploadingId: null,
 
         async init() {
+          // El botón de acceso al panel admin solo aparece si el dueño entra
+          // con ?admin=1 en la URL — así no compite con la experiencia de compra.
+          try {
+            this.showAdminEntry = new URLSearchParams(window.location.search).has('admin');
+          } catch (e) {
+            this.showAdminEntry = false;
+          }
+
           // Carga el catálogo real y compartido desde Supabase.
           // Si falla (sin internet, proyecto pausado, etc.), se queda con
           // el catálogo por defecto embebido — el sitio nunca se rompe.
@@ -2612,6 +2644,7 @@
             }
 
             this.catalogSource = 'supabase';
+            this.trackGA('view_menu', { items_count: this.products.length });
           } catch (e) {
             console.error('Error cargando catálogo desde Supabase, usando catálogo por defecto:', e);
             this.catalogSource = 'error';
@@ -2857,6 +2890,32 @@
           return '$' + Math.max(0, amount).toLocaleString('es-CO');
         },
 
+        // Estado real de apertura, calculado con la hora actual del dispositivo
+        // contra los horarios reales configurados (Local 3PM-11PM, Domicilios 5PM-10:30PM).
+        // No inventa horarios: son los mismos que ya se comunican en el resto del sitio.
+        storeOpenStatus() {
+          const now = new Date();
+          const minutesNow = now.getHours() * 60 + now.getMinutes();
+          const local = { start: 15 * 60, end: 23 * 60 };
+          const delivery = { start: 17 * 60, end: 22 * 60 + 30 };
+
+          const fmt = (mins) => {
+            let h = Math.floor(mins / 60);
+            const m = mins % 60;
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            let h12 = h % 12;
+            if (h12 === 0) h12 = 12;
+            return h12 + (m > 0 ? ':' + m.toString().padStart(2, '0') : '') + ampm;
+          };
+
+          return {
+            isLocalOpen: minutesNow >= local.start && minutesNow < local.end,
+            isDeliveryOpen: minutesNow >= delivery.start && minutesNow < delivery.end,
+            localNextTime: fmt(local.start),
+            deliveryNextTime: fmt(delivery.start)
+          };
+        },
+
         getProductsByCategory(catId) {
           return this.products.filter(p => p.category === catId);
         },
@@ -2877,13 +2936,54 @@
         },
 
         // Sugerencias no bloqueantes para el carrito ("¿Te falta algo?").
-        // Solo productos reales del catálogo (bebidas/adiciones) que aún no
-        // están en el carrito — nunca inventa productos ni descuentos.
+        // Solo productos reales del catálogo (bebidas/adiciones). Tocar "+"
+        // las agrega como adicional del último producto del carrito (el que
+        // el cliente acaba de personalizar), no como un ítem nuevo separado.
         cartSuggestions() {
-          const inCartIds = new Set(this.cart.map(i => i.product.id));
+          if (this.cart.length === 0) return [];
           return this.products
-            .filter(p => (p.category === 'bebidas' || p.category === 'adiciones') && !inCartIds.has(p.id))
+            .filter(p => p.category === 'bebidas' || p.category === 'adiciones')
             .slice(0, 4);
+        },
+
+        // Cuántas unidades de esta sugerencia ya tiene agregadas el último
+        // producto del carrito (para mostrar el contador correcto).
+        getSuggestionQty(product) {
+          if (this.cart.length === 0) return 0;
+          const target = this.cart[this.cart.length - 1];
+          const found = target.upsells.find(u => u.id === 'sugg-' + product.id);
+          return found ? found.qty : 0;
+        },
+
+        addSuggestionToCartItem(product) {
+          if (this.cart.length === 0) return;
+          const target = this.cart[this.cart.length - 1];
+          const existing = target.upsells.find(u => u.id === 'sugg-' + product.id);
+          if (existing) {
+            existing.qty++;
+          } else {
+            target.upsells.push({
+              id: 'sugg-' + product.id,
+              name: product.name,
+              displayName: product.name,
+              variant: null,
+              price: product.price,
+              qty: 1
+            });
+          }
+          target.unitPrice = target.product.price + target.upsells.reduce((acc, u) => acc + (u.price * u.qty), 0);
+          this.cart = [...this.cart];
+        },
+
+        removeSuggestionFromCartItem(product) {
+          if (this.cart.length === 0) return;
+          const target = this.cart[this.cart.length - 1];
+          const idx = target.upsells.findIndex(u => u.id === 'sugg-' + product.id);
+          if (idx === -1) return;
+          target.upsells[idx].qty--;
+          if (target.upsells[idx].qty <= 0) target.upsells.splice(idx, 1);
+          target.unitPrice = target.product.price + target.upsells.reduce((acc, u) => acc + (u.price * u.qty), 0);
+          this.cart = [...this.cart];
         },
 
         filteredProducts() {
@@ -2969,7 +3069,7 @@
           this.modalQty = 1;
           this.isProductModalOpen = true;
 
-          // GA4: select_item
+          // GA4: select_item (estándar de ecommerce) + view_product (nombre solicitado)
           this.trackGA('select_item', {
             item_list_id: product.category,
             item_list_name: product.category,
@@ -2979,6 +3079,12 @@
               price: product.price,
               item_category: product.category
             }]
+          });
+          this.trackGA('view_product', {
+            item_id: product.id.toString(),
+            item_name: product.name,
+            price: product.price,
+            item_category: product.category
           });
         },
 
@@ -3006,6 +3112,20 @@
         modalCurrentStepKey() {
           const steps = this.modalSteps();
           return steps[this.modalStep - 1] || steps[0];
+        },
+
+        // Nombres de fase legibles para el indicador de progreso, en vez de
+        // un genérico "Paso X de Y".
+        modalStepLabel() {
+          const names = {
+            variant: 'Elige tu Sabor',
+            sauces: 'Personaliza',
+            addons: 'Personaliza',
+            notes: 'Completa tu Pedido'
+          };
+          const key = this.modalCurrentStepKey();
+          const num = String(this.modalStep).padStart(2, '0');
+          return num + ' — ' + (names[key] || 'Personaliza');
         },
 
         modalIsLastStep() {
@@ -3291,7 +3411,13 @@
         },
 
         removeFromCart(itemId) {
+          const removed = this.cart.find(i => i.cartItemId === itemId);
           this.cart = this.cart.filter(i => i.cartItemId !== itemId);
+          if (removed) {
+            this.trackGA('remove_from_cart', {
+              items: [{ item_id: removed.product.id.toString(), item_name: removed.product.name, price: removed.unitPrice, quantity: removed.qty }]
+            });
+          }
         },
 
         clearCart() {
@@ -3320,18 +3446,21 @@
           if (code === 'FALCONS10' || code === 'FALCON-10') {
             this.appliedPromo = { code: code, percent: 10, desc: '10% Descuento Especial' };
             this.promoError = null;
+            this.trackGA('coupon_applied', { coupon: code });
             if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('falcon_ruleta_usada', 'true');
             this.isRouletteUsed = true;
             return;
           } else if (code === 'ALITASVIP') {
             this.appliedPromo = { code: code, fixed: 3000, desc: '$3.000 Descuento VIP' };
             this.promoError = null;
+            this.trackGA('coupon_applied', { coupon: code });
             if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('falcon_ruleta_usada', 'true');
             this.isRouletteUsed = true;
             return;
           } else if (code === 'PRADOFEST') {
             this.appliedPromo = { code: code, percent: 15, desc: '15% Descuento especial Prado' };
             this.promoError = null;
+            this.trackGA('coupon_applied', { coupon: code });
             if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('falcon_ruleta_usada', 'true');
             this.isRouletteUsed = true;
             return;
@@ -3368,18 +3497,21 @@
               if (prefix === 'FALCON-DESC') {
                 this.appliedPromo = { code: code, percent: 10, desc: '10% Descuento Tragamonedas' };
                 this.promoError = null;
+                this.trackGA('coupon_applied', { coupon: code });
                 if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('falcon_ruleta_usada', 'true');
                 this.isRouletteUsed = true;
                 return;
               } else if (prefix === 'FALCON-DRINK') {
                 this.appliedPromo = { code: code, fixed: 3500, desc: 'Bebida/Salsa Gratis ($3.500 desc)' };
                 this.promoError = null;
+                this.trackGA('coupon_applied', { coupon: code });
                 if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('falcon_ruleta_usada', 'true');
                 this.isRouletteUsed = true;
                 return;
               } else if (prefix === 'FALCON-JACKPOT') {
                 this.appliedPromo = { code: code, fixed: 5000, desc: 'JACKPOT Falcon ($5.000 desc)' };
                 this.promoError = null;
+                this.trackGA('coupon_applied', { coupon: code });
                 if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('falcon_ruleta_usada', 'true');
                 this.isRouletteUsed = true;
                 return;
@@ -3401,6 +3533,7 @@
             this.slotStep = 3;
           }
           this.isSlotModalOpen = true;
+          this.trackGA('roulette_open', {});
         },
 
         // Invitación opcional a reseñar (se usa desde la pantalla de premio ganado).
@@ -3417,6 +3550,7 @@
           const isUsed = typeof sessionStorage !== 'undefined' && sessionStorage.getItem('falcon_ruleta_usada') === 'true';
           if (this.isSpinning || isUsed || this.isRouletteUsed) return;
           this.isSpinning = true;
+          this.trackGA('roulette_spin', {});
 
           // Session Lock on spin initiation
           if (typeof sessionStorage !== 'undefined') {
@@ -3489,6 +3623,7 @@
             };
           }
 
+          this.trackGA('coupon_won', { coupon: this.wonPrize.code, prize: this.wonPrize.title });
           this.slotStep = 4;
 
           // Confetti celebration
@@ -3676,6 +3811,9 @@
 
         cartGoNext() {
           if (this.cartStep < this.cartTotalSteps) {
+            if (this.cartStep === 1) {
+              this.trackGA('begin_checkout', { value: this.grandTotal(), currency: 'COP' });
+            }
             this.cartStep++;
             this.scrollModalBodyToTop('cart-modal-body');
           }
@@ -3701,6 +3839,12 @@
           const cleanCashChange = this.sanitizeText(this.customer.cashChange);
           const cleanNeighborhood = this.sanitizeText(this.customer.neighborhood);
           const cleanMapsUrl = this.customer.googleMapsUrl ? this.sanitizeText(this.customer.googleMapsUrl) : '';
+
+          // GA4: whatsapp_click (el clic real que dispara el envío del pedido)
+          this.trackGA('whatsapp_click', {
+            value: this.grandTotal(),
+            currency: 'COP'
+          });
 
           // GA4: purchase (No PII logged in analytics payload)
           this.trackGA('purchase', {
