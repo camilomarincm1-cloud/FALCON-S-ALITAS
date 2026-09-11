@@ -261,13 +261,13 @@
   <main id="menu" class="max-w-4xl mx-auto px-4 pt-5 space-y-10">
 
     <!-- HERO: PRODUCTO ESTRELLA DE LA CASA -->
-    <template x-if="products.find(p => p.id === 12)">
+    <template x-if="heroProduct()">
       <div 
-        @click="openProductModal(products.find(p => p.id === 12))"
+        @click="openProductModal(heroProduct())"
         class="relative rounded-3xl overflow-hidden border border-neutral-800 shadow-2xl cursor-pointer group h-[54vh] min-h-[380px] max-h-[500px]">
         <img 
-          :src="products.find(p => p.id === 12).image" 
-          :alt="products.find(p => p.id === 12).name"
+          :src="heroProduct().image" 
+          :alt="heroProduct().name"
           loading="eager"
           class="absolute inset-0 w-full h-full object-cover group-active:scale-105 transition-transform duration-300">
         <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/25 to-transparent"></div>
@@ -276,8 +276,8 @@
         <div class="relative h-full flex flex-col justify-between p-4 sm:p-6">
           <div class="flex items-start justify-between gap-3">
             <span 
-              x-show="products.find(p => p.id === 12).badge"
-              x-text="products.find(p => p.id === 12).badge"
+              x-show="heroProduct().badge"
+              x-text="heroProduct().badge"
               class="inline-block w-fit bg-brand-gold text-black text-[10px] sm:text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-md">
             </span>
 
@@ -297,7 +297,7 @@
               La Hamburguesa Que Todo Prado Pide de Nuevo
             </h2>
             <div class="flex items-center gap-3 pt-1">
-              <span class="font-display text-2xl sm:text-3xl text-brand-gold font-extrabold" x-text="formatMoney(products.find(p => p.id === 12).price)"></span>
+              <span class="font-display text-2xl sm:text-3xl text-brand-gold font-extrabold" x-text="formatMoney(heroProduct().price)"></span>
               <span class="bg-brand-crimson hover:bg-red-600 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-2xl shadow-lg shadow-brand-crimson/40 transition-all">
                 Pedir esta Hamburguesa →
               </span>
@@ -355,8 +355,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
           <template x-for="product in filteredProducts()" :key="product.id">
             <div 
-              @click="openProductModal(product)"
-              class="bg-brand-card rounded-3xl border border-neutral-800/90 hover:border-neutral-700 transition-all flex flex-col overflow-hidden group cursor-pointer hover:shadow-2xl hover:shadow-brand-crimson/15">
+              @click="product.available === false ? null : openProductModal(product)"
+              :class="product.available === false ? 'opacity-50 grayscale cursor-not-allowed' : 'cursor-pointer hover:shadow-2xl hover:shadow-brand-crimson/15'"
+              class="bg-brand-card rounded-3xl border border-neutral-800/90 hover:border-neutral-700 transition-all flex flex-col overflow-hidden group">
               
               <!-- Food Photography (45%-50% Dominance) -->
               <div class="relative w-full h-44 sm:h-48 md:h-52 bg-neutral-900 overflow-hidden shrink-0">
@@ -377,6 +378,12 @@
                 
                 <!-- Gradient Scrim for contrast -->
                 <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-black/40 pointer-events-none"></div>
+
+                <template x-if="product.available === false">
+                  <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                    <span class="bg-neutral-950 text-red-400 font-extrabold text-xs px-4 py-1.5 rounded-xl border border-red-500/40 uppercase tracking-wider">Agotado</span>
+                  </div>
+                </template>
 
                 <!-- Floating Badges & Prep Time -->
                 <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
@@ -435,8 +442,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
               <template x-for="product in getProductsByCategory(cat.id)" :key="product.id">
                 <div 
-                  @click="openProductModal(product)"
-                  class="bg-brand-card rounded-3xl border border-neutral-800/90 hover:border-neutral-700 transition-all flex flex-col overflow-hidden group cursor-pointer hover:shadow-2xl hover:shadow-brand-crimson/15">
+                  @click="product.available === false ? null : openProductModal(product)"
+                  :class="product.available === false ? 'opacity-50 grayscale cursor-not-allowed' : 'cursor-pointer hover:shadow-2xl hover:shadow-brand-crimson/15'"
+                  class="bg-brand-card rounded-3xl border border-neutral-800/90 hover:border-neutral-700 transition-all flex flex-col overflow-hidden group">
                   
                   <!-- Food Photography (45%-50% Dominance) -->
                   <div class="relative w-full h-44 sm:h-48 md:h-52 bg-neutral-900 overflow-hidden shrink-0">
@@ -457,6 +465,12 @@
                     
                     <!-- Gradient Scrim for contrast -->
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-black/40 pointer-events-none"></div>
+
+                    <template x-if="product.available === false">
+                      <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                        <span class="bg-neutral-950 text-red-400 font-extrabold text-xs px-4 py-1.5 rounded-xl border border-red-500/40 uppercase tracking-wider">Agotado</span>
+                      </div>
+                    </template>
 
                     <!-- Floating Badges & Prep Time -->
                     <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
@@ -545,9 +559,8 @@
           <span>Plataforma Activa • Vercel Edge Fast Engine v2.4.0 (Zero-Cache)</span>
         </div>
 
-        <!-- Acceso Panel Administrativo: oculto de la experiencia pública normal.
-             Solo visible entrando con ?admin=1 en la URL, o si ya hay una sesión activa. -->
-        <div x-show="showAdminEntry || isAdminAuthenticated">
+        <!-- Acceso Panel Administrativo: siempre visible en el footer, protegido por el login de Supabase Auth -->
+        <div>
           <button 
             @click="openAdminAuth()" 
             class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900/90 hover:bg-neutral-800 text-neutral-400 hover:text-amber-400 border border-neutral-800 hover:border-amber-500/40 transition-all text-xs font-semibold shadow-sm group">
@@ -2221,6 +2234,31 @@
 
             </div>
 
+            <!-- Toggles: Disponibilidad, Hero, Más Pedidos -->
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-neutral-800/70">
+              <button
+                type="button"
+                @click="prod.available = !(prod.available !== false)"
+                :class="(prod.available !== false) ? 'bg-emerald-950/60 text-emerald-400 border-emerald-500/40' : 'bg-red-950/60 text-red-400 border-red-500/40'"
+                class="text-[10px] font-bold px-2.5 py-1.5 rounded-lg border transition-all flex items-center gap-1">
+                <span x-text="(prod.available !== false) ? '🟢 Disponible' : '🔴 Agotado'"></span>
+              </button>
+              <button
+                type="button"
+                @click="prod.isHero = !prod.isHero"
+                :class="prod.isHero ? 'bg-amber-950/60 text-amber-300 border-amber-500/40' : 'bg-neutral-950 text-neutral-500 border-neutral-800'"
+                class="text-[10px] font-bold px-2.5 py-1.5 rounded-lg border transition-all flex items-center gap-1">
+                <span>⭐ Mostrar en Hero</span>
+              </button>
+              <button
+                type="button"
+                @click="prod.isTopPick = !prod.isTopPick"
+                :class="prod.isTopPick ? 'bg-amber-950/60 text-amber-300 border-amber-500/40' : 'bg-neutral-950 text-neutral-500 border-neutral-800'"
+                class="text-[10px] font-bold px-2.5 py-1.5 rounded-lg border transition-all flex items-center gap-1">
+                <span>🔥 Más Pedidos</span>
+              </button>
+            </div>
+
           </div>
         </template>
       </div>
@@ -2281,7 +2319,10 @@
         badge: row.badge || undefined,
         description: row.description,
         prepTime: row.prep_time,
-        variants: row.variants || undefined
+        variants: row.variants || undefined,
+        available: row.available !== false,
+        isHero: !!row.is_hero,
+        isTopPick: !!row.is_top_pick
       };
     }
 
@@ -2415,7 +2456,6 @@
         isProductModalOpen: false,
         isCartOpen: false,
         cartStep: 1,
-        showAdminEntry: false,
         isSlotModalOpen: false,
         isInfoModalOpen: false,
         
@@ -2462,14 +2502,6 @@
         uploadingId: null,
 
         async init() {
-          // El botón de acceso al panel admin solo aparece si el dueño entra
-          // con ?admin=1 en la URL — así no compite con la experiencia de compra.
-          try {
-            this.showAdminEntry = new URLSearchParams(window.location.search).has('admin');
-          } catch (e) {
-            this.showAdminEntry = false;
-          }
-
           // Carga el catálogo real y compartido desde Supabase.
           // Si falla (sin internet, proyecto pausado, etc.), se queda con
           // el catálogo por defecto embebido — el sitio nunca se rompe.
@@ -2835,7 +2867,10 @@
               description: p.description || null,
               prep_time: p.prepTime || null,
               variants: p.variants && p.variants.length > 0 ? p.variants : null,
-              sort_order: index
+              sort_order: index,
+              available: p.available !== false,
+              is_hero: !!p.isHero,
+              is_top_pick: !!p.isTopPick
             }));
             const { error } = await getSupabaseClient().from('products').upsert(rows, { onConflict: 'id' });
             if (error) throw error;
@@ -2870,12 +2905,20 @@
               description: p.description || null,
               prep_time: p.prepTime || null,
               variants: p.variants && p.variants.length > 0 ? p.variants : null,
-              sort_order: index
+              sort_order: index,
+              available: true,
+              is_hero: p.id === 12,
+              is_top_pick: [1, 2, 7, 12, 16].includes(p.id)
             }));
             const { error } = await getSupabaseClient().from('products').upsert(rows, { onConflict: 'id' });
             if (error) throw error;
 
-            this.products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+            this.products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)).map(p => ({
+              ...p,
+              available: true,
+              isHero: p.id === 12,
+              isTopPick: [1, 2, 7, 12, 16].includes(p.id)
+            }));
             this.adminSaveNotification = true;
             setTimeout(() => {
               this.adminSaveNotification = false;
@@ -2920,18 +2963,27 @@
           return this.products.filter(p => p.category === catId);
         },
 
-        // "Los Más Pedidos": solo productos que YA tienen un badge real en el
-        // catálogo (más vendido, favorito, estrella de la casa, etc.) — nunca
-        // se inventan valoraciones ni popularidad que no existan en los datos.
+        // Producto destacado en el hero: el que el admin marcó como "Mostrar
+        // en Hero". Si Supabase aún no ha respondido o nadie lo marcó todavía,
+        // usa el producto insignia original como respaldo (nunca deja el hero vacío).
+        heroProduct() {
+          return this.products.find(p => p.isHero && p.available !== false)
+            || this.products.find(p => p.id === 12);
+        },
+
+        // "Los Más Pedidos": productos marcados por el admin como "Mostrar en
+        // Más Pedidos". Respaldo automático mientras carga Supabase o si el
+        // admin no ha marcado ninguno todavía.
         topProducts() {
+          const flagged = this.products.filter(p => p.isTopPick && p.available !== false);
+          if (flagged.length > 0) return flagged.slice(0, 5);
+
           const preferredIds = [1, 2, 7, 12, 16];
           const withBadge = preferredIds
             .map(id => this.products.find(p => p.id === id))
-            .filter(p => p && p.badge);
+            .filter(p => p && p.badge && p.available !== false);
           if (withBadge.length >= 3) return withBadge;
-          // Respaldo: si algún admin borró/editó esos productos, toma
-          // cualquier producto real que tenga badge, hasta completar 5.
-          const fallback = this.products.filter(p => p.badge && !withBadge.includes(p));
+          const fallback = this.products.filter(p => p.badge && p.available !== false && !withBadge.includes(p));
           return [...withBadge, ...fallback].slice(0, 5);
         },
 
