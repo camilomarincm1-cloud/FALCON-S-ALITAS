@@ -1264,70 +1264,6 @@
                     <span class="text-[10px] text-neutral-400 font-medium">San Antonio de Prado</span>
                   </div>
 
-                  <!-- Dirección Exacta -->
-                  <div>
-                    <label class="text-[11px] font-bold text-neutral-200 uppercase block mb-1">
-                      Dirección Exacta (Calle/Cra, #, Casa o Apto) <span class="text-brand-crimson">*</span>
-                    </label>
-                    <input 
-                      type="text" 
-                      x-model="customer.address" 
-                      maxlength="150"
-                      placeholder="Ej: Calle 48D Sur # 55C - 04 (Torre 2 Apto 402)" 
-                      class="w-full bg-neutral-950 border border-neutral-800 focus:border-brand-crimson rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none transition-all">
-                    <p x-show="customer.address.length > 0 && customer.address.trim().length < 4" class="text-[10px] text-red-400 mt-1 font-medium">Ingresa una dirección precisa (Calle/Cra, número, casa/apto).</p>
-                    <p x-show="!customer.address || customer.address.trim().length >= 4" class="text-[10px] text-neutral-400 mt-0.5">Incluye número de casa, piso, interior o bloque para agilizar la entrega.</p>
-                  </div>
-
-                  <!-- Punto de Referencia / Indicaciones de llegada -->
-                  <div>
-                    <label class="text-[11px] font-bold text-neutral-300 uppercase block mb-1">
-                      Punto de Referencia / Indicación para el Domiciliario
-                    </label>
-                    <input 
-                      type="text" 
-                      x-model="customer.referencePoint" 
-                      maxlength="150"
-                      placeholder="Ej: Frente al parque, casa blanca de reja negra, portón verde" 
-                      class="w-full bg-neutral-950 border border-neutral-800 focus:border-amber-400 rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none">
-                    <p class="text-[10px] text-neutral-400 mt-0.5">Ayuda al domiciliario a ubicar tu puerta sin demoras ni llamadas.</p>
-                  </div>
-
-                  <!-- Sector / Barrio en San Antonio: buscador + lista clara -->
-                  <div>
-                    <label class="text-[11px] font-bold text-neutral-300 uppercase block mb-1">
-                      Sector / Barrio en San Antonio <span class="text-brand-crimson">*</span>
-                    </label>
-
-                    <!-- Confirmación visible del barrio ya elegido -->
-                    <div class="flex items-center justify-between bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 mb-2">
-                      <span class="text-[11px] font-semibold text-emerald-300" x-text="'✅ ' + customer.neighborhood"></span>
-                      <span class="text-[10px] font-bold text-emerald-400 whitespace-nowrap" x-text="formatMoney(deliveryFee()) + ' · ' + (neighborhoods.find(n => n.name === customer.neighborhood)?.time || '')"></span>
-                    </div>
-
-                    <input
-                      type="text"
-                      x-model="neighborhoodSearch"
-                      placeholder="🔍 Busca tu barrio (ej: Barichara, Prado...)"
-                      class="w-full bg-neutral-950 border border-neutral-800 focus:border-brand-crimson rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none mb-1.5">
-
-                    <div class="max-h-40 overflow-y-auto hide-scrollbar space-y-1 border border-neutral-800 rounded-xl p-1.5 bg-neutral-950/60">
-                      <template x-for="n in filteredNeighborhoods()" :key="n.name">
-                        <button
-                          type="button"
-                          @click="selectNeighborhood(n)"
-                          :class="customer.neighborhood === n.name ? 'bg-brand-crimson/20 border-brand-crimson text-white' : 'bg-neutral-900 border-neutral-800 text-neutral-300 hover:border-neutral-600'"
-                          class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg border text-left transition-all">
-                          <span class="text-[11.5px] font-semibold" x-text="n.name"></span>
-                          <span class="text-[10px] text-neutral-400 whitespace-nowrap ml-2" x-text="(n.fee > 0 ? formatMoney(n.fee) : 'Gratis') + ' · ' + n.time"></span>
-                        </button>
-                      </template>
-                      <p x-show="filteredNeighborhoods().length === 0" class="text-[11px] text-neutral-500 text-center py-2">
-                        No encontramos ese barrio. Verifica el nombre o escríbenos por WhatsApp.
-                      </p>
-                    </div>
-                  </div>
-
                   <!-- GPS Geolocation & Google Maps Link Module -->
                   <div class="bg-gradient-to-br from-neutral-950 via-neutral-900 to-amber-950/20 p-3.5 rounded-xl border border-amber-500/30 space-y-2.5">
                     <div class="flex items-center justify-between">
@@ -1349,7 +1285,7 @@
                     </div>
 
                     <p class="text-[10.5px] text-neutral-300 leading-relaxed">
-                      Comparte tu ubicación satelital en tiempo real para que el repartidor abra la ruta exacta en su GPS. Si no deseas compartir GPS, no te preocupes: tu dirección manual escrita arriba es suficiente.
+                      Comparte tu ubicación satelital en tiempo real para que el repartidor abra la ruta exacta en su GPS. Si prefieres, puedes saltar este paso y completar tu dirección manual abajo.
                     </p>
 
                     <div class="pt-0.5">
@@ -1450,6 +1386,71 @@
                       </div>
                     </template>
                   </div>
+
+                  <!-- Dirección Exacta -->
+                  <div>
+                    <label class="text-[11px] font-bold text-neutral-200 uppercase block mb-1">
+                      Dirección Exacta (Calle/Cra, #, Casa o Apto) <span class="text-brand-crimson">*</span>
+                    </label>
+                    <input 
+                      type="text" 
+                      x-model="customer.address" 
+                      maxlength="150"
+                      placeholder="Ej: Calle 48D Sur # 55C - 04 (Torre 2 Apto 402)" 
+                      class="w-full bg-neutral-950 border border-neutral-800 focus:border-brand-crimson rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none transition-all">
+                    <p x-show="customer.address.length > 0 && customer.address.trim().length < 4" class="text-[10px] text-red-400 mt-1 font-medium">Ingresa una dirección precisa (Calle/Cra, número, casa/apto).</p>
+                    <p x-show="!customer.address || customer.address.trim().length >= 4" class="text-[10px] text-neutral-400 mt-0.5">Incluye número de casa, piso, interior o bloque para agilizar la entrega.</p>
+                  </div>
+
+                  <!-- Punto de Referencia / Indicaciones de llegada -->
+                  <div>
+                    <label class="text-[11px] font-bold text-neutral-300 uppercase block mb-1">
+                      Punto de Referencia / Indicación para el Domiciliario
+                    </label>
+                    <input 
+                      type="text" 
+                      x-model="customer.referencePoint" 
+                      maxlength="150"
+                      placeholder="Ej: Frente al parque, casa blanca de reja negra, portón verde" 
+                      class="w-full bg-neutral-950 border border-neutral-800 focus:border-amber-400 rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none">
+                    <p class="text-[10px] text-neutral-400 mt-0.5">Ayuda al domiciliario a ubicar tu puerta sin demoras ni llamadas.</p>
+                  </div>
+
+                  <!-- Sector / Barrio en San Antonio: buscador + lista clara -->
+                  <div>
+                    <label class="text-[11px] font-bold text-neutral-300 uppercase block mb-1">
+                      Sector / Barrio en San Antonio <span class="text-brand-crimson">*</span>
+                    </label>
+
+                    <!-- Confirmación visible del barrio ya elegido -->
+                    <div class="flex items-center justify-between bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 mb-2">
+                      <span class="text-[11px] font-semibold text-emerald-300" x-text="'✅ ' + customer.neighborhood"></span>
+                      <span class="text-[10px] font-bold text-emerald-400 whitespace-nowrap" x-text="formatMoney(deliveryFee()) + ' · ' + (neighborhoods.find(n => n.name === customer.neighborhood)?.time || '')"></span>
+                    </div>
+
+                    <input
+                      type="text"
+                      x-model="neighborhoodSearch"
+                      placeholder="🔍 Busca tu barrio (ej: Barichara, Prado...)"
+                      class="w-full bg-neutral-950 border border-neutral-800 focus:border-brand-crimson rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none mb-1.5">
+
+                    <div class="max-h-40 overflow-y-auto hide-scrollbar space-y-1 border border-neutral-800 rounded-xl p-1.5 bg-neutral-950/60">
+                      <template x-for="n in filteredNeighborhoods()" :key="n.name">
+                        <button
+                          type="button"
+                          @click="selectNeighborhood(n)"
+                          :class="customer.neighborhood === n.name ? 'bg-brand-crimson/20 border-brand-crimson text-white' : 'bg-neutral-900 border-neutral-800 text-neutral-300 hover:border-neutral-600'"
+                          class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg border text-left transition-all">
+                          <span class="text-[11.5px] font-semibold" x-text="n.name"></span>
+                          <span class="text-[10px] text-neutral-400 whitespace-nowrap ml-2" x-text="(n.fee > 0 ? formatMoney(n.fee) : 'Gratis') + ' · ' + n.time"></span>
+                        </button>
+                      </template>
+                      <p x-show="filteredNeighborhoods().length === 0" class="text-[11px] text-neutral-500 text-center py-2">
+                        No encontramos ese barrio. Verifica el nombre o escríbenos por WhatsApp.
+                      </p>
+                    </div>
+                  </div>
+
                 </div>
               </template>
             </div>
@@ -2699,11 +2700,30 @@
           { name: 'El Rosario (San Antonio de Prado)', fee: 4000, time: '25-35 min' },
           { name: 'Centro / Parque Principal Prado', fee: 3500, time: '20-30 min' },
           { name: 'Pradito', fee: 4000, time: '25-35 min' },
+          { name: 'Rosaleda', fee: 4000, time: '25-35 min' },
+          { name: 'Aragón', fee: 4000, time: '25-35 min' },
+          { name: 'Villa Loma', fee: 4000, time: '25-35 min' },
+          { name: 'María Auxiliadora', fee: 4000, time: '25-35 min' },
+          { name: 'San Vicente de Paúl', fee: 4000, time: '25-35 min' },
+          { name: 'Los Patios', fee: 4000, time: '25-35 min' },
+          { name: 'Cristo Rey', fee: 4000, time: '25-35 min' },
+          { name: 'El Vergel', fee: 4000, time: '25-35 min' },
+          { name: 'Las Coles', fee: 4500, time: '30-40 min' },
+          { name: 'Paloblanco', fee: 4500, time: '30-40 min' },
+          { name: 'La Capilla', fee: 4500, time: '30-40 min' },
+          { name: 'Los Salinas', fee: 4500, time: '30-40 min' },
+          { name: 'El Descanso', fee: 4500, time: '30-40 min' },
+          { name: 'El Chispero', fee: 4500, time: '30-40 min' },
           { name: 'Barichara', fee: 4500, time: '30-40 min' },
           { name: 'El Limonar 1 y 2', fee: 4500, time: '30-40 min' },
           { name: 'Los Naranjos', fee: 4000, time: '25-35 min' },
-          { name: 'La Verde', fee: 5000, time: '35-45 min' },
           { name: 'Santa Rita / San José', fee: 4500, time: '30-40 min' },
+          { name: 'La Verde', fee: 5000, time: '35-45 min' },
+          { name: 'La Taboga', fee: 5000, time: '35-45 min' },
+          { name: 'El Coco', fee: 5000, time: '35-45 min' },
+          { name: 'Pallavesine', fee: 5000, time: '35-45 min' },
+          { name: 'La Oculta', fee: 5000, time: '35-45 min' },
+          { name: 'Los Mesas', fee: 5000, time: '35-45 min' },
           { name: 'Potrerito', fee: 5500, time: '35-45 min' },
           { name: 'Itagüí Aledaño', fee: 7000, time: '40-50 min' }
         ],
