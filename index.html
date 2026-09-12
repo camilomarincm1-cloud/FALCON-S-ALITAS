@@ -1281,18 +1281,39 @@
                     <p class="text-[10px] text-neutral-400 mt-0.5">Ayuda al domiciliario a ubicar tu puerta sin demoras ni llamadas.</p>
                   </div>
 
-                  <!-- Sector / Barrio en San Antonio -->
+                  <!-- Sector / Barrio en San Antonio: buscador + lista clara -->
                   <div>
                     <label class="text-[11px] font-bold text-neutral-300 uppercase block mb-1">
                       Sector / Barrio en San Antonio <span class="text-brand-crimson">*</span>
                     </label>
-                    <select 
-                      x-model="customer.neighborhood" 
-                      class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-crimson font-medium">
-                      <template x-for="n in neighborhoods" :key="n.name">
-                        <option :value="n.name" x-text="n.name + (n.fee > 0 ? ' (+$' + n.fee.toLocaleString('es-CO') + ')' : ' (Gratis)') + ' • ' + n.time"></option>
+
+                    <!-- Confirmación visible del barrio ya elegido -->
+                    <div class="flex items-center justify-between bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 mb-2">
+                      <span class="text-[11px] font-semibold text-emerald-300" x-text="'✅ ' + customer.neighborhood"></span>
+                      <span class="text-[10px] font-bold text-emerald-400 whitespace-nowrap" x-text="formatMoney(deliveryFee()) + ' · ' + (neighborhoods.find(n => n.name === customer.neighborhood)?.time || '')"></span>
+                    </div>
+
+                    <input
+                      type="text"
+                      x-model="neighborhoodSearch"
+                      placeholder="🔍 Busca tu barrio (ej: Barichara, Prado...)"
+                      class="w-full bg-neutral-950 border border-neutral-800 focus:border-brand-crimson rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none mb-1.5">
+
+                    <div class="max-h-40 overflow-y-auto hide-scrollbar space-y-1 border border-neutral-800 rounded-xl p-1.5 bg-neutral-950/60">
+                      <template x-for="n in filteredNeighborhoods()" :key="n.name">
+                        <button
+                          type="button"
+                          @click="selectNeighborhood(n)"
+                          :class="customer.neighborhood === n.name ? 'bg-brand-crimson/20 border-brand-crimson text-white' : 'bg-neutral-900 border-neutral-800 text-neutral-300 hover:border-neutral-600'"
+                          class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg border text-left transition-all">
+                          <span class="text-[11.5px] font-semibold" x-text="n.name"></span>
+                          <span class="text-[10px] text-neutral-400 whitespace-nowrap ml-2" x-text="(n.fee > 0 ? formatMoney(n.fee) : 'Gratis') + ' · ' + n.time"></span>
+                        </button>
                       </template>
-                    </select>
+                      <p x-show="filteredNeighborhoods().length === 0" class="text-[11px] text-neutral-500 text-center py-2">
+                        No encontramos ese barrio. Verifica el nombre o escríbenos por WhatsApp.
+                      </p>
+                    </div>
                   </div>
 
                   <!-- GPS Geolocation & Google Maps Link Module -->
@@ -2598,6 +2619,7 @@
         gpsError: null,
         gpsWarning: null,
         gpsAccuracy: null,
+        neighborhoodSearch: '',
         _lastGpsRequest: 0,
 
         cart: [],
@@ -3436,6 +3458,20 @@
 
         cartSubtotal() {
           return this.cart.reduce((acc, item) => acc + (item.unitPrice * item.qty), 0);
+        },
+
+        // Barrios ordenados alfabéticamente y filtrables por texto, para que
+        // el cliente encuentre el suyo rápido entre las 10 zonas de reparto.
+        filteredNeighborhoods() {
+          const q = this.neighborhoodSearch.toLowerCase().trim();
+          const sorted = [...this.neighborhoods].sort((a, b) => a.name.localeCompare(b.name, 'es'));
+          if (!q) return sorted;
+          return sorted.filter(n => n.name.toLowerCase().includes(q));
+        },
+
+        selectNeighborhood(n) {
+          this.customer.neighborhood = n.name;
+          this.neighborhoodSearch = '';
         },
 
         deliveryFee() {
