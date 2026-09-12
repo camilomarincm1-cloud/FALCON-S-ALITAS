@@ -596,7 +596,7 @@
     x-transition>
     
     <div 
-      @click.outside="isProductModalOpen = false; editingCartItemId = null" 
+      @click.outside="isProductModalOpen = false; editingCartItemId = null; isImageLightboxOpen = false" 
       class="bg-brand-card w-full max-w-lg rounded-t-3xl sm:rounded-3xl border border-neutral-800 max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
       
       <!-- Large Hero Image Showcase Banner -->
@@ -605,7 +605,8 @@
           <img 
             :src="selectedProduct?.image" 
             :alt="selectedProduct?.name" 
-            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+            @click="isImageLightboxOpen = true"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out cursor-zoom-in"
             referrerpolicy="no-referrer"
             onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600&auto=format&fit=crop&q=80'"
           />
@@ -614,6 +615,17 @@
           class="w-full h-full flex items-center justify-center text-7xl bg-neutral-900" 
           :style="selectedProduct?.image ? 'display: none;' : 'display: flex;'" 
           x-text="selectedProduct?.emoji || '🍗'"></div>
+
+        <!-- Ícono sutil que indica que la foto se puede ampliar -->
+        <template x-if="selectedProduct?.image">
+          <button
+            type="button"
+            @click="isImageLightboxOpen = true"
+            class="absolute bottom-3 right-3 bg-black/60 hover:bg-black/80 text-white p-1.5 rounded-lg backdrop-blur-sm transition-all z-10"
+            aria-label="Ver foto en tamaño grande">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+          </button>
+        </template>
 
         <!-- Gradient Scrim for crisp text readability -->
         <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-brand-card/50 to-black/60 pointer-events-none"></div>
@@ -630,7 +642,7 @@
           </div>
 
           <button 
-            @click="isProductModalOpen = false; editingCartItemId = null" 
+            @click="isProductModalOpen = false; editingCartItemId = null; isImageLightboxOpen = false" 
             aria-label="Cerrar modal"
             class="pointer-events-auto text-white p-2 sm:p-2.5 rounded-xl bg-black/80 hover:bg-neutral-800 backdrop-blur-md border border-white/20 transition-all active:scale-95 shadow-xl cursor-pointer shrink-0">
             ✕
@@ -1698,6 +1710,31 @@
   </div>
 
   <!-- ========================================================================= -->
+  <!-- 7.5 VISOR DE IMAGEN AMPLIADA (solo dentro de la personalización de producto) -->
+  <!-- ========================================================================= -->
+  <div
+    x-show="isImageLightboxOpen"
+    x-cloak
+    @click="isImageLightboxOpen = false"
+    class="fixed inset-0 z-[70] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4"
+    x-transition>
+    <button
+      type="button"
+      @click="isImageLightboxOpen = false"
+      class="absolute top-4 right-4 bg-black/60 hover:bg-black/80 text-white w-10 h-10 rounded-full flex items-center justify-center z-10"
+      aria-label="Cerrar">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <img
+      :src="selectedProduct?.image"
+      :alt="selectedProduct?.name"
+      @click.stop
+      referrerpolicy="no-referrer"
+      onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600&auto=format&fit=crop&q=80'"
+      class="max-w-full max-h-full object-contain rounded-2xl">
+  </div>
+
+  <!-- ========================================================================= -->
   <!-- 8. MÓDULO NFC: TRAGAMONEDAS DE RESEÑAS DE GOOGLE (GAMIFICACIÓN CRO) -->
   <!-- ========================================================================= -->
   <div 
@@ -2495,6 +2532,7 @@
         selectedProduct: null,
         modalStep: 1,
         editingCartItemId: null,
+        isImageLightboxOpen: false,
         modalVariant: '',
         modalSauces: [],
         modalOnion: 'Sofrita',
@@ -3414,6 +3452,7 @@
             }
             this.editingCartItemId = null;
             this.isProductModalOpen = false;
+          this.isImageLightboxOpen = false;
             this.isCartOpen = true;
             this.cartStep = 1;
           this.cartStepError = '';
@@ -3434,6 +3473,7 @@
 
           this.cart.push(cartItem);
           this.isProductModalOpen = false;
+          this.isImageLightboxOpen = false;
           this.isCartOpen = true;
           this.cartStep = 1;
           this.cartStepError = '';
