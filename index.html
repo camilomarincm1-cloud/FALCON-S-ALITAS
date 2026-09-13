@@ -2,7 +2,7 @@
 <html lang="es" class="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
   <title>Falcon's Alitas | Menú Digital & Pedidos de Alta Conversión</title>
   
   <!-- Vercel & Browser Cache-Control Directives -->
@@ -597,7 +597,7 @@
     
     <div 
       @click.outside="isProductModalOpen = false; editingCartItemId = null; isImageLightboxOpen = false" 
-      class="bg-brand-card w-full max-w-lg rounded-t-3xl sm:rounded-3xl border border-neutral-800 max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
+      class="bg-brand-card w-full max-w-lg rounded-t-3xl sm:rounded-3xl border border-neutral-800 max-h-[92vh] max-h-[92dvh] flex flex-col overflow-hidden shadow-2xl">
       
       <!-- Large Hero Image Showcase Banner -->
       <div class="relative w-full h-52 sm:h-64 bg-neutral-950 overflow-hidden shrink-0 border-b border-neutral-800/80 group">
@@ -885,6 +885,8 @@
           <input 
             type="text" 
             x-model="modalNotes" 
+            enterkeyhint="done"
+            @keydown.enter.prevent="$el.blur()"
             :placeholder="selectedProduct?.category === 'bebidas' ? 'Ejemplo: Bien helada, con pitillo, vaso con hielo' : 'Ejemplo: Bien tostada la tocineta, salsa aparte, sin picante'"
             class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-brand-crimson">
         </div>
@@ -1234,6 +1236,8 @@
                 <input 
                   type="text" 
                   x-model="customer.name" 
+                  enterkeyhint="done"
+                  @keydown.enter.prevent="$el.blur()"
                   maxlength="100"
                   placeholder="Ej: Camilo Marín" 
                   class="w-full bg-neutral-950 border border-neutral-800 focus:border-brand-crimson rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none">
@@ -1248,6 +1252,8 @@
                 <input 
                   type="text" 
                   x-model="customer.tableNumber" 
+                  enterkeyhint="done"
+                  @keydown.enter.prevent="$el.blur()"
                   maxlength="20"
                   placeholder="Ej: Mesa 4" 
                   class="w-full bg-neutral-950 border border-neutral-800 focus:border-brand-crimson rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none">
@@ -1395,6 +1401,8 @@
                     <input 
                       type="text" 
                       x-model="customer.address" 
+                      enterkeyhint="done"
+                      @keydown.enter.prevent="$el.blur()"
                       maxlength="150"
                       placeholder="Ej: Calle 48D Sur # 55C - 04 (Torre 2 Apto 402)" 
                       class="w-full bg-neutral-950 border border-neutral-800 focus:border-brand-crimson rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none transition-all">
@@ -1410,6 +1418,8 @@
                     <input 
                       type="text" 
                       x-model="customer.referencePoint" 
+                      enterkeyhint="done"
+                      @keydown.enter.prevent="$el.blur()"
                       maxlength="150"
                       placeholder="Ej: Frente al parque, casa blanca de reja negra, portón verde" 
                       class="w-full bg-neutral-950 border border-neutral-800 focus:border-amber-400 rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none">
@@ -1510,6 +1520,8 @@
                 <input 
                   type="text" 
                   x-model="customer.cashChange" 
+                  enterkeyhint="done"
+                  @keydown.enter.prevent="$el.blur()"
                   maxlength="50"
                   placeholder="Ej: Pago con $50.000" 
                   class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-brand-crimson">
@@ -2119,7 +2131,7 @@
     x-transition>
     
     <div 
-      class="bg-[#101010] w-full max-w-4xl rounded-3xl border border-neutral-800 max-h-[94vh] flex flex-col shadow-2xl relative overflow-hidden">
+      class="bg-[#101010] w-full max-w-4xl rounded-3xl border border-neutral-800 max-h-[94vh] max-h-[94dvh] flex flex-col shadow-2xl relative overflow-hidden">
       
       <!-- CMS Top Header -->
       <div class="p-4 sm:p-5 border-b border-neutral-800 bg-neutral-900/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
