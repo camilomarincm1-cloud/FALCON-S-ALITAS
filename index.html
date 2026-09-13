@@ -599,8 +599,10 @@
       @click.outside="isProductModalOpen = false; editingCartItemId = null; isImageLightboxOpen = false" 
       class="bg-brand-card w-full max-w-lg rounded-t-3xl sm:rounded-3xl border border-neutral-800 max-h-[92vh] max-h-[92dvh] flex flex-col overflow-hidden shadow-2xl">
       
-      <!-- Large Hero Image Showcase Banner -->
-      <div class="relative w-full h-52 sm:h-64 bg-neutral-950 overflow-hidden shrink-0 border-b border-neutral-800/80 group">
+      <!-- Large Hero Image Showcase Banner (se encoge mientras escribes notas, para dejarle espacio al teclado en iOS) -->
+      <div 
+        :class="isNotesFocused ? 'h-0 opacity-0' : 'h-52 sm:h-64 opacity-100'"
+        class="relative w-full bg-neutral-950 overflow-hidden shrink-0 border-b border-neutral-800/80 group transition-all duration-200 ease-out">
         <template x-if="selectedProduct?.image">
           <img 
             :src="selectedProduct?.image" 
@@ -886,6 +888,11 @@
             type="text" 
             x-model="modalNotes" 
             enterkeyhint="done"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            @focus="isNotesFocused = true; $nextTick(() => $el.scrollIntoView({ block: 'center', behavior: 'smooth' }))"
+            @blur="isNotesFocused = false"
             @keydown.enter.prevent="$el.blur()"
             :placeholder="selectedProduct?.category === 'bebidas' ? 'Ejemplo: Bien helada, con pitillo, vaso con hielo' : 'Ejemplo: Bien tostada la tocineta, salsa aparte, sin picante'"
             class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-brand-crimson">
@@ -2546,6 +2553,7 @@
         modalStep: 1,
         editingCartItemId: null,
         isImageLightboxOpen: false,
+        isNotesFocused: false,
         modalVariant: '',
         modalSauces: [],
         modalOnion: 'Sofrita',
@@ -3234,6 +3242,7 @@
           this.selectedProduct = product;
           this.modalStep = 1;
           this.editingCartItemId = null;
+          this.isNotesFocused = false;
           this.modalVariant = (product.variants && product.variants.length > 0) ? product.variants[0] : '';
           this.modalSauces = [];
           this.modalOnion = 'Sofrita';
