@@ -879,8 +879,8 @@
           </div>
         </div>
 
-        <!-- NOTAS ESPECIALES (último paso) -->
-        <div x-show="modalCurrentStepKey() === 'notes'">
+        <!-- NOTAS ESPECIALES (se muestran junto al último paso, ya no es un paso aparte) -->
+        <div x-show="modalIsLastStep()" class="pt-1 border-t border-neutral-800/60 mt-1">
           <label class="text-xs font-bold text-neutral-300 uppercase tracking-wider block mb-1">Instrucciones Especiales (Opcional)</label>
           <input 
             type="text" 
@@ -2670,6 +2670,7 @@
         ],
 
         upsellOptions: [
+          { id: 'u5', name: 'Porción Papas Extra', price: 4500 },
           { id: 'u1', name: 'Tocineta Extra Crocante', price: 3500 },
           { id: 'u2', name: 'Doble Queso Fundido', price: 2500 },
           { 
@@ -2680,13 +2681,19 @@
             variants: ['Coca-Cola 400ml', 'Postobón Manzana', 'Colombiana 400ml', 'Cuatro Toronja', 'Sprite 400ml', 'Pony Malta 400ml']
           },
           { 
+            id: 'u7', 
+            name: 'Cerveza Nacional o Jugo Hit', 
+            price: 5000, 
+            label: 'Elige tu Cerveza o Jugo Hit:',
+            variants: ['Águila Original', 'Águila Light', 'Pilsen', 'Andina', 'Hit Mango', 'Hit Mora', 'Hit Lulo', 'Hit Frutas Tropicales']
+          },
+          { 
             id: 'u4', 
             name: 'Gaseosa 1.5L Familiar', 
             price: 7000, 
             label: 'Elige tu Gaseosa 1.5L:',
             variants: ['Coca-Cola 1.5L', 'Postobón Manzana 1.5L', 'Colombiana 1.5L', 'Cuatro 1.5L']
           },
-          { id: 'u5', name: 'Porción Papas Extra', price: 4500 },
           { 
             id: 'u6', 
             name: 'Salsa Extra en Bolsita', 
@@ -3260,7 +3267,9 @@
           if (!isBeverage) {
             steps.push('addons');
           }
-          steps.push('notes');
+          // Las notas ya no son un paso aparte (acorta el proceso) — se
+          // muestran junto al contenido del último paso real, sea cual sea.
+          if (steps.length === 0) steps.push('notes');
           return steps;
         },
 
