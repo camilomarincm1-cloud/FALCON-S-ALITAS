@@ -879,21 +879,7 @@
           </div>
         </div>
 
-        <!-- NOTAS ESPECIALES (se muestran junto al último paso, ya no es un paso aparte) -->
-        <div x-show="modalIsLastStep()" class="pt-1 border-t border-neutral-800/60 mt-1">
-          <label class="text-xs font-bold text-neutral-300 uppercase tracking-wider block mb-1">Instrucciones Especiales (Opcional)</label>
-          <input 
-            type="text" 
-            x-model="modalNotes" 
-            enterkeyhint="done"
-            autocomplete="off"
-            autocorrect="off"
-            spellcheck="false"
-            @focus="$nextTick(() => $el.scrollIntoView({ block: 'center', behavior: 'smooth' }))"
-            @keydown.enter.prevent="$el.blur()"
-            :placeholder="selectedProduct?.category === 'bebidas' ? 'Ejemplo: Bien helada, con pitillo, vaso con hielo' : 'Ejemplo: Bien tostada la tocineta, salsa aparte, sin picante'"
-            class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-brand-crimson">
-        </div>
+        <!-- NOTAS ESPECIALES eliminadas: generaban fricción en la personalización -->
 
         <!-- CANTIDAD (siempre visible, no depende del paso) -->
         <div class="flex items-center justify-between pt-2 border-t border-neutral-800">
